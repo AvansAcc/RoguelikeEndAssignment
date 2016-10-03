@@ -15,6 +15,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		Game();
+		void Update();
 
 	};
 } }

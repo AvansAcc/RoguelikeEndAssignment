@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RogueLike\Common.h" />
     <ClInclude Include="RogueLike\Controller\GameController.h" />
     <ClInclude Include="RogueLike\Controller\ViewController.h" />
     <ClInclude Include="RogueLike\Model\Room\BossRoom.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="RogueLike\Model\Room\StairsRoom.h" />
     <ClInclude Include="RogueLike\Model\Room\StartRoom.h" />
     <ClInclude Include="RogueLike\RogueLike.h" />
+    <ClInclude Include="RogueLike\Utils\Random.h" />
     <ClInclude Include="RogueLike\Variables.h" />
     <ClInclude Include="RogueLike\View\InputView.h" />
     <ClInclude Include="RogueLike\View\OutputView.h" />

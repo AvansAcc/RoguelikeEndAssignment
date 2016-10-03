@@ -81,6 +81,12 @@
     <ClInclude Include="RogueLike\View\OutputView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RogueLike\Common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RogueLike\Utils\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
