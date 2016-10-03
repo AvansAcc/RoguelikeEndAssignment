@@ -145,11 +145,30 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="RogueLike\Controller\GameController.h" />
+    <ClInclude Include="RogueLike\Controller\ViewController.h" />
+    <ClInclude Include="RogueLike\Model\Room\BossRoom.h" />
+    <ClInclude Include="RogueLike\Model\Enemy.h" />
+    <ClInclude Include="RogueLike\Model\Enum\EnemyType.h" />
+    <ClInclude Include="RogueLike\Model\Game.h" />
+    <ClInclude Include="RogueLike\Model\Room\IRoom.h" />
+    <ClInclude Include="RogueLike\Model\Item.h" />
+    <ClInclude Include="RogueLike\Model\Level.h" />
+    <ClInclude Include="RogueLike\Model\LevelManager.h" />
+    <ClInclude Include="RogueLike\Model\Room\Nothing.h" />
+    <ClInclude Include="RogueLike\Model\Player.h" />
+    <ClInclude Include="RogueLike\Model\Room\Room.h" />
+    <ClInclude Include="RogueLike\Model\Room\StairsRoom.h" />
+    <ClInclude Include="RogueLike\Model\Room\StartRoom.h" />
+    <ClInclude Include="RogueLike\RogueLike.h" />
+    <ClInclude Include="RogueLike\Variables.h" />
+    <ClInclude Include="RogueLike\View\InputView.h" />
+    <ClInclude Include="RogueLike\View\OutputView.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RoguelikeEndAssesment.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
