@@ -96,6 +96,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RogueLike\Model\Level.cpp">
+    <ClCompile Include="RogueLike\RogueLike.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RogueLike\Controller\GameController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
