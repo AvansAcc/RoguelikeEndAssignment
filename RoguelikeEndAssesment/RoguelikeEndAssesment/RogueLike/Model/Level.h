@@ -9,7 +9,7 @@ namespace RogueLike { namespace Model {
 		int height;
 		IRoom* locations;
 	public:
-		Level();
-		char* GetMap();
+		Level(int width, int height);
+		char* GetMap(const int w, const int h);
 	};
 } }

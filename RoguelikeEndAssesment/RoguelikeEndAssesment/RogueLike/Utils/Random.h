@@ -5,11 +5,11 @@ template <class T>
 class Random
 {
 private:
-	std::default_random_engine generator;
-public
-	template <class T>
-	T GetRandom<T>(int min, int max)
+	
+public:
+	static T GetRandom(const int min, const int max)
 	{
+		std::default_random_engine generator;
 		generator.seed(time(0));
 		std::uniform_int_distribution<T> distribution1(min, max);
 		return distribution1(generator);
