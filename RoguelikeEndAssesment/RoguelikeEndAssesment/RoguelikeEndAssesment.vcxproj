@@ -172,7 +172,10 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RogueLike\Controller\GameController.cpp" />
+    <ClCompile Include="RogueLike\Controller\ViewController.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
+    <ClCompile Include="RogueLike\View\InputView.cpp" />
+    <ClCompile Include="RogueLike\View\OutputView.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
