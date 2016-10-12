@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 
-
 #include "RogueLike\RogueLike.h"
+#include "RogueLike/Model/Level.h"
 
 
 int main()
@@ -17,7 +17,15 @@ int main()
 	RogueLike::RogueLike r;
 	r.Start();
 
+
+
+	/*// Debug
+	using namespace RogueLike;
+	using namespace Model;
+	Level* l = new Level(5,5,0);
+	system("PAUSE");*/
+
 	_CrtDumpMemoryLeaks();
-	return 0;
+    return 0;
 }
 

@@ -1,4 +1,3 @@
-
 #include "GameController.h"
 
 namespace RogueLike { namespace Controller {
