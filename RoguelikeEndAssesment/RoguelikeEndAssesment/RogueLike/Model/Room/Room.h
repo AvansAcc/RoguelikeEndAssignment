@@ -15,7 +15,7 @@ namespace RogueLike { namespace Model {
 		Item item;
 	public:
 		Room();
-		char GetIcon();
+		const char GetIcon() const override;
 		virtual const bool IsDiscovered();
 	};
 } }
