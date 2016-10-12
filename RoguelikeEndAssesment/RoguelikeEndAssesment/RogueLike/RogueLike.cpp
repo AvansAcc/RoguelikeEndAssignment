@@ -11,6 +11,11 @@ namespace RogueLike {
 		delete _gameController;
 	}
 	
+	void RogueLike::Start()
+	{
+		// TODO: Start the game
+	}
+
 
 	// Copy constructor
 	RogueLike::RogueLike(const RogueLike& other)

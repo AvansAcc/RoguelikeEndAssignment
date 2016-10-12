@@ -1,3 +1,4 @@
+#pragma once
 #include <random>
 #include <ctime>
 
@@ -5,7 +6,7 @@ template <class T>
 class Random
 {
 private:
-	
+
 public:
 	static T GetRandom(const int min, const int max)
 	{

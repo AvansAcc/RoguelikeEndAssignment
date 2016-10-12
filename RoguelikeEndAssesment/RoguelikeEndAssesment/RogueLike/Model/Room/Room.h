@@ -12,10 +12,10 @@ namespace RogueLike { namespace Model {
 		char icon;
 		std::vector<IRoom> adjacent_rooms;
 		std::vector<Enemy> enemies;
-		Item item;
+		Item* item;
 	public:
 		Room();
-		char GetIcon();
+		virtual const char GetIcon() const override;
 		virtual const bool IsDiscovered();
 	};
 } }

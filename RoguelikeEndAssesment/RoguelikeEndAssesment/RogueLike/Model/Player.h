@@ -3,6 +3,8 @@
 #include "../Common.h"
 #include <string>
 #include "Item.h"
+#include <vector>
+#include "../Utils/Random.h"
 
 namespace RogueLike { namespace Model {
 	class Player {
@@ -13,15 +15,15 @@ namespace RogueLike { namespace Model {
 		uint level;
 		uint xp;
 		uint attack;
-		std::vector<Item> items;
-
+		std::vector<Item*> items;
+		bool is_dead;
 	public:
 
 	private:
 	public:
 		Player();
-		std::string GetName();
-		char GetIcon();
+		const std::string GetName();
+		const char GetIcon();
 		const uint Attack();
 		void Damage(const uint damage);
 	};

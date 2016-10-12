@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -171,8 +171,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RogueLike\Model\Game.cpp" />
+    <ClCompile Include="RogueLike\Model\Level.cpp" />
     <ClCompile Include="RogueLike\Controller\GameController.cpp" />
     <ClCompile Include="RogueLike\Controller\ViewController.cpp" />
+    <ClCompile Include="RogueLike\Model\LevelManager.cpp" />
+    <ClCompile Include="RogueLike\Model\Player.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\Room.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
     <ClCompile Include="RogueLike\View\InputView.cpp" />
     <ClCompile Include="RogueLike\View\OutputView.cpp" />

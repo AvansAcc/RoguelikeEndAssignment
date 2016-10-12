@@ -11,6 +11,8 @@ namespace RogueLike {
 	
 	private:
 	public:
+		void Start();
+
 		RogueLike();
 		RogueLike(const RogueLike& other);
 		RogueLike & operator=(const RogueLike & other);

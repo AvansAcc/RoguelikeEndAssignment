@@ -1,7 +1,10 @@
 #pragma once
 
-class IRoom {
 
-public:
-	virtual const char GetIcon() const = 0;
-};
+namespace RogueLike { namespace Model {
+	class IRoom {
+
+	public:
+		virtual const char GetIcon() const = 0;
+	};
+} }
