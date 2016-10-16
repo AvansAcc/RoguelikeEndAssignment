@@ -3,6 +3,7 @@
 #include "Room.h"
 
 namespace RogueLike { namespace Model {
+
 	class BossRoom : public Room {
 	private:
 		char icon;

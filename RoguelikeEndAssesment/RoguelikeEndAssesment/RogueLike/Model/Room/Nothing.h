@@ -2,9 +2,12 @@
 
 #include "IRoom.h"
 
-class Nothing : public IRoom {
-private:
-	char icon;
-public:
-	char GetIcon();
-};
+namespace RogueLike { namespace Model {
+
+	class Nothing : public IRoom {
+	private:
+		char icon;
+	public:
+		char GetIcon();
+	};
+} }

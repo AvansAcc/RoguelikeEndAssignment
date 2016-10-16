@@ -11,12 +11,12 @@ namespace RogueLike { namespace Model {
 	private:
 		int width;
 		int height;
-		int depth;
 		int level;
+		int maxDepth;
 		std::vector<IRoom*> locations;
 
 	public:
-		Level(int width, int height, int depthNo);
+		Level(int width, int height, int level, int maxDepth);
 		char* GetMap(const int w, const int h); // For your viewing purposes
 		void GenerateMap();
 		int GetLevel();
