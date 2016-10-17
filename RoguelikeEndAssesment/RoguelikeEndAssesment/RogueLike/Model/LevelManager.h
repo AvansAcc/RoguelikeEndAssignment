@@ -1,12 +1,12 @@
 #pragma once
 
+#include "../Common.h"
 #include "Level.h"
-#include <vector>
 
 namespace RogueLike { namespace Model {
 	class LevelManager {
 	private:
-		int level;
+		uint level;
 		std::vector<Level*> levels;
 	public:
 
@@ -16,5 +16,6 @@ namespace RogueLike { namespace Model {
 		LevelManager();
 		~LevelManager();
 		Level* GetLevel();
+		void NextLevel();
 	};
 } }

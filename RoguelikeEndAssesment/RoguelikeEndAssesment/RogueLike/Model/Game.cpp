@@ -18,7 +18,7 @@ namespace RogueLike { namespace Model {
 
 	void Game::Update()
 	{
-
+		// TODO: Update Game
 	}
 
 

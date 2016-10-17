@@ -2,12 +2,14 @@
 
 #include "IRoom.h"
 
-namespace RogueLike { namespace Model {
+namespace RogueLike { namespace Model { namespace Room {
 
 	class Nothing : public IRoom {
 	private:
-		char icon;
+		char _icon;
 	public:
-		char GetIcon();
+		Nothing(char icon);
+		const char GetIcon() const override;
 	};
-} }
+
+} } }

@@ -3,26 +3,29 @@
 #include "../Common.h"
 #include <string>
 #include "Item.h"
-#include <vector>
 #include "../Utils/Random.h"
 
 namespace RogueLike { namespace Model {
+	
+	class Item;
 	class Player {
 	private:
-		uint lifepoints;
-		uint defence;
-		std::string name;
-		uint level;
-		uint xp;
-		uint attack;
-		std::vector<Item*> items;
-		bool is_dead;
+		uint _lifepoints;
+		uint _defence;
+		std::string _name;
+		uint _level;
+		uint _xp;
+		uint _attack;
+		std::vector<Item*> _items;
+		bool _isDead;
 	public:
 
 	private:
 	public:
 		Player();
+		~Player();
 		const std::string GetName();
+		void SetName(const std::string name);
 		const char GetIcon();
 		const uint Attack();
 		void Damage(const uint damage);

@@ -5,17 +5,22 @@
 #include "../Enemy.h"
 #include "../Item.h"
 
-namespace RogueLike { namespace Model {
+namespace RogueLike { namespace Model { namespace Room {
 	
 	class Room : public IRoom {
 	private:
-		char icon;
-		std::vector<IRoom> adjacent_rooms;
-		std::vector<Enemy> enemies;
-		Item* item;
+		char _icon;
+		std::vector<IRoom*> _adjacentRooms;
+		std::vector<Enemy*> _enemies;
+		Item* _item;
+	protected:
+		bool _isDiscovered;
 	public:
-		Room();
+		Room(char icon);
+		~Room();
 		virtual const char GetIcon() const override;
 		virtual const bool IsDiscovered();
+		virtual void AddItem(Item* item);
 	};
-} }
+
+} } }

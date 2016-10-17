@@ -1,10 +1,21 @@
-﻿  Player.cpp
-c:\users\rick4\documents\visual studio 2015\projects\roguelikeendassignment\roguelikeendassesment\roguelikeendassesment\roguelike\utils\random.h(14): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  c:\users\rick4\documents\visual studio 2015\projects\roguelikeendassignment\roguelikeendassesment\roguelikeendassesment\roguelike\utils\random.h(12): note: while compiling class template member function 'int Random<int>::GetRandom(const int,const int)'
-  c:\users\rick4\documents\visual studio 2015\projects\roguelikeendassignment\roguelikeendassesment\roguelikeendassesment\roguelike\model\player.cpp(27): note: see reference to function template instantiation 'int Random<int>::GetRandom(const int,const int)' being compiled
-  c:\users\rick4\documents\visual studio 2015\projects\roguelikeendassignment\roguelikeendassesment\roguelikeendassesment\roguelike\model\player.cpp(27): note: see reference to class template instantiation 'Random<int>' being compiled
+﻿  stdafx.cpp
+  OutputView.cpp
+  InputView.cpp
+  RogueLike.cpp
+  StartRoom.cpp
+  StairsRoom.cpp
+  Room.cpp
+  Nothing.cpp
+  BossRoom.cpp
+  Player.cpp
+  LevelManager.cpp
+  ViewController.cpp
+  GameController.cpp
+  Level.cpp
+  Item.cpp
   Game.cpp
+  Enemy.cpp
+  main.cpp
   Generating Code...
-GameController.obj : error LNK2019: unresolved external symbol "public: __thiscall RogueLike::Controller::ViewController::~ViewController(void)" (??1ViewController@Controller@RogueLike@@QAE@XZ) referenced in function "public: void * __thiscall RogueLike::Controller::ViewController::`scalar deleting destructor'(unsigned int)" (??_GViewController@Controller@RogueLike@@QAEPAXI@Z)
-LevelManager.obj : error LNK2019: unresolved external symbol "public: int __thiscall RogueLike::Model::Level::GetLevel(void)" (?GetLevel@Level@Model@RogueLike@@QAEHXZ) referenced in function "public: class RogueLike::Model::Level * __thiscall RogueLike::Model::LevelManager::GetLevel(void)" (?GetLevel@LevelManager@Model@RogueLike@@QAEPAVLevel@23@XZ)
-C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe : fatal error LNK1120: 2 unresolved externals
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)

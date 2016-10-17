@@ -12,31 +12,32 @@ namespace RogueLike { namespace Model {
 	{
 		if (!levels.empty())
 		{
-			for (int i = 0; i < levels.size(); i++)
+			for (uint i = 0; i < levels.size(); i++)
 			{
-				delete levels[i];
+				delete levels[i]; // free memory
 			}
+			levels.clear(); // empty list
 		}
 	}
 
 	void LevelManager::GenerateLevel(int level)
 	{
 		// TODO: Generate Level
+		// TODO: Add Generated level to List
 	}
 
 	Level* LevelManager::GetLevel()
 	{
-		if (levels.empty())
+		if (levels.empty() || level >= levels.size())
 			return nullptr;
 
-		for (int i=0; i < levels.size(); i++)
-		{
-			if (levels[i]->GetLevel() == level)
-			{
-				return levels[i];
-			}
-		}
-		return nullptr;
+		return levels[level];
+	}
+
+	void LevelManager::NextLevel()
+	{
+		this->level++;
+		this->GenerateLevel(level);
 	}
 
 } }

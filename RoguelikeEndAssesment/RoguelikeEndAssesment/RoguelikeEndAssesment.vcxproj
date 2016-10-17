@@ -171,13 +171,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RogueLike\Model\Enemy.cpp" />
     <ClCompile Include="RogueLike\Model\Game.cpp" />
+    <ClCompile Include="RogueLike\Model\Item.cpp" />
     <ClCompile Include="RogueLike\Model\Level.cpp" />
     <ClCompile Include="RogueLike\Controller\GameController.cpp" />
     <ClCompile Include="RogueLike\Controller\ViewController.cpp" />
     <ClCompile Include="RogueLike\Model\LevelManager.cpp" />
     <ClCompile Include="RogueLike\Model\Player.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\BossRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\Nothing.cpp" />
     <ClCompile Include="RogueLike\Model\Room\Room.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\StairsRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
     <ClCompile Include="RogueLike\View\InputView.cpp" />
     <ClCompile Include="RogueLike\View\OutputView.cpp" />

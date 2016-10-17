@@ -4,36 +4,47 @@ namespace RogueLike { namespace Model {
 
 	Player::Player()
 	{
-		is_dead = false;
-		lifepoints = 0;
-		defence = 0;
-		name = "";
-		level = 0;
-		xp = 0;
-		attack = 0;
-		items.clear();
+		_isDead = false;
+		_lifepoints = 100;
+		_defence = 0;
+		_name = "";
+		_level = 0;
+		_xp = 0;
+		_attack = 0;
+		_items.clear();
+	}
+	Player::~Player()
+	{
+		for (uint i = 0; i < _items.size(); i++)
+			delete _items[i];
+		_items.clear();
+	}
+		
+	const uint Player::Attack()
+	{
+		return Random<int>::GetRandom(0, 10 * _level);
+	}
+	void Player::Damage(const uint damage)
+	{
+		if ((_lifepoints - damage) >= 0)
+			_lifepoints -= damage;
+		else {
+			_lifepoints = 0;
+			_isDead = true;
+		}
 	}
 
-	const std::string Player::GetName()
-	{
-		return name;
-	}
 	const char Player::GetIcon()
 	{
 		return 'P';
 	}
-	const uint Player::Attack()
+	const std::string Player::GetName()
 	{
-		return Random<int>::GetRandom(0, 10 * level);
+		return _name;
 	}
-	void Player::Damage(const uint damage)
+	void Player::SetName(const std::string name)
 	{
-		if (lifepoints - damage >= 0)
-			lifepoints -= damage;
-		else {
-			lifepoints = 0;
-			is_dead = true;
-		}
+		this->_name = name;
 	}
 
 } }

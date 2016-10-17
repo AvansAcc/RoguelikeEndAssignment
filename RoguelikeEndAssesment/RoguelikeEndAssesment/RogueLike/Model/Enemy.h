@@ -7,21 +7,20 @@
 namespace RogueLike { namespace Model {
 	class Enemy {
 	private:
-		std::string name;
-		EnemyType type;
-		int max_damage;
-		uint hitchance;
-		uint amount_attacks;
-		const uint min_damage;
-		uint level;
-		uint defence;
-		uint lifepoints;
 	public:
-
+		std::string Name;
+		Enum::EnemyType Type;
+		int MaxDamage;
+		uint Hitchance;
+		uint AmountAttacks;
+		uint MinDamage;
+		uint Level;
+		uint Defence;
+		uint Lifepoints;
+	
 	private:
 	public:
 		Enemy();
-		std::string GetName() { return this->name; }
 		const uint Attack(); // Enemy to player
 		void Damage(const uint damage); // player to enemy
 		std::string GetStatus(); // status of lifepoints

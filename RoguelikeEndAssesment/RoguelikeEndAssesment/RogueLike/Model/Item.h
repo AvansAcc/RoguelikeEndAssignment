@@ -8,11 +8,12 @@ namespace RogueLike { namespace Model {
 	
 	class Item {
 	private:
-		std::string name;
-		uint amount;
-		const uint max_amount;
+		std::string _name;
+		uint _amount;
+		uint _maxAmount;
+		std::string _description;
 	public:
-		Item(std::string name, uint amount, uint max_amount);
+		Item(std::string name, uint amount, uint max_amount, std::string description);
 		//bool Use(Player& player);
 		std::string Look();
 		std::string GetDescription();

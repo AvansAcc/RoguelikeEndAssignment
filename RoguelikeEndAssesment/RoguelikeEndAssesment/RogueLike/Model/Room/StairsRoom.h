@@ -2,14 +2,14 @@
 
 #include "Room.h"
 
-namespace RogueLike { namespace Model {
+namespace RogueLike { namespace Model { namespace Room {
 
 	class StairsRoom : public Room {
 	private:
-		char icon;
-		bool isDirectionDown;
+		bool _isDirectionDown;
 	public:
-		char GetIcon();
-		bool IsDirectionDown();
+		StairsRoom(char icon, bool isDirectionDown);
+		const bool IsDirectionDown();
 	};
-} }
+
+} } }

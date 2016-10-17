@@ -9,6 +9,12 @@ namespace RogueLike { namespace Controller {
 		_outputView = new View::OutputView();
 	}
 
+	ViewController::~ViewController()
+	{
+		delete _inputView;
+		delete _outputView;
+	}
+
 
 	// Copy constructor
 	ViewController::ViewController(const ViewController& other)

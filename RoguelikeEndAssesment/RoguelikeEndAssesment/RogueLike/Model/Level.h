@@ -1,24 +1,29 @@
 #pragma once
 
 #include <iostream>
-
-#include "Room\IRoom.h"
-#include "Room/Room.h"
 #include "..\Utils\Random.h"
+#include "../Common.h"
+
+#include "Room/IRoom.h"
+#include "Room/Room.h"
+#include "Room/BossRoom.h"
+#include "Room/StartRoom.h"
+#include "Room/StairsRoom.h"
+#include "Room/Nothing.h"
 
 namespace RogueLike { namespace Model {
 	class Level {
 	private:
-		int width;
-		int height;
-		int level;
-		int maxDepth;
-		std::vector<IRoom*> locations;
+		int _width;
+		int _height;
+		int _level;
+		int _maxDepth;
+		std::vector<Room::IRoom*> _locations;
 
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		char* GetMap(const int w, const int h); // For your viewing purposes
 		void GenerateMap();
-		int GetLevel();
+		const int GetLevel() const { return this->_level; }
 	};
 } }
