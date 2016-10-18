@@ -8,17 +8,22 @@ namespace RogueLike { namespace Model {
 	private:
 		uint _level;
 		std::vector<Level*> _levels;
+		Level* _currentLevel;
+		uint _width;
+		uint _height;
+		uint _maxLevels;
 	public:
 
 	private:
-		void GenerateLevel(int level);
+		void SetLevel(unsigned int level);
+		void ClearLevels();
 	public:
-		LevelManager();
+		LevelManager(uint width, uint height, uint max_levels);
 		~LevelManager();
-		Level* GetLevel();
 		void NextLevel();
 		void Start();
 
+		char* GetMap();
 		const unsigned int GetLevelWidth() const;
 		const unsigned int GetLevelHeight() const;
 	};

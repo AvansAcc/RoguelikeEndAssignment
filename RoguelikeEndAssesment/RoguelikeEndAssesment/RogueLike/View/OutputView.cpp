@@ -15,12 +15,9 @@ namespace RogueLike { namespace View {
 	{
 		for (unsigned int i = 0; i < width * height; i++)
 		{
-			std::cout << map[i];
-			if (i >= width)
-				std::cout << " ";
-			else
-				std::cout << std::endl;
+			std::cout << ((i % width == 0) ? "\n" : " ") << map[i];
 		}
+		std::cout << std::endl;
 	}
 
 	std::string OutputView::GetARoomDescription()
@@ -45,6 +42,11 @@ namespace RogueLike { namespace View {
 	{
 		std::cout << "Jammer dat je weggaat!" << std::endl;
 		std::cout << "Tot de volgende keer!" << std::endl;
+	}
+
+	void OutputView::Say(const std::string& message)
+	{
+		std::cout << message;
 	}
 
 } }

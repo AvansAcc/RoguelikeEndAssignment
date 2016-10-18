@@ -22,4 +22,22 @@ namespace RogueLike { namespace View {
 		return answer;
 	}
 
+	uint InputView::AskInt(std::string message)
+	{
+		int result = 0;
+		std::string s = "";
+		while (result < 1)
+		{
+			std::cout << message << " ";
+			std::cin >> s;
+			try {
+				result = FromString<int>(s);
+				if (result < 0)
+					result = 0;
+			}
+			catch (...) { result = 0; }
+		}
+		return result;
+	}
+
 } }

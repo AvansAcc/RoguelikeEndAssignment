@@ -18,10 +18,16 @@ namespace RogueLike { namespace Controller {
 	void GameController::Start()
 	{
 		this->_viewController->ShowWelcomeScreen();
-		this->_viewController->PressAnyKeyToContinue();
-		
-		this->_game->Start();
-		this->_viewController->ShowMap(this->_game->GetLevel()->GetMap(5, 5), this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+		//this->_viewController->PressAnyKeyToContinue();
+
+		uint width = this->_viewController->AskInt("Hoeveel kamers in breedte wilt u de kerker hebben?", 25);
+		uint height = this->_viewController->AskInt("Hoeveel kamers in lengte wilt u de kerker hebben?", 25);
+		uint max_levels = this->_viewController->AskInt("Hoe diep wilt u de kerker hebben?", 10);
+
+		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!");
+
+		this->_game->Start(width, height, max_levels);
+		this->_viewController->ShowMap(this->_game->GetMap(), this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 	}
 
 	void GameController::Update()

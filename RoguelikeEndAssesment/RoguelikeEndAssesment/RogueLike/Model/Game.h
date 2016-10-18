@@ -21,12 +21,12 @@ namespace RogueLike { namespace Model {
 		Game& operator=(const Game& other);
 		Game& operator=(Game&& other);
 
-		void Start();
+		void Start(uint width, uint height, uint max_levels);
 		void Update();
 
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 
-		Level* GetLevel();
+		char* GetMap();
 	};
 } }
