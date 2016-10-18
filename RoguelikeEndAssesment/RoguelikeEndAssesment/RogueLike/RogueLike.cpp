@@ -4,6 +4,7 @@ namespace RogueLike {
 
 	RogueLike::RogueLike()
 	{
+		this->_running = false;
 		_gameController = new Controller::GameController();
 	}
 	RogueLike::~RogueLike()
@@ -14,13 +15,30 @@ namespace RogueLike {
 	void RogueLike::Start()
 	{
 		// TODO: Start the game
+		this->_running = true;
+		this->_gameController->Start();
+		this->Update();
 	}
 
+	void RogueLike::Update()
+	{
+		while (this->_running)
+		{
+			this->_gameController->Update();
+		}
+		this->Quit();
+	}
+
+	void RogueLike::Quit()
+	{
+		// TODO: Quit the game?
+	}
 
 	// Copy constructor
 	RogueLike::RogueLike(const RogueLike& other)
+		: _gameController { other._gameController }
 	{
-		_gameController = new Controller::GameController(*other._gameController);
+		//_gameController = new Controller::GameController(*other._gameController);
 	}
 
 	// Copy assignment operator
@@ -28,12 +46,12 @@ namespace RogueLike {
 	{
 		if (this != &other)
 		{
-			delete _gameController;
+			if(this->_gameController)
+				delete this->_gameController;
 
-			_gameController = new Controller::GameController();
+			RogueLike copy { other };
 
-			_gameController = other._gameController;
-			//std::memcpy(_gameController, other._gameController, std::size_t (_gameController));
+			std::swap(*this, copy);
 		}
 		return *this;
 	}
@@ -41,8 +59,8 @@ namespace RogueLike {
 
 	// Move constructor
 	RogueLike::RogueLike(RogueLike&& other)
+		: _gameController { other._gameController }
 	{
-		_gameController = other._gameController;
 		other._gameController = nullptr;
 	}
 
@@ -51,10 +69,11 @@ namespace RogueLike {
 	{
 		if (this != &other)
 		{
-			delete _gameController;
+			if(_gameController)
+				delete _gameController;
 
-			_gameController = other._gameController;
-
+			std::swap(_gameController, other._gameController);
+			
 			other._gameController = nullptr;
 		}
 		return *this;

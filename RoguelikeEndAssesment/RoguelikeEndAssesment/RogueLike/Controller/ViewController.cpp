@@ -1,4 +1,3 @@
-
 #include "ViewController.h"
 
 namespace RogueLike { namespace Controller {
@@ -16,11 +15,40 @@ namespace RogueLike { namespace Controller {
 	}
 
 
+
+	void ViewController::ShowWelcomeScreen()
+	{
+		_outputView->ShowWelcomScreen();
+	}
+
+	void ViewController::ShowMap(char* map, unsigned int width, unsigned int height)
+	{
+		this->_outputView->ShowMap(map, width, height);
+	}
+
+	char ViewController::GetStartScreenInput()
+	{
+		// TODO: Check the expected input and return it. Else: ask again.
+		this->_inputView->AskWord();
+		return '.';
+	}
+
+	void ViewController::PressAnyKeyToContinue()
+	{
+		this->_inputView->AskLetter();
+	}
+
+
+
+
+
 	// Copy constructor
 	ViewController::ViewController(const ViewController& other)
+		: _inputView { other._inputView }
+		, _outputView { other._outputView }
 	{
-		_inputView = new View::InputView(*other._inputView);
-		_outputView = new View::OutputView(*other._outputView);
+		//_inputView = new View::InputView(*other._inputView);
+		//_outputView = new View::OutputView(*other._outputView);
 	}
 
 	// Copy assignment operator
@@ -28,25 +56,23 @@ namespace RogueLike { namespace Controller {
 	{
 		if (this != &other)
 		{
-			delete _inputView;
-			delete _outputView;
+			if(_inputView)
+				delete _inputView;
+			if(_outputView)
+				delete _outputView;
 
-			_inputView = new View::InputView();
-			_outputView = new View::OutputView();
+			ViewController copy{ other };
 
-			_inputView = other._inputView;
-			_outputView = other._outputView;
+			std::swap(*this, copy);
 		}
 		return *this;
 	}
 
-
 	// Move constructor
 	ViewController::ViewController(ViewController&& other)
+		: _inputView { other._inputView }
+		, _outputView { other._outputView }
 	{
-		_inputView = other._inputView;
-		_outputView = other._outputView;
-
 		other._inputView = nullptr;
 		other._outputView = nullptr;
 	}
@@ -56,11 +82,13 @@ namespace RogueLike { namespace Controller {
 	{
 		if (this != &other)
 		{
-			delete _inputView;
-			delete _outputView;
+			if(_inputView)
+				delete _inputView;
+			if(_outputView)
+				delete _outputView;
 
-			_inputView = other._inputView;
-			_outputView = other._outputView;
+			std::swap(_inputView, other._inputView);
+			std::swap(_outputView, other._outputView);
 
 			other._inputView = nullptr;
 			other._outputView = nullptr;
