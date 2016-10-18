@@ -9,13 +9,19 @@ namespace RogueLike { namespace Model {
 		this->_level = depth;
 		this->_maxDepth = maxdepth;
 		this->_locations.clear();
-		GenerateMap();
 	}
 
 	char* Level::GetMap(const int w, const int h)
 	{
-		// TODO: Generate Level Map
-		return nullptr;
+		if (_locations.empty() || w <= 0 || h <= 0)
+			return nullptr;
+
+		char* map = new char[w * h];
+		for (int i=0; i < w * h; i++)
+		{
+			map[i] = this->_locations[i]->GetIcon();
+		}
+		return map;
 	}
 
 	void Level::GenerateMap()
@@ -25,7 +31,8 @@ namespace RogueLike { namespace Model {
 		
 		int startLoc[] = { Random<int>::GetRandom(0, _width - 1) , Random<int>::GetRandom(0, _height - 1) };
 
-		Room::Room* r;
+		Room::IRoom* r = nullptr;
+
 		// 100% loop
 		for (int i = 0; i < randomDungeonLength; i++)
 		{
@@ -46,7 +53,6 @@ namespace RogueLike { namespace Model {
 				r = new Room::Room('R');
 				//_locations[i - 1]->AddAdjacentRoom(r);
 			}
-
 			int direction = Random<int>::GetRandom(0, 3);
 
 			_locations.push_back(r);
@@ -57,26 +63,29 @@ namespace RogueLike { namespace Model {
 		{
 			if ((Random<int>::GetRandom(0, 1)) == 0) {
 				//((Room::Room*)_locations[i])->
+
 			}
 		}
 
 		// 20% loop
 		for (int i = 0; i < this->_height; i++)
 		{
-			if ((Random<int>::GetRandom(0, 4)) == 0) {
-
+			if ((Random<int>::GetRandom(0, 5)) == 0) {
+				// TODO: Create Level 20% loop
 			}
 		}
 
 		/*_locations = std::vector<Room::IRoom*>(_width * _height);
 
-		for (uint i=0; i < _locations.size(); i++)
+		for (int i=0; i < _width * _height; i++)
 		{
-			_locations[i] = new Room::Room('R');
+			if(_locations.size() <= (uint)i)
+				_locations.push_back(new Room::Nothing('.'));
 		}
 
-		int x = 5, y = 5;
-		Room::IRoom* answer = _locations[y * _width + x];*/
+
+		//int x = 5, y = 5;
+		//Room::IRoom* answer = _locations[y * _width + x];
 
 		/*for (int i = 0; i < height; i++)
 		{

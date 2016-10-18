@@ -1,6 +1,7 @@
 #pragma once
 #include "../View/InputView.h"
 #include "../View/OutputView.h"
+#include "../Common.h"
 
 namespace RogueLike { namespace Controller {
 
@@ -22,6 +23,8 @@ namespace RogueLike { namespace Controller {
 		void ShowWelcomeScreen();
 		void ShowMap(char* map, unsigned int width, unsigned int height);
 		char GetStartScreenInput();
+		uint AskInt(std::string message, unsigned int maxInt);
+		void Say(const std::string& message);
 
 		void PressAnyKeyToContinue();
 	};

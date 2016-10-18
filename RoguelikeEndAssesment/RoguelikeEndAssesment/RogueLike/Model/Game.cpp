@@ -5,8 +5,6 @@ namespace RogueLike { namespace Model {
 	Game::Game()
 	{
 		_isGameOver = false;
-		_levelManager = new LevelManager();
-		_player = new Player();
 	}
 
 	Game::~Game()
@@ -15,8 +13,10 @@ namespace RogueLike { namespace Model {
 		delete _levelManager;
 	}
 
-	void Game::Start()
+	void Game::Start(uint width, uint height, uint max_levels)
 	{
+		_levelManager = new LevelManager(width, height, max_levels);
+		_player = new Player();
 		_levelManager->Start();
 	}
 
@@ -25,9 +25,10 @@ namespace RogueLike { namespace Model {
 	{
 		// TODO: Update Game
 	}
-	Level* Game::GetLevel()
+
+	char* Game::GetMap()
 	{
-		return this->_levelManager->GetLevel();
+		return this->_levelManager->GetMap();
 	}
 
 
