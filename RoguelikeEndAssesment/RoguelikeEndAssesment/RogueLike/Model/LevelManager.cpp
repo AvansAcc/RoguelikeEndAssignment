@@ -4,20 +4,26 @@ namespace RogueLike { namespace Model {
 
 	LevelManager::LevelManager()
 	{
-		level = 0;
-		levels.clear();
+		_level = 0;
+		_levels.clear();
 	}
 
 	LevelManager::~LevelManager()
 	{
-		if (!levels.empty())
+		if (!_levels.empty())
 		{
-			for (uint i = 0; i < levels.size(); i++)
+			for (uint i = 0; i < _levels.size(); i++)
 			{
-				delete levels[i]; // free memory
+				delete _levels[i]; // free memory
 			}
-			levels.clear(); // empty list
+			_levels.clear(); // empty list
 		}
+	}
+
+	void LevelManager::Start()
+	{
+		this->_level = 0;
+		this->GenerateLevel(0);
 	}
 
 	void LevelManager::GenerateLevel(int level)
@@ -28,16 +34,30 @@ namespace RogueLike { namespace Model {
 
 	Level* LevelManager::GetLevel()
 	{
-		if (levels.empty() || level >= levels.size())
+		if (_levels.empty() || _level >= _levels.size())
 			return nullptr;
 
-		return levels[level];
+		return _levels[_level];
 	}
 
 	void LevelManager::NextLevel()
 	{
-		this->level++;
-		this->GenerateLevel(level);
+		this->_level++;
+		this->GenerateLevel(_level);
+	}
+
+	const unsigned int LevelManager::GetLevelWidth() const 
+	{
+		if (_levels.empty() || _level >= _levels.size())
+			return 0;
+		return this->_levels[_level]->GetWidth();
+	}
+
+	const unsigned int LevelManager::GetLevelHeight() const
+	{
+		if (_levels.empty() || _level >= _levels.size())
+			return 0;
+		return this->_levels[_level]->GetHeight();
 	}
 
 } }

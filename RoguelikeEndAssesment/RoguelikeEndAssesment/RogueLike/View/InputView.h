@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 namespace RogueLike { namespace View {
 	class InputView {
@@ -10,5 +11,8 @@ namespace RogueLike { namespace View {
 	private:
 	public:
 		InputView();
+	
+		char AskLetter();
+		std::string AskWord();
 	};
 } }

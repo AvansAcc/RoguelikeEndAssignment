@@ -1,12 +1,14 @@
 #pragma once
 
 #include "ViewController.h"
+#include "../Model/Game.h"
 
 namespace RogueLike { namespace Controller {
 	
 	class GameController {
 	private:
 		ViewController* _viewController;
+		Model::Game* _game;
 	public:
 
 	private:
@@ -17,6 +19,9 @@ namespace RogueLike { namespace Controller {
 		GameController & operator=(GameController && other);
 		GameController(GameController&& other);
 		~GameController();
+
+		void Start();
+		void Update();
 	};
 
 } }

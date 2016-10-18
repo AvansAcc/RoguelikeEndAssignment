@@ -25,5 +25,8 @@ namespace RogueLike { namespace Model {
 		char* GetMap(const int w, const int h); // For your viewing purposes
 		void GenerateMap();
 		const int GetLevel() const { return this->_level; }
+
+		const unsigned int GetWidth() const { return this->_width; }
+		const unsigned int GetHeight() const { return this->_height; }
 	};
 } }

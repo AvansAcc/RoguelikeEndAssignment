@@ -18,6 +18,12 @@ namespace RogueLike { namespace Controller {
 		ViewController & operator=(const ViewController& other);
 		ViewController & operator=(ViewController&& other);
 		ViewController(ViewController&& other);
+
+		void ShowWelcomeScreen();
+		void ShowMap(char* map, unsigned int width, unsigned int height);
+		char GetStartScreenInput();
+
+		void PressAnyKeyToContinue();
 	};
 
 } }
