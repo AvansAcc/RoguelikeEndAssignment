@@ -2,13 +2,27 @@
 
 namespace RogueLike { namespace Model {
 
-	LevelManager::LevelManager()
+	LevelManager::LevelManager(uint width, uint height, uint max_levels)
+		: _width {width}
+		, _height {height}
+		, _maxLevels {max_levels}
 	{
-		_level = 0;
-		_levels.clear();
+		this->_level = 0;
 	}
 
 	LevelManager::~LevelManager()
+	{
+		this->ClearLevels();
+	}
+
+	void LevelManager::Start()
+	{
+		this->_level = 0;
+		this->ClearLevels();
+		this->SetLevel(0);
+	}
+
+	void LevelManager::ClearLevels()
 	{
 		if (!_levels.empty())
 		{
@@ -20,30 +34,30 @@ namespace RogueLike { namespace Model {
 		}
 	}
 
-	void LevelManager::Start()
+	void LevelManager::SetLevel(unsigned int level)
 	{
-		this->_level = 0;
-		this->GenerateLevel(0);
+		if (!_levels.empty() && level < _levels.size()) {
+			this->_level = level;
+			this->_currentLevel = _levels[level];
+		} else {
+			this->_level = level;
+			this->_currentLevel = new Level(_width, _height, level, _maxLevels);
+			this->_levels.push_back(_currentLevel);
+			this->_currentLevel->GenerateMap();
+		}
 	}
 
-	void LevelManager::GenerateLevel(int level)
+	char* LevelManager::GetMap()
 	{
-		// TODO: Generate Level
-		// TODO: Add Generated level to List
-	}
-
-	Level* LevelManager::GetLevel()
-	{
-		if (_levels.empty() || _level >= _levels.size())
-			return nullptr;
-
-		return _levels[_level];
+		if (_currentLevel != nullptr)
+			return this->_currentLevel->GetMap(this->_width, this->_height);
+		return nullptr;
 	}
 
 	void LevelManager::NextLevel()
 	{
 		this->_level++;
-		this->GenerateLevel(_level);
+		this->SetLevel(_level);
 	}
 
 	const unsigned int LevelManager::GetLevelWidth() const 

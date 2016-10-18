@@ -38,7 +38,25 @@ namespace RogueLike { namespace Controller {
 		this->_inputView->AskLetter();
 	}
 
+	void ViewController::Say(const std::string& message)
+	{
+		this->_outputView->Say(message);
+	}
 
+
+	uint ViewController::AskInt(std::string message, unsigned int maxInt)
+	{
+		uint result = 0;
+		while (result < 1)
+		{
+			result = this->_inputView->AskInt(message);
+			if (result > maxInt)
+			{
+				result = 0;
+			}
+		}
+		return result;
+	}
 
 
 

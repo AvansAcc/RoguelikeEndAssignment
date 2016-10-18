@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include "../Common.h"
 
 namespace RogueLike { namespace View {
 	class InputView {
@@ -14,5 +15,6 @@ namespace RogueLike { namespace View {
 	
 		char AskLetter();
 		std::string AskWord();
+		uint AskInt(std::string message);
 	};
 } }
