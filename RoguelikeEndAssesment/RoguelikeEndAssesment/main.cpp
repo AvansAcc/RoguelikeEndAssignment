@@ -1,6 +1,6 @@
 // main.cpp : Defines the entry point for the console application.
-//
 #include "stdafx.h"
+
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
@@ -18,9 +18,9 @@ int main()
 	//r.Start();
 
 	// Debug
-	using namespace RogueLike;
-	using namespace Model;
-	Level* l = new Level(5,5,0,3);
+	//using namespace RogueLike;
+	//using namespace Model;
+	//Level* l = new Level(5,5,0,3);
 	//Room::Room* r = new Room::Room('.');
 	system("PAUSE");
 

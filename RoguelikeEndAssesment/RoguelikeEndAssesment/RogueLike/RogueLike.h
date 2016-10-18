@@ -7,9 +7,12 @@ namespace RogueLike {
 	class RogueLike {
 	private:
 		Controller::GameController* _gameController;
+		bool _running;
 	public:
 	
 	private:
+		void Update();
+		void Quit();
 	public:
 		void Start();
 

@@ -6,8 +6,8 @@
 namespace RogueLike { namespace Model {
 	class LevelManager {
 	private:
-		uint level;
-		std::vector<Level*> levels;
+		uint _level;
+		std::vector<Level*> _levels;
 	public:
 
 	private:
@@ -17,5 +17,9 @@ namespace RogueLike { namespace Model {
 		~LevelManager();
 		Level* GetLevel();
 		void NextLevel();
+		void Start();
+
+		const unsigned int GetLevelWidth() const;
+		const unsigned int GetLevelHeight() const;
 	};
 } }

@@ -13,8 +13,11 @@ namespace RogueLike { namespace View {
 
 	public:
 		OutputView();
+		void ShowWelcomScreen();
 		void ShowMenu();
 		void ShowGame();
+		void ShowMap(char* map, unsigned int width, unsigned int height);
 		void ShowOptions();
+		void ShowQuit();
 	};
 } }
