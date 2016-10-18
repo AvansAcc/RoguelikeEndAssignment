@@ -2,15 +2,23 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 
-	Room::Room(char icon) 
-		: IRoom()
+	Room::Room(char icon) : IRoom()
 	{
 		this->_icon = icon;
 		this->_adjacentRooms.clear();
+
+		/*Nothing* n;
+		for (int i = 0; i < 4; i++)
+		{
+			n = new Nothing('t');
+			_adjacentRooms.push_back(n);
+		}*/
+
 		this->_enemies.clear();
 		this->_item = nullptr;
 		this->_isDiscovered = false;
 	}
+
 	Room::~Room()
 	{
 		for (uint i=0; i < _adjacentRooms.size(); i++)
@@ -35,12 +43,22 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		return this->_isDiscovered;
 	}
+
 	void Room::AddItem(Item* item)
 	{
 		if(this->_item != nullptr)
 			delete this->_item;
 		
 		this->_item = item;
+	}
+	
+	void Room::AddAdjacentRoom(IRoom* room, int direction)
+	{
+		if (direction < 0 || direction > 3)
+			return;
+
+		_adjacentRooms.erase(_adjacentRooms.begin() + direction);
+		_adjacentRooms.insert(_adjacentRooms.begin() + direction, room);
 	}
 
 } } }

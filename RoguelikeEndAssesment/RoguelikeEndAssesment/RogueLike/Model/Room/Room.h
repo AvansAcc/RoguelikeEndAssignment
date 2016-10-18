@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IRoom.h"
+#include "Nothing.h"
 #include <vector>
 #include "../Enemy.h"
 #include "../Item.h"
@@ -21,6 +22,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const char GetIcon() const override;
 		virtual const bool IsDiscovered();
 		virtual void AddItem(Item* item);
+		virtual void AddAdjacentRoom(IRoom* room, int direction);
 	};
 
 } } }

@@ -25,7 +25,7 @@ namespace RogueLike { namespace Model {
 		
 		int startLoc[] = { Random<int>::GetRandom(0, _width - 1) , Random<int>::GetRandom(0, _height - 1) };
 
-		Room::IRoom* r;
+		Room::Room* r;
 		// 100% loop
 		for (int i = 0; i < randomDungeonLength; i++)
 		{
@@ -33,26 +33,30 @@ namespace RogueLike { namespace Model {
 				r = new Room::StartRoom('S');
 			}
 			else if (i == 0) {
-				r = new Room::StairsRoom('R', false);
+				r = new Room::StairsRoom('^', false);
 			}
 			else if (i == randomDungeonLength && _level == _maxDepth) {
 				r = new Room::BossRoom('B');
 			}
 			else if (i == randomDungeonLength) {
-				r = new Room::StairsRoom('S', true);
+				r = new Room::StairsRoom('v', true);
 				//((Room::StairsRoom*)r)->IsDirectionDown = true;
 			}
 			else {
 				r = new Room::Room('R');
+				//_locations[i - 1]->AddAdjacentRoom(r);
 			}
-			_locations.insert(_locations.end(), r);
+
+			int direction = Random<int>::GetRandom(0, 3);
+
+			_locations.push_back(r);
 		}
 
 		// 50% loop
-		for (uint i = 0; i < _locations.size(); i++)
+		for (int i = 0; i < _locations.size(); i++)
 		{
 			if ((Random<int>::GetRandom(0, 1)) == 0) {
-
+				//((Room::Room*)_locations[i])->
 			}
 		}
 
@@ -64,7 +68,7 @@ namespace RogueLike { namespace Model {
 			}
 		}
 
-		_locations = std::vector<Room::IRoom*>(_width * _height);
+		/*_locations = std::vector<Room::IRoom*>(_width * _height);
 
 		for (uint i=0; i < _locations.size(); i++)
 		{
@@ -72,7 +76,7 @@ namespace RogueLike { namespace Model {
 		}
 
 		int x = 5, y = 5;
-		Room::IRoom* answer = _locations[y * _width + x];
+		Room::IRoom* answer = _locations[y * _width + x];*/
 
 		/*for (int i = 0; i < height; i++)
 		{
@@ -82,6 +86,12 @@ namespace RogueLike { namespace Model {
 			}
 			std::cout << std::endl << std::endl;
 		}*/
+	}
+
+	int Level::checkAdjacentRooms(Room::IRoom*)
+	{
+
+		return 0;
 	}
 
 } }

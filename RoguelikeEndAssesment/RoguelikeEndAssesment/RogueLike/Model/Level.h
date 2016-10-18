@@ -19,7 +19,10 @@ namespace RogueLike { namespace Model {
 		int _level;
 		int _maxDepth;
 		std::vector<Room::IRoom*> _locations;
+	public:
 
+	private:
+		int checkAdjacentRooms(Room::IRoom*);
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		char* GetMap(const int w, const int h); // For your viewing purposes
