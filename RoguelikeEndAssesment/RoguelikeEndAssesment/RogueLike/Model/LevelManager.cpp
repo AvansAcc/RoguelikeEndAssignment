@@ -6,8 +6,9 @@ namespace RogueLike { namespace Model {
 		: _width {width}
 		, _height {height}
 		, _maxLevels {max_levels}
+		, _level {0}
 	{
-		this->_level = 0;
+		
 	}
 
 	LevelManager::~LevelManager()

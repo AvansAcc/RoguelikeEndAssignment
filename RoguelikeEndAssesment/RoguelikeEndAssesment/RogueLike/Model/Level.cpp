@@ -9,6 +9,13 @@ namespace RogueLike { namespace Model {
 		this->_level = depth;
 		this->_maxDepth = maxdepth;
 		this->_locations.clear();
+
+		Room::Nothing* n;
+		for (int i = 0; i < (_width * _height); i++)
+		{
+			n = new Room::Nothing('.');
+			_locations.push_back(n);
+		}
 	}
 
 	char* Level::GetMap(const int w, const int h)
@@ -28,39 +35,42 @@ namespace RogueLike { namespace Model {
 	{
 		int maxLength = _width + _height;
 		int randomDungeonLength = Random<int>::GetRandom((int)(maxLength * 0.8), maxLength);
-		
 		int startLoc[] = { Random<int>::GetRandom(0, _width - 1) , Random<int>::GetRandom(0, _height - 1) };
 
 		Room::IRoom* r = nullptr;
-		
+
 		// 100% loop
 		for (int i = 0; i < randomDungeonLength; i++)
 		{
 			if (i == 0 && _level == 0) {
 				r = new Room::StartRoom('S');
+				setRoom(r, ((startLoc[1] * _width) + startLoc[0]));
 			}
 			else if (i == 0) {
-				r = new Room::StairsRoom('R', false);
+				r = new Room::StairsRoom('^', false);
+				setRoom(r, ((startLoc[1] * _width) + startLoc[0]));
 			}
 			else if (i == randomDungeonLength && _level == _maxDepth) {
 				r = new Room::BossRoom('B');
 			}
 			else if (i == randomDungeonLength) {
-				r = new Room::StairsRoom('S', true);
+				r = new Room::StairsRoom('v', true);
 				//((Room::StairsRoom*)r)->IsDirectionDown = true;
 			}
 			else {
 				r = new Room::Room('R');
+				//_locations[i - 1]->AddAdjacentRoom(r);
 			}
-			//_locations.insert(_locations.end(), r);
+
 			_locations.push_back(r);
 		}
 
 		// 50% loop
-		for (uint i = 0; i < _locations.size(); i++)
+		for (int i = 0; i < _locations.size(); i++)
 		{
 			if ((Random<int>::GetRandom(0, 1)) == 0) {
-				// TODO: Create Level 50% loop
+				//((Room::Room*)_locations[i])->
+
 			}
 		}
 
@@ -80,6 +90,7 @@ namespace RogueLike { namespace Model {
 				_locations.push_back(new Room::Nothing('.'));
 		}
 
+
 		//int x = 5, y = 5;
 		//Room::IRoom* answer = _locations[y * _width + x];
 
@@ -91,6 +102,12 @@ namespace RogueLike { namespace Model {
 			}
 			std::cout << std::endl << std::endl;
 		}*/
+	}
+
+	void Level::setRoom(Room::IRoom* iRoom, int loc) 
+	{
+		_locations.erase(_locations.begin() + loc);
+		_locations.insert(_locations.begin() + loc, iRoom);
 	}
 
 } }
