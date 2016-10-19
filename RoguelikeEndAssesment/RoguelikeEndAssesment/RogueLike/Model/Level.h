@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <typeinfo>
 #include "..\Utils\Random.h"
 #include "../Common.h"
 
@@ -22,7 +23,8 @@ namespace RogueLike { namespace Model {
 	public:
 
 	private:
-		void setRoom(Room::IRoom*, int);
+		void createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength);
+
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		char* GetMap(const int w, const int h); // For your viewing purposes
