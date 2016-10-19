@@ -44,11 +44,11 @@ namespace RogueLike { namespace Model {
 		{
 			if (i == 0 && _level == 0) {
 				r = new Room::StartRoom('S');
-				setRoom(r, ((startLoc[1] * _width) + startLoc[0]));
+				_locations[(startLoc[1] * _width) + startLoc[0]] = r;
 			}
 			else if (i == 0) {
 				r = new Room::StairsRoom('^', false);
-				setRoom(r, ((startLoc[1] * _width) + startLoc[0]));
+				_locations[(startLoc[1] * _width) + startLoc[0]] = r;
 			}
 			else if (i == randomDungeonLength && _level == _maxDepth) {
 				r = new Room::BossRoom('B');
@@ -61,8 +61,6 @@ namespace RogueLike { namespace Model {
 				r = new Room::Room('R');
 				//_locations[i - 1]->AddAdjacentRoom(r);
 			}
-
-			_locations.push_back(r);
 		}
 
 		// 50% loop
@@ -81,33 +79,82 @@ namespace RogueLike { namespace Model {
 				// TODO: Create Level 20% loop
 			}
 		}
-
-		_locations = std::vector<Room::IRoom*>(_width * _height);
-
-		for (int i=0; i < _width * _height; i++)
-		{
-			if(_locations.size() <= (uint)i)
-				_locations.push_back(new Room::Nothing('.'));
-		}
-
-
-		//int x = 5, y = 5;
-		//Room::IRoom* answer = _locations[y * _width + x];
-
-		/*for (int i = 0; i < height; i++)
-		{
-			for (int j = 0; j < width; j++)
-			{
-				std::cout << ". ";
-			}
-			std::cout << std::endl << std::endl;
-		}*/
 	}
 
-	void Level::setRoom(Room::IRoom* iRoom, int loc) 
+	void Level::createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength) 
 	{
-		_locations.erase(_locations.begin() + loc);
-		_locations.insert(_locations.begin() + loc, iRoom);
+		if (dungeonLength < 1) {
+			return;
+		}
+		
+		// Check available rooms
+		bool availablePos[] = {true, true, true, true};
+		int maxDirections = 4;
+		// North
+		if (currentRoom->GetX() <= _width || previousRoom->GetY() == (currentRoom->GetY() - 1) ||
+			typeid(_locations[(currentRoom->GetY() - 1) * _width + currentRoom->GetX()]).name() != typeid(Room::Nothing).name())
+		{
+			maxDirections--;
+			availablePos[0] = false;
+		}
+		// East
+		if ((currentRoom->GetX() % (_width - 1)) == 0 || previousRoom->GetX() == (currentRoom->GetX() + 1) ||
+			typeid(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() + 1)]).name() != typeid(Room::Nothing).name())
+		{
+			maxDirections--;
+			availablePos[1] = false;
+		}
+		// South
+		if (currentRoom->GetX >= ((_height - 1) * _width) || previousRoom->GetY() == (currentRoom->GetY() + 1) ||
+			typeid(_locations[(currentRoom->GetY() + 1) * _width + currentRoom->GetX()]).name() != typeid(Room::Nothing).name())
+		{
+			maxDirections--;
+			availablePos[2] = false;
+		}
+		// West
+		if ((currentRoom->GetX() % _width) == 0 || previousRoom->GetX() == (currentRoom->GetX() - 1) ||
+			typeid(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() - 1)]).name() != typeid(Room::Nothing).name())
+		{
+			maxDirections--;
+			availablePos[3] = false;
+		}
+
+		bool isStuck = false;
+		if (maxDirections == 0)
+		{
+			isStuck = true;
+			maxDirections = 3;
+		}
+
+		// Get random int from no of available rooms
+		int roomDirection = Random<int>::GetRandom(0, maxDirections);
+
+		// Set current room in right direction
+		int direction = maxDirections;
+		for (int i = 0; i < maxDirections; i++)
+		{
+			if (availablePos[i] == false)
+				direction++;
+		}
+
+		Room::IRoom* newRoom;
+		int x = (direction == 1 || direction == 3) ? ((direction == 1) ? 1 : -1) : 0;
+		int y = (direction == 0 || direction == 2) ? ((direction == 2) ? 1 : -1) : 0;
+		
+		if (isStuck)
+		{
+			newRoom = _locations[(y * _width) + x];
+		}
+		else {
+			newRoom = new Room::Room('N', x, y);
+			dungeonLength--;
+		}
+		
+		// Link current room with last room and back
+		((Room::Room*)currentRoom)->AddAdjacentRoom(newRoom, direction);
+		((Room::Room*)newRoom)->AddAdjacentRoom(currentRoom, (direction > 1) ? direction - 2 : direction + 2);
+
+		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
 
 } }
