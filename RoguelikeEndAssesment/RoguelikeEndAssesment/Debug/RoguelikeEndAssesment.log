@@ -1,10 +1,3 @@
-﻿  RogueLike.cpp
-  LevelManager.cpp
-  Level.cpp
-  Game.cpp
-  GameController.cpp
-  Generating Code...
-  Skipping... (no relevant changes detected)
-  main.cpp
-  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
-  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)
+﻿  main.cpp
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Martin\Documents\GitHub\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Martin\Documents\GitHub\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)
