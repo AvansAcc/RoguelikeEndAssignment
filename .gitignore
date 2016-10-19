@@ -196,3 +196,4 @@ $RECYCLE.BIN/
 #####
 *.tlog
 *.db
+*.opendb

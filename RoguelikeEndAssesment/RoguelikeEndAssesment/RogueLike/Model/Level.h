@@ -22,7 +22,7 @@ namespace RogueLike { namespace Model {
 	public:
 
 	private:
-		int checkAdjacentRooms(Room::IRoom*);
+		void setRoom(Room::IRoom*, int);
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		char* GetMap(const int w, const int h); // For your viewing purposes
