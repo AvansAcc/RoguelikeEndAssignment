@@ -14,8 +14,8 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
 
-	//RogueLike::RogueLike r;
-	//r.Start();
+	RogueLike::RogueLike r;
+	r.Start();
 
 	// Debug
 	//using namespace RogueLike;

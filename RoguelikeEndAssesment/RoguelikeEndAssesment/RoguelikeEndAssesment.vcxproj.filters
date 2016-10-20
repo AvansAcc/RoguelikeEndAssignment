@@ -19,6 +19,7 @@
     <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
     <ClCompile Include="RogueLike\Model\Room\BossRoom.cpp" />
     <ClCompile Include="RogueLike\Model\Enemy.cpp" />
+    <ClCompile Include="RogueLike\Utils\Random.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RogueLike\Common.h" />

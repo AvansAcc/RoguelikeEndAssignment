@@ -14,7 +14,6 @@ namespace RogueLike {
 	
 	void RogueLike::Start()
 	{
-		// TODO: Start the game
 		this->_running = true;
 		this->_gameController->Start();
 		this->Update();
@@ -22,16 +21,16 @@ namespace RogueLike {
 
 	void RogueLike::Update()
 	{
-		while (this->_running)
+		/*while (this->_running)
 		{
 			this->_gameController->Update();
-		}
+		}*/
 		this->Quit();
 	}
 
 	void RogueLike::Quit()
 	{
-		// TODO: Quit the game?
+		this->_running = false;
 	}
 
 	// Copy constructor
@@ -40,7 +39,6 @@ namespace RogueLike {
 	{
 		//_gameController = new Controller::GameController(*other._gameController);
 	}
-
 	// Copy assignment operator
 	RogueLike& RogueLike::operator=(const RogueLike& other)
 	{
@@ -55,15 +53,12 @@ namespace RogueLike {
 		}
 		return *this;
 	}
-
-
 	// Move constructor
 	RogueLike::RogueLike(RogueLike&& other)
 		: _gameController { other._gameController }
 	{
 		other._gameController = nullptr;
 	}
-
 	// Move assignment operator
 	RogueLike& RogueLike::operator=(RogueLike&& other)
 	{

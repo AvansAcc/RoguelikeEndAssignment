@@ -185,6 +185,7 @@
     <ClCompile Include="RogueLike\Model\Room\StairsRoom.cpp" />
     <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
+    <ClCompile Include="RogueLike\Utils\Random.cpp" />
     <ClCompile Include="RogueLike\View\InputView.cpp" />
     <ClCompile Include="RogueLike\View\OutputView.cpp" />
     <ClCompile Include="stdafx.cpp">

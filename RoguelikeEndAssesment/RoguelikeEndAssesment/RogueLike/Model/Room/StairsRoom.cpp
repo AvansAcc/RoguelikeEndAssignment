@@ -2,8 +2,8 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 
-	StairsRoom::StairsRoom(char icon, bool isDirectionDown) 
-		: Room(icon)
+	StairsRoom::StairsRoom(char icon, int x, int y, bool isDirectionDown) 
+		: Room(icon, x, y)
 	{
 		this->_isDirectionDown = isDirectionDown;
 		this->_isDiscovered = false;
