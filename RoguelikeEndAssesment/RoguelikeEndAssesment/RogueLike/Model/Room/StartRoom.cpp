@@ -2,7 +2,8 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 
-	StartRoom::StartRoom(char icon) : Room(icon)
+	StartRoom::StartRoom(char icon, int x, int y) 
+		: Room(icon, x, y)
 	{
 		this->_isDiscovered = true;
 	}

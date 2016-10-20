@@ -20,6 +20,8 @@ namespace RogueLike { namespace Model {
 		int _level;
 		int _maxDepth;
 		std::vector<Room::IRoom*> _locations;
+		Room::IRoom* _startPoint;
+		Room::IRoom* _endPoint;
 	public:
 
 	private:

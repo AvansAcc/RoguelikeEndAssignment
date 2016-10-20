@@ -8,7 +8,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	private:
 
 	public:
-		BossRoom(char icon);
+		BossRoom(char icon, int x, int y);
 	};
 
 } } }

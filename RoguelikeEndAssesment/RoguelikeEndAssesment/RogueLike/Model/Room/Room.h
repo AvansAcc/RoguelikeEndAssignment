@@ -5,6 +5,7 @@
 #include <vector>
 #include "../Enemy.h"
 #include "../Item.h"
+#include "../../Variables.h"
 
 namespace RogueLike { namespace Model { namespace Room {
 	
