@@ -22,7 +22,7 @@ namespace RogueLike { namespace Model {
 		
 	const uint Player::Attack()
 	{
-		return Random<int>::GetRandom(0, 10 * _level);
+		return Random::GetRandom(0, 10 * _level);
 	}
 	void Player::Damage(const uint damage)
 	{

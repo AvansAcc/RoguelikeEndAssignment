@@ -24,7 +24,7 @@ namespace RogueLike { namespace Controller {
 		uint height = this->_viewController->AskInt("Hoeveel kamers in lengte wilt u de kerker hebben?", 25);
 		uint max_levels = this->_viewController->AskInt("Hoe diep wilt u de kerker hebben?", 10);
 
-		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!");
+		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
 
 		this->_game->Start(width, height, max_levels);
 		this->_viewController->ShowMap(this->_game->GetMap(), this->_game->GetLevelWidth(), this->_game->GetLevelHeight());

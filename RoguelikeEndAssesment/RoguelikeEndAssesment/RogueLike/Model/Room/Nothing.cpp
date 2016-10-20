@@ -12,4 +12,13 @@ namespace RogueLike { namespace Model { namespace Room {
 		return this->_icon;
 	}
 
+	const int Nothing::GetX() const
+	{
+		return this->_xpos;
+	}
+	const int Nothing::GetY() const
+	{
+		return this->_ypos;
+	}
+
 } } }

@@ -5,6 +5,8 @@ namespace RogueLike { namespace Model { namespace Room {
 	Room::Room(char icon, int x, int y) : IRoom(icon, x, y)
 	{
 		this->_adjacentRooms.clear();
+		for (int i = 0; i < 4; i++)
+			this->_adjacentRooms.push_back(nullptr);
 		this->_enemies.clear();
 		this->_item = nullptr;
 		this->_isDiscovered = false;
@@ -24,7 +26,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	}
 	const char Room::GetIcon() const
 	{
-		if (this->_isDiscovered)
+		if (this->_isDiscovered || Globals::DEBUG == true)
 			return this->_icon;
 		else
 			return '.';
@@ -73,7 +75,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		if (direction < 0 || direction > 3)
 			return;
-		_adjacentRooms.at[direction] = room;
+		_adjacentRooms.at(direction) = room;
 	}
 
 } } }
