@@ -24,6 +24,7 @@ namespace RogueLike { namespace Model {
 
 	private:
 		void createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength);
+		void createExtraPath(int percentage);
 
 	public:
 		Level(int width, int height, int level, int maxDepth);

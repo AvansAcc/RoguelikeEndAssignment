@@ -157,4 +157,12 @@ namespace RogueLike { namespace Model {
 		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
 
+	void Level::createExtraPath(int percentage, std::vector<Room::Room>* v)
+	{
+		for (int i = 0; i < length; i++)
+		{
+
+		}
+		Random<int>::GetRandom(0, percentage);
+	}
 } }
