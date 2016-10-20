@@ -6,9 +6,9 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	class Nothing : public IRoom {
 	private:
-		char _icon;
+
 	public:
-		Nothing(char icon);
+		Nothing(char icon, int x, int y);
 		const char GetIcon() const override;
 	};
 

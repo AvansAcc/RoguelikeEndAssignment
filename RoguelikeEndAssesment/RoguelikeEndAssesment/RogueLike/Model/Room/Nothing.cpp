@@ -2,8 +2,7 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 
-	Nothing::Nothing(char icon) 
-		: IRoom()
+	Nothing::Nothing(char icon, int x, int y) : IRoom(icon, x, y)
 	{
 		this->_icon = icon;
 	}
