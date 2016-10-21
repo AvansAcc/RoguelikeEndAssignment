@@ -9,6 +9,7 @@ namespace RogueLike {
 	}
 	RogueLike::~RogueLike()
 	{
+		std::cout << "Destructor: RogueLike" << std::endl;
 		delete _gameController;
 	}
 	

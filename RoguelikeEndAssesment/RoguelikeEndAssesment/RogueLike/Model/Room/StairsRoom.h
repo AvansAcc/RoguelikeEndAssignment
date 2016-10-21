@@ -9,6 +9,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		bool _isDirectionDown;
 	public:
 		StairsRoom(char icon, int x, int y, bool isDirectionDown);
+		virtual ~StairsRoom();
 		const bool IsDirectionDown();
 	};
 

@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="RogueLike\Common.h" />
     <ClInclude Include="RogueLike\Controller\GameController.h" />
     <ClInclude Include="RogueLike\Controller\ViewController.h" />

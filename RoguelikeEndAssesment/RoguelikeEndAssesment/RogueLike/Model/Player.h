@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Common.h"
+#include <iostream>
 #include <string>
 #include "Item.h"
 #include "../Utils/Random.h"
@@ -23,7 +24,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		Player();
-		~Player();
+		virtual ~Player();
 		const std::string GetName();
 		void SetName(const std::string name);
 		const char GetIcon();

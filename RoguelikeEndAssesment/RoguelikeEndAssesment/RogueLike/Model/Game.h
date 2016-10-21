@@ -15,7 +15,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		Game();
-		~Game();
+		virtual ~Game();
 		Game(const Game& other);
 		Game(Game&& other);
 		Game& operator=(const Game& other);

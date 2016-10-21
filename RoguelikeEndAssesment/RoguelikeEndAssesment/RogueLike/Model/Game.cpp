@@ -9,6 +9,7 @@ namespace RogueLike { namespace Model {
 
 	Game::~Game()
 	{
+		std::cout << "Destructor: Game" << std::endl;
 		if(_player)
 			delete _player;
 		if(_levelManager)

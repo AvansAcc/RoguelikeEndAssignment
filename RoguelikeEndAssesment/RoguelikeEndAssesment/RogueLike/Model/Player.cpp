@@ -15,6 +15,7 @@ namespace RogueLike { namespace Model {
 	}
 	Player::~Player()
 	{
+		std::cout << "Destructor: Player" << std::endl;
 		if (!_items.empty())
 		{
 			for (uint i = 0; i < _items.size(); i++)
