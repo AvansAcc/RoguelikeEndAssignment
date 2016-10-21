@@ -14,12 +14,9 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	Room::~Room()
 	{
+		//std::cout << "Destructor: Room" << std::endl;
 		if (!_adjacentRooms.empty())
-		{
-			for (uint i = 0; i < _adjacentRooms.size(); i++)
-				delete _adjacentRooms[i];
 			_adjacentRooms.clear();
-		}
 
 		if (!_enemies.empty())
 		{
@@ -85,6 +82,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		if (direction < 0 || direction > 3)
 			return;
+
 		_adjacentRooms.at(direction) = room;
 	}
 

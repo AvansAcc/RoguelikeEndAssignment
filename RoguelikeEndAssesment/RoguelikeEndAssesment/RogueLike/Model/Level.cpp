@@ -26,6 +26,7 @@ namespace RogueLike { namespace Model {
 	}
 	Level::~Level()
 	{
+		std::cout << "Destructor: Level" << std::endl;
 		if (!_locations.empty())
 		{
 			for (unsigned int i = 0; i < _locations.size(); i++)
@@ -107,7 +108,7 @@ namespace RogueLike { namespace Model {
 		_locations[(startLoc[1] * _width) + startLoc[0]] = _startPoint;
 		
 		this->createLevelPath(nullptr, _startPoint, randomDungeonLength);
-		std::cout << "Random Length: " << randomDungeonLength << std::endl;
+		//std::cout << "Random Length: " << randomDungeonLength << std::endl;
 	}
 
 	void Level::createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength) 
@@ -115,12 +116,13 @@ namespace RogueLike { namespace Model {
 		if (dungeonLength < 1) {
 			Room::IRoom* end = new Room::StairsRoom('E', currentRoom->GetX(), currentRoom->GetY(), true);
 			this->_endPoint = end;
-			delete currentRoom;
+			if(currentRoom)
+				delete currentRoom;
 			_locations[end->GetY() * _width + end->GetX()] = end;
 			return;
 		}
 		
-		std::cout << "Pos: " << std::setw(2) << currentRoom->GetX() << ", " << std::setw(2) << currentRoom->GetY();
+		//std::cout << "Pos: " << std::setw(2) << currentRoom->GetX() << ", " << std::setw(2) << currentRoom->GetY();
 
 		// Check available rooms
 		bool availableDirections[] = {true, true, true, true};
@@ -132,11 +134,11 @@ namespace RogueLike { namespace Model {
 		};
 		int maxDirections = 4;
 		
-		std::cout << " ---:";
+		//std::cout << " ---:";
 		int previousRoomX = (previousRoom != nullptr) ? previousRoom->GetX() : -2;
 		int previousRoomY = (previousRoom != nullptr) ? previousRoom->GetY() : -2;
 
-		std::string dirCheck = "";
+		//std::string dirCheck = "";
 
 		// North
 		if (previousRoomY == (currentRoom->GetY() - 1) ||
@@ -144,7 +146,7 @@ namespace RogueLike { namespace Model {
 		{
 			maxDirections--;
 			availableDirections[0] = false;
-			dirCheck += " North ";
+			//dirCheck += " North ";
 		}
 		// East
 		if (previousRoomX == (currentRoom->GetX() + 1) ||
@@ -152,7 +154,7 @@ namespace RogueLike { namespace Model {
 		{
 			maxDirections--;
 			availableDirections[1] = false;
-			dirCheck += " East ";
+			//dirCheck += " East ";
 		}
 		// South
 		if (previousRoomY == (currentRoom->GetY() + 1) ||
@@ -160,7 +162,7 @@ namespace RogueLike { namespace Model {
 		{
 			maxDirections--;
 			availableDirections[2] = false;
-			dirCheck += " South ";
+			//dirCheck += " South ";
 		}
 		// West
 		if (previousRoomX == (currentRoom->GetX() - 1) ||
@@ -168,7 +170,7 @@ namespace RogueLike { namespace Model {
 		{
 			maxDirections--;
 			availableDirections[3] = false;
-			dirCheck += " West ";
+			//dirCheck += " West ";
 		}
 
 		bool isStuck = (maxDirections == 0) ? true : false;
@@ -180,8 +182,8 @@ namespace RogueLike { namespace Model {
 		int roomDirection = Random::GetRandom(0, 4);
 
 		int clockwise = Random::GetRandom(0,1);
-		std::cout << std::setw(26) << dirCheck;
-		std::cout << ", rDir(" << roomDirection << "), " << " isStuck: " << isStuck << ", clock: " << clockwise;
+		//std::cout << std::setw(26) << dirCheck;
+		//std::cout << ", rDir(" << roomDirection << "), " << " isStuck: " << isStuck << ", clock: " << clockwise;
 
 		// Set current room in right direction
 		int direction = roomDirection;
@@ -191,7 +193,6 @@ namespace RogueLike { namespace Model {
 			for (int i = roomDirection; i < (roomDirection + 4); i++)
 			{
 				int j = (i >= 4) ? (i - 4) : i;
-				//std::cout << ", i: " << i << ", direction: " << direction << ", walls: " << walls[j] << ", avDir: " << availableDirections[j];
 				if ((j == direction && (availableDirections[j] == false || isStuck == true) && isStuck == false) || (j == direction && walls[j] == true))
 				{
 					if (direction >= 3)
@@ -206,7 +207,6 @@ namespace RogueLike { namespace Model {
 			for (int i = roomDirection; i >= (roomDirection - 4); i--)
 			{
 				int j = (i < 0) ? (i + 4) : i;
-				//std::cout << ", i: " << i << ", direction: " << direction << ", walls: " << walls[j] << ", avDir: " << availableDirections[j];
 				if ((j == direction && (availableDirections[j] == false || isStuck == true) && isStuck == false) || (j == direction && walls[j] == true))
 				{
 					if (direction < 0)
@@ -216,7 +216,7 @@ namespace RogueLike { namespace Model {
 				}
 			}
 		}
-		std::cout << ", chosenDir: " << direction;
+		//std::cout << ", chosenDir: " << direction;
 
 		Room::IRoom* newRoom;
 		int x = currentRoom->GetX() + ((direction == 1 || direction == 3) ? ((direction == 1) ? 1 : -1) : 0);
@@ -227,7 +227,8 @@ namespace RogueLike { namespace Model {
 			newRoom = _locations[(y * _width) + x];
 		} else {
 			newRoom = new Room::Room('N', x, y);
-			delete _locations[y * _width + x]; // delete nothing.
+			if(_locations[y * _width + x])
+				delete _locations[y * _width + x]; // delete room.
 			_locations[y * _width + x] = newRoom;
 			dungeonLength--;
 		}
@@ -235,7 +236,6 @@ namespace RogueLike { namespace Model {
 		// Link current room with last room and back
 		((Room::Room*)currentRoom)->AddAdjacentRoom(newRoom, direction);
 		((Room::Room*)newRoom)->AddAdjacentRoom(currentRoom, (direction > 1) ? direction - 2 : direction + 2);
-		std::cout << ", AdjacentRooms: " << ((Room::Room*)currentRoom)->GetAdjacentRooms().size() << std::endl;
 		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
 

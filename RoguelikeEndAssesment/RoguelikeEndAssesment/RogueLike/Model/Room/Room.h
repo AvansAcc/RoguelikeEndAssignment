@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IRoom.h"
+#include <iostream>
 #include "Nothing.h"
 #include <vector>
 #include "../Enemy.h"

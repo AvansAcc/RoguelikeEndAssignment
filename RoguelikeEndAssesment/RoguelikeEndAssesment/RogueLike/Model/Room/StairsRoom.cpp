@@ -8,6 +8,12 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_isDirectionDown = isDirectionDown;
 		this->_isDiscovered = false;
 	}
+
+	StairsRoom::~StairsRoom()
+	{
+
+	}
+
 	const bool StairsRoom::IsDirectionDown()
 	{
 		return this->_isDirectionDown;

@@ -10,6 +10,7 @@ namespace RogueLike { namespace Controller {
 
 	ViewController::~ViewController()
 	{
+		std::cout << "Destructor: ViewController" << std::endl;
 		delete _inputView;
 		delete _outputView;
 	}
