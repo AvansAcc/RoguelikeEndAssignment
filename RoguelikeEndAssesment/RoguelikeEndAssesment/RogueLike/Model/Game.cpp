@@ -9,8 +9,10 @@ namespace RogueLike { namespace Model {
 
 	Game::~Game()
 	{
-		delete _player;
-		delete _levelManager;
+		if(_player)
+			delete _player;
+		if(_levelManager)
+			delete _levelManager;
 	}
 
 	void Game::Start(uint width, uint height, uint max_levels)

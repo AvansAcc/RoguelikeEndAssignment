@@ -15,9 +15,12 @@ namespace RogueLike { namespace Model {
 	}
 	Player::~Player()
 	{
-		for (uint i = 0; i < _items.size(); i++)
-			delete _items[i];
-		_items.clear();
+		if (!_items.empty())
+		{
+			for (uint i = 0; i < _items.size(); i++)
+				delete _items[i];
+			_items.clear();
+		}
 	}
 		
 	const uint Player::Attack()

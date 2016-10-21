@@ -14,13 +14,19 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	Room::~Room()
 	{
-		for (uint i=0; i < _adjacentRooms.size(); i++)
-			delete _adjacentRooms[i];
-		_adjacentRooms.clear();
+		if (!_adjacentRooms.empty())
+		{
+			for (uint i = 0; i < _adjacentRooms.size(); i++)
+				delete _adjacentRooms[i];
+			_adjacentRooms.clear();
+		}
 
-		for (uint i = 0; i < _enemies.size(); i++)
-			delete _enemies[i];
-		_enemies.clear();
+		if (!_enemies.empty())
+		{
+			for (uint i = 0; i < _enemies.size(); i++)
+				delete _enemies[i];
+			_enemies.clear();
+		}
 
 		delete _item;
 	}
@@ -30,6 +36,10 @@ namespace RogueLike { namespace Model { namespace Room {
 			return this->_icon;
 		else
 			return '.';
+	}
+	const char Room::GetRealIcon() const
+	{
+		return this->_icon;
 	}
 
 	const int Room::GetX() const
@@ -76,6 +86,11 @@ namespace RogueLike { namespace Model { namespace Room {
 		if (direction < 0 || direction > 3)
 			return;
 		_adjacentRooms.at(direction) = room;
+	}
+
+	std::vector<IRoom*> Room::GetAdjacentRooms()
+	{
+		return _adjacentRooms;
 	}
 
 } } }

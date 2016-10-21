@@ -44,7 +44,7 @@ namespace RogueLike { namespace View {
 		std::cout << "Tot de volgende keer!" << std::endl;
 	}
 
-	void OutputView::Say(const std::string& message)
+	void OutputView::Say(const std::string message)
 	{
 		std::cout << message;
 	}
