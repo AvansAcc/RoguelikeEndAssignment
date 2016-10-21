@@ -87,6 +87,7 @@ namespace RogueLike { namespace Model {
 				// TODO: Create Level 20% loop
 			}
 		}*/
+
 		int x = _locations[(startLoc[1] * _width) + startLoc[0]]->GetX();
 		int y = _locations[(startLoc[1] * _width) + startLoc[0]]->GetY();
 		_startPoint = new Room::StartRoom('S', x, y);
@@ -170,7 +171,7 @@ namespace RogueLike { namespace Model {
 		int direction = roomDirection;
 		for (int i = 0; i < maxDirections; i++)
 		{
-			if ((!isStuck && availableDirections[i] == false) || walls[i] == true)
+			if (i == direction && !isStuck && availableDirections[i] == true)
 			{
 				if (direction >= 4)
 					direction = 0;
@@ -199,5 +200,56 @@ namespace RogueLike { namespace Model {
 
 		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
+
+	/*void Level::createExtraPath(int percentage, Room::IRoom* currentRoom)
+	{
+		std::cout << std::endl << std::endl << "ExtraPath: " << std::endl;
+		std::cout << "Pos: " << currentRoom->GetX() << ", " << currentRoom->GetY();
+
+		// Check available rooms
+		bool availableDirections[] = { true, true, true, true };
+		bool walls[] = {
+			(currentRoom->GetY() <= 0),
+			((currentRoom->GetX() % (_width - 1)) == 0),
+			(currentRoom->GetY() >= _height),
+			((currentRoom->GetX() % _width) == 0)
+		};
+		int maxDirections = 4;
+
+		// North
+		if (previousRoomY == (currentRoom->GetY() - 1) ||
+			!(!walls[0] && !(_locations[(currentRoom->GetY() - 1) * _width + currentRoom->GetX()]->GetIcon() != '.')))
+		{
+			maxDirections--;
+			availableDirections[0] = false;
+			std::cout << " North ";
+		}
+		// East
+		if (previousRoomX == (currentRoom->GetX() + 1) ||
+			!(!walls[1] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() + 1)]->GetIcon() != '.')))
+		{
+			maxDirections--;
+			availableDirections[1] = false;
+			std::cout << " East ";
+		}
+		// South
+		if (previousRoomY == (currentRoom->GetY() + 1) ||
+			!(!walls[2] && !(_locations[(currentRoom->GetY() + 1) * _width + currentRoom->GetX()]->GetIcon() != '.')))
+		{
+			maxDirections--;
+			availableDirections[2] = false;
+			std::cout << " South ";
+		}
+		// West
+		if (previousRoomX == (currentRoom->GetX() - 1) ||
+			!(!walls[3] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() - 1)]->GetIcon() != '.')))
+		{
+			maxDirections--;
+			availableDirections[3] = false;
+			std::cout << " West ";
+		}
+
+		Random::GetRandom(0, maxDirections);
+	}*/
 
 } }
