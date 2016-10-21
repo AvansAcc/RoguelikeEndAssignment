@@ -18,7 +18,7 @@ namespace RogueLike { namespace Controller {
 		GameController & operator=(const GameController & other);
 		GameController & operator=(GameController && other);
 		GameController(GameController&& other);
-		~GameController();
+		virtual ~GameController();
 
 		void Start();
 		void Update();

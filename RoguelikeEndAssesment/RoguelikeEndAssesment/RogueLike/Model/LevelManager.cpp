@@ -13,7 +13,9 @@ namespace RogueLike { namespace Model {
 
 	LevelManager::~LevelManager()
 	{
+		std::cout << "Destructor: LevelManager" << std::endl;
 		this->ClearLevels();
+		this->_currentLevel = nullptr;
 	}
 
 	void LevelManager::Start()

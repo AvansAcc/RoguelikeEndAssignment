@@ -21,6 +21,6 @@ namespace RogueLike {
 		RogueLike & operator=(const RogueLike & other);
 		RogueLike & operator=(RogueLike && other);
 		RogueLike(RogueLike&& other);
-		~RogueLike();
+		virtual ~RogueLike();
 	};
 }

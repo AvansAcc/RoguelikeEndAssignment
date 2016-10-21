@@ -14,7 +14,7 @@ namespace RogueLike { namespace Controller {
 	private:
 	public:
 		ViewController();
-		~ViewController();
+		virtual ~ViewController();
 		ViewController(const ViewController& other);
 		ViewController & operator=(const ViewController& other);
 		ViewController & operator=(ViewController&& other);
