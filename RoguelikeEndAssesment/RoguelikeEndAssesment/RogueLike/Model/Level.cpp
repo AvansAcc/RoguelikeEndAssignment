@@ -1,5 +1,7 @@
 #include "Level.h"
 
+#include <iomanip>
+
 namespace RogueLike { namespace Model {
 
 	Level::Level(int width, int height, int depth, int maxdepth) 
@@ -22,7 +24,17 @@ namespace RogueLike { namespace Model {
 		this->_startPoint = nullptr;
 		this->_endPoint = nullptr;
 	}
-
+	Level::~Level()
+	{
+		if (!_locations.empty())
+		{
+			for (unsigned int i = 0; i < _locations.size(); i++)
+				delete _locations[i];
+			_locations.clear();
+		}
+		_startPoint = nullptr;
+		_endPoint = nullptr;
+	}
 	char* Level::GetMap(const int w, const int h)
 	{
 		if (_locations.empty() || w <= 0 || h <= 0)
@@ -38,7 +50,8 @@ namespace RogueLike { namespace Model {
 
 	void Level::GenerateMap()
 	{
-		int maxLength = _width + _height;
+		//int maxLength = _width + _height;
+		int maxLength = (_width * _height) - ((_width * _height) / 2);
 		int randomDungeonLength = Random::GetRandom((int)(maxLength * 0.8), maxLength);
 		int startLoc[] = { Random::GetRandom(0, _width - 1), Random::GetRandom(0, _height - 1) };
 
@@ -106,83 +119,108 @@ namespace RogueLike { namespace Model {
 			return;
 		}
 		
-		std::cout << "Pos: " << currentRoom->GetX() << ", " << currentRoom->GetY();
+		std::cout << "Pos: " << std::setw(2) << currentRoom->GetX() << ", " << std::setw(2) << currentRoom->GetY();
 
 		// Check available rooms
 		bool availableDirections[] = {true, true, true, true};
 		bool walls[] = {
 			(currentRoom->GetY() <= 0),
-			((currentRoom->GetX() % (_width - 1)) == 0),
-			(currentRoom->GetY() >= _height),
+			(currentRoom->GetX() != 0 && (currentRoom->GetX() % (_width - 1)) == 0),
+			(currentRoom->GetY() >= _height-1),
 			((currentRoom->GetX() % _width) == 0)
 		};
 		int maxDirections = 4;
 		
-		std::cout << " Not safe: ";
+		std::cout << " ---:";
 		int previousRoomX = (previousRoom != nullptr) ? previousRoom->GetX() : -2;
 		int previousRoomY = (previousRoom != nullptr) ? previousRoom->GetY() : -2;
 
+		std::string dirCheck = "";
 
 		// North
 		if (previousRoomY == (currentRoom->GetY() - 1) ||
-			!(!walls[0] && !(_locations[(currentRoom->GetY() - 1) * _width + currentRoom->GetX()]->GetIcon() != '.')))
+			!(!walls[0] && !(_locations[(currentRoom->GetY() - 1) * _width + currentRoom->GetX()]->GetRealIcon() != '.')))
 		{
 			maxDirections--;
 			availableDirections[0] = false;
-			std::cout << " North ";
+			dirCheck += " North ";
 		}
 		// East
 		if (previousRoomX == (currentRoom->GetX() + 1) ||
-			!(!walls[1] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() + 1)]->GetIcon() != '.')))
+			!(!walls[1] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() + 1)]->GetRealIcon() != '.')))
 		{
 			maxDirections--;
 			availableDirections[1] = false;
-			std::cout << " East ";
+			dirCheck += " East ";
 		}
 		// South
 		if (previousRoomY == (currentRoom->GetY() + 1) ||
-			!(!walls[2] && !(_locations[(currentRoom->GetY() + 1) * _width + currentRoom->GetX()]->GetIcon() != '.')))
+			!(!walls[2] && !(_locations[(currentRoom->GetY() + 1) * _width + currentRoom->GetX()]->GetRealIcon() != '.')))
 		{
 			maxDirections--;
 			availableDirections[2] = false;
-			std::cout << " South ";
+			dirCheck += " South ";
 		}
 		// West
 		if (previousRoomX == (currentRoom->GetX() - 1) ||
-			!(!walls[3] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() - 1)]->GetIcon() != '.')))
+			!(!walls[3] && !(_locations[currentRoom->GetY() * _width + (currentRoom->GetX() - 1)]->GetRealIcon() != '.')))
 		{
 			maxDirections--;
 			availableDirections[3] = false;
-			std::cout << " West ";
+			dirCheck += " West ";
 		}
 
 		bool isStuck = (maxDirections == 0) ? true : false;
 
-		if (isStuck)
+		if (isStuck) // Make it possible to choose out of 4 directions if you are stuck.
 			maxDirections = 4;
 	
 		// Get random int from no of available rooms
-		int roomDirection = Random::GetRandom(0, maxDirections);
+		int roomDirection = Random::GetRandom(0, 4);
 
-		std::cout << " : max(" << maxDirections << ") , dir(" << roomDirection << "), " << " isStuck: " << isStuck;
+		int clockwise = Random::GetRandom(0,1);
+		std::cout << std::setw(26) << dirCheck;
+		std::cout << ", rDir(" << roomDirection << "), " << " isStuck: " << isStuck << ", clock: " << clockwise;
 
 		// Set current room in right direction
 		int direction = roomDirection;
-		for (int i = 0; i < maxDirections; i++)
+
+		if (clockwise == 0)
 		{
-			if ((!isStuck && availableDirections[i] == false) || walls[i] == true)
+			for (int i = roomDirection; i < (roomDirection + 4); i++)
 			{
-				if (direction >= 4)
-					direction = 0;
-				else
-					direction++;
+				int j = (i >= 4) ? (i - 4) : i;
+				//std::cout << ", i: " << i << ", direction: " << direction << ", walls: " << walls[j] << ", avDir: " << availableDirections[j];
+				if ((j == direction && (availableDirections[j] == false || isStuck == true) && isStuck == false) || (j == direction && walls[j] == true))
+				{
+					if (direction >= 3)
+						direction = 0;
+					else
+						direction += 1;
+				}
+			}
+		} 
+		else
+		{
+			for (int i = roomDirection; i >= (roomDirection - 4); i--)
+			{
+				int j = (i < 0) ? (i + 4) : i;
+				//std::cout << ", i: " << i << ", direction: " << direction << ", walls: " << walls[j] << ", avDir: " << availableDirections[j];
+				if ((j == direction && (availableDirections[j] == false || isStuck == true) && isStuck == false) || (j == direction && walls[j] == true))
+				{
+					if (direction < 0)
+						direction = 3;
+					else
+						direction -= 1;
+				}
 			}
 		}
+		std::cout << ", chosenDir: " << direction;
 
 		Room::IRoom* newRoom;
 		int x = currentRoom->GetX() + ((direction == 1 || direction == 3) ? ((direction == 1) ? 1 : -1) : 0);
 		int y = currentRoom->GetY() + ((direction == 0 || direction == 2) ? ((direction == 2) ? 1 : -1) : 0);
-		std::cout << ", direction headed: (" << x << ", " << y << "); curLength: " << dungeonLength << std::endl;
+		//std::cout << ", direction headed: (" << x << ", " << y << "); curLength: " << dungeonLength << std::endl;
 
 		if (isStuck) {
 			newRoom = _locations[(y * _width) + x];
@@ -196,7 +234,7 @@ namespace RogueLike { namespace Model {
 		// Link current room with last room and back
 		((Room::Room*)currentRoom)->AddAdjacentRoom(newRoom, direction);
 		((Room::Room*)newRoom)->AddAdjacentRoom(currentRoom, (direction > 1) ? direction - 2 : direction + 2);
-
+		std::cout << ", AdjacentRooms: " << ((Room::Room*)currentRoom)->GetAdjacentRooms().size() << std::endl;
 		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
 

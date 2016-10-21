@@ -29,6 +29,7 @@ namespace RogueLike { namespace Model {
 
 	public:
 		Level(int width, int height, int level, int maxDepth);
+		virtual ~Level();
 		char* GetMap(const int w, const int h); // For your viewing purposes
 		void GenerateMap();
 		const int GetLevel() const { return this->_level; }
