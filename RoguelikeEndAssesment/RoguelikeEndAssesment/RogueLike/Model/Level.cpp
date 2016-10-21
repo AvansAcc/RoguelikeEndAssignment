@@ -12,13 +12,11 @@ namespace RogueLike { namespace Model {
 		this->_maxDepth = maxdepth;
 		this->_locations.clear();
 
-		Room::Nothing* n;
 		for (int y = 0; y < _height; y++)
 		{
 			for (int x = 0; x < _width; x++)
 			{
-				n = new Room::Nothing('.', x, y);
-				_locations.push_back(n);
+				_locations.push_back(new Room::Nothing('.', x, y));
 			}
 		}
 		this->_startPoint = nullptr;
@@ -26,7 +24,6 @@ namespace RogueLike { namespace Model {
 	}
 	Level::~Level()
 	{
-		std::cout << "Destructor: Level" << std::endl;
 		if (!_locations.empty())
 		{
 			for (unsigned int i = 0; i < _locations.size(); i++)
@@ -36,7 +33,7 @@ namespace RogueLike { namespace Model {
 		_startPoint = nullptr;
 		_endPoint = nullptr;
 	}
-	char* Level::GetMap(const int w, const int h)
+	const char* const Level::GetMap(const int w, const int h)
 	{
 		if (_locations.empty() || w <= 0 || h <= 0)
 			return nullptr;
@@ -56,55 +53,11 @@ namespace RogueLike { namespace Model {
 		int randomDungeonLength = Random::GetRandom((int)(maxLength * 0.8), maxLength);
 		int startLoc[] = { Random::GetRandom(0, _width - 1), Random::GetRandom(0, _height - 1) };
 
-		//Room::IRoom* r = nullptr;
-
-		// 100% loop
-		/*for (int i = 0; i < randomDungeonLength; i++)
-		{
-			int x = _locations[(startLoc[1] * _width) + startLoc[0]]->GetX();
-			int y = _locations[(startLoc[1] * _width) + startLoc[0]]->GetY();
-
-			if (i == 0 && _level == 0) {
-				r = new Room::StartRoom('S', x, y);
-				_locations[(startLoc[1] * _width) + startLoc[0]] = r;
-			}
-			else if (i == 0) {
-				r = new Room::StairsRoom('^', x, y, false);
-				_locations[(startLoc[1] * _width) + startLoc[0]] = r;
-			}
-			else if (i == randomDungeonLength && _level == _maxDepth) {
-				r = new Room::BossRoom('B', x, y);
-			}
-			else if (i == randomDungeonLength) {
-				r = new Room::StairsRoom('v', x, y, true);
-				//((Room::StairsRoom*)r)->IsDirectionDown = true;
-			}
-			else {
-				r = new Room::Room('R', 0, 0);
-				//_locations[i - 1]->AddAdjacentRoom(r);
-			}
-		}
-
-		// 50% loop
-		for (unsigned int i = 0; i < _locations.size(); i++)
-		{
-			if ((Random<int>::GetRandom(0, 1)) == 0) {
-				//((Room::Room*)_locations[i])->
-
-			}
-		}
-
-		// 20% loop
-		for (int i = 0; i < this->_height; i++)
-		{
-			if ((Random<int>::GetRandom(0, 5)) == 0) {
-				// TODO: Create Level 20% loop
-			}
-		}*/
-
 		int x = _locations[(startLoc[1] * _width) + startLoc[0]]->GetX();
 		int y = _locations[(startLoc[1] * _width) + startLoc[0]]->GetY();
 		_startPoint = new Room::StartRoom('S', x, y);
+		if (_locations[(startLoc[1] * _width) + startLoc[0]])
+			delete _locations[(startLoc[1] * _width) + startLoc[0]];
 		_locations[(startLoc[1] * _width) + startLoc[0]] = _startPoint;
 		
 		this->createLevelPath(nullptr, _startPoint, randomDungeonLength);

@@ -27,6 +27,6 @@ namespace RogueLike { namespace Model {
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 
-		char* GetMap();
+		const char* const GetMap();
 	};
 } }
