@@ -21,6 +21,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		Enemy();
+		virtual ~Enemy();
 		const uint Attack(); // Enemy to player
 		void Damage(const uint damage); // player to enemy
 		std::string GetStatus(); // status of lifepoints

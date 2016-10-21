@@ -10,7 +10,6 @@ namespace RogueLike { namespace Controller {
 
 	ViewController::~ViewController()
 	{
-		std::cout << "Destructor: ViewController" << std::endl;
 		delete _inputView;
 		delete _outputView;
 	}
@@ -22,7 +21,7 @@ namespace RogueLike { namespace Controller {
 		_outputView->ShowWelcomScreen();
 	}
 
-	void ViewController::ShowMap(char* map, unsigned int width, unsigned int height)
+	void ViewController::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
 		this->_outputView->ShowMap(map, width, height);
 	}
@@ -66,8 +65,7 @@ namespace RogueLike { namespace Controller {
 		: _inputView { other._inputView }
 		, _outputView { other._outputView }
 	{
-		//_inputView = new View::InputView(*other._inputView);
-		//_outputView = new View::OutputView(*other._outputView);
+
 	}
 
 	// Copy assignment operator

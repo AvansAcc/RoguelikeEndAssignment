@@ -9,7 +9,6 @@ namespace RogueLike { namespace Model {
 
 	Game::~Game()
 	{
-		std::cout << "Destructor: Game" << std::endl;
 		if(_player)
 			delete _player;
 		if(_levelManager)
@@ -29,7 +28,7 @@ namespace RogueLike { namespace Model {
 		// TODO: Update Game
 	}
 
-	char* Game::GetMap()
+	const char* const Game::GetMap()
 	{
 		return this->_levelManager->GetMap();
 	}
@@ -39,8 +38,6 @@ namespace RogueLike { namespace Model {
 		: _levelManager { other._levelManager }
 		, _player { other._player }
 	{
-		//_levelManager = new LevelManager(*other._levelManager);
-		//_player = new Player(*other._player);
 	}
 	Game::Game(Game&& other)
 		: _levelManager{ other._levelManager }

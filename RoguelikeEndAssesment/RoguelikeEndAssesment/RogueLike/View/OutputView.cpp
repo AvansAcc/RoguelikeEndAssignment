@@ -11,13 +11,16 @@ namespace RogueLike { namespace View {
 	{
 		std::cout << "Welkom vreemdeling! Welkom bij onze geweldige game, Kerkers en Draken!" << std::endl;
 	}
-	void OutputView::ShowMap(char* map, unsigned int width, unsigned int height)
+	void OutputView::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
-		for (unsigned int i = 0; i < width * height; i++)
+		if (map != nullptr)
 		{
-			std::cout << ((i % width == 0) ? "\n" : " ") << map[i];
+			for (unsigned int i = 0; i < width * height; i++)
+			{
+				std::cout << ((i % width == 0) ? "\n" : " ") << map[i];
+			}
+			std::cout << std::endl;
 		}
-		std::cout << std::endl;
 	}
 
 	std::string OutputView::GetARoomDescription()

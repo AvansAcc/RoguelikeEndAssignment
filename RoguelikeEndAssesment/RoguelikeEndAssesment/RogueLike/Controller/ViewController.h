@@ -21,7 +21,7 @@ namespace RogueLike { namespace Controller {
 		ViewController(ViewController&& other);
 
 		void ShowWelcomeScreen();
-		void ShowMap(char* map, unsigned int width, unsigned int height);
+		void ShowMap(const char* const map, unsigned int width, unsigned int height);
 		char GetStartScreenInput();
 		uint AskInt(std::string message, unsigned int maxInt);
 		void Say(const std::string& message);
