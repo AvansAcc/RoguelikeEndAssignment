@@ -11,6 +11,10 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		return this->_icon;
 	}
+	const char Nothing::GetRealIcon() const
+	{
+		return this->_icon;
+	}
 
 	const int Nothing::GetX() const
 	{

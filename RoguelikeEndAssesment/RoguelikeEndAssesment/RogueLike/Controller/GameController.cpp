@@ -26,8 +26,10 @@ namespace RogueLike { namespace Controller {
 
 		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
 
-		this->_game->Start(width, height, max_levels);
-		this->_viewController->ShowMap(this->_game->GetMap(), this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+		//this->_game->Start(width, height, max_levels);
+		//char* map = this->_game->GetMap();
+		//this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+		//delete[] map;
 	}
 
 	void GameController::Update()

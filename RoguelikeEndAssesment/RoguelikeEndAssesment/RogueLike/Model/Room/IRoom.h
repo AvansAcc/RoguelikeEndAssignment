@@ -13,6 +13,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	public:
 		IRoom(char icon, int x, int y) : _icon{ icon }, _xpos { x }, _ypos{ y } {}
 		virtual const char GetIcon() const = 0;
+		virtual const char GetRealIcon() const = 0;
 		virtual const int GetX() const = 0;
 		virtual const int GetY() const = 0;
 	};
