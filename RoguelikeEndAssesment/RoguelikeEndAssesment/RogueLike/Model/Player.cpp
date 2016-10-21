@@ -15,7 +15,6 @@ namespace RogueLike { namespace Model {
 	}
 	Player::~Player()
 	{
-		std::cout << "Destructor: Player" << std::endl;
 		if (!_items.empty())
 		{
 			for (uint i = 0; i < _items.size(); i++)
@@ -26,7 +25,7 @@ namespace RogueLike { namespace Model {
 		
 	const uint Player::Attack()
 	{
-		return Random::GetRandom(0, 10 * _level);
+		return Random::GetRandom(0, 10 * (_level+1));
 	}
 	void Player::Damage(const uint damage)
 	{

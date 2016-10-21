@@ -13,7 +13,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	public:
 		IRoom(char icon, int x, int y) : _icon{ icon }, _xpos { x }, _ypos{ y } {}
-		virtual ~IRoom() { std::cout << "Destructor: IRoom" << std::endl; }
+		virtual ~IRoom() { }
 		virtual const char GetIcon() const = 0;
 		virtual const char GetRealIcon() const = 0;
 		virtual const int GetX() const = 0;

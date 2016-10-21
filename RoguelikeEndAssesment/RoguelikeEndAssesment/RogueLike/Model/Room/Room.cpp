@@ -14,7 +14,6 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	Room::~Room()
 	{
-		//std::cout << "Destructor: Room" << std::endl;
 		if (!_adjacentRooms.empty())
 			_adjacentRooms.clear();
 
@@ -29,7 +28,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	}
 	const char Room::GetIcon() const
 	{
-		if (this->_isDiscovered || Globals::DEBUG == true)
+		if (this->_isDiscovered || true)
 			return this->_icon;
 		else
 			return '.';
@@ -56,27 +55,12 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	void Room::AddItem(Item* item)
 	{
-		if(this->_item != nullptr)
+		if(this->_item)
 			delete this->_item;
 		
 		this->_item = item;
 	}
 	
-	//void Room::setRoom(int percentage, Room::IRoom* previousRoom) {
-	//	
-	//	// Check available rooms
-	//	if (x_pos <= width)
-	//	{
-
-	//	}
-
-	//	// Get random int from no of available rooms
-	//	Random<int>::GetRandom(0, 4);
-
-	//	//set curr room in right direction
-
-	//	// link curr room with last room and back
-	//}
 
 	void Room::AddAdjacentRoom(IRoom* room, int direction)
 	{

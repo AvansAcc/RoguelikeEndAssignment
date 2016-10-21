@@ -13,7 +13,6 @@ namespace RogueLike { namespace Model {
 
 	LevelManager::~LevelManager()
 	{
-		std::cout << "Destructor: LevelManager" << std::endl;
 		this->ClearLevels();
 		this->_currentLevel = nullptr;
 	}
@@ -30,9 +29,7 @@ namespace RogueLike { namespace Model {
 		if (!_levels.empty())
 		{
 			for (uint i = 0; i < _levels.size(); i++)
-			{
 				delete _levels[i]; // free memory
-			}
 			_levels.clear(); // empty list
 		}
 	}
@@ -50,7 +47,7 @@ namespace RogueLike { namespace Model {
 		}
 	}
 
-	char* LevelManager::GetMap()
+	const char* const LevelManager::GetMap()
 	{
 		if (_currentLevel != nullptr)
 			return this->_currentLevel->GetMap(this->_width, this->_height);

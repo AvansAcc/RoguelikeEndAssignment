@@ -23,7 +23,7 @@ namespace RogueLike { namespace Model {
 		void NextLevel();
 		void Start();
 
-		char* GetMap();
+		const char* const GetMap();
 		const unsigned int GetLevelWidth() const;
 		const unsigned int GetLevelHeight() const;
 	};

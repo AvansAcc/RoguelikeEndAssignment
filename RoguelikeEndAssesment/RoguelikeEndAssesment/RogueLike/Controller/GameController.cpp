@@ -11,7 +11,6 @@ namespace RogueLike { namespace Controller {
 
 	GameController::~GameController()
 	{
-		std::cout << "Destructor: GameController" << std::endl;
 		delete _viewController;
 		delete _game;
 	}
@@ -19,7 +18,6 @@ namespace RogueLike { namespace Controller {
 	void GameController::Start()
 	{
 		this->_viewController->ShowWelcomeScreen();
-		//this->_viewController->PressAnyKeyToContinue();
 
 		uint width = this->_viewController->AskInt("Hoeveel kamers in breedte wilt u de kerker hebben?", 25);
 		uint height = this->_viewController->AskInt("Hoeveel kamers in lengte wilt u de kerker hebben?", 25);
@@ -28,7 +26,7 @@ namespace RogueLike { namespace Controller {
 		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
 
 		this->_game->Start(width, height, max_levels);
-		char* map = this->_game->GetMap();
+		const char* const map = this->_game->GetMap();
 		this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 		delete[] map;
 	}
@@ -44,8 +42,6 @@ namespace RogueLike { namespace Controller {
 		: _viewController { other._viewController }
 		, _game { other._game }
 	{
-		//_viewController = new Controller::ViewController(*other._viewController);
-		//_game = new Model::Game(*other._game);
 	}
 
 	// Copy assignment operator

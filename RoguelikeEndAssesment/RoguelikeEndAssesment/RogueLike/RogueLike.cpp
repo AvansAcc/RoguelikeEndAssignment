@@ -9,7 +9,6 @@ namespace RogueLike {
 	}
 	RogueLike::~RogueLike()
 	{
-		std::cout << "Destructor: RogueLike" << std::endl;
 		delete _gameController;
 	}
 	
@@ -38,7 +37,7 @@ namespace RogueLike {
 	RogueLike::RogueLike(const RogueLike& other)
 		: _gameController { other._gameController }
 	{
-		//_gameController = new Controller::GameController(*other._gameController);
+
 	}
 	// Copy assignment operator
 	RogueLike& RogueLike::operator=(const RogueLike& other)
