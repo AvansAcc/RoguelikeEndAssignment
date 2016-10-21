@@ -1,2 +1,22 @@
-﻿  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
+﻿  stdafx.cpp
+  OutputView.cpp
+  InputView.cpp
+  Random.cpp
+  RogueLike.cpp
+  StartRoom.cpp
+  StairsRoom.cpp
+  Room.cpp
+  Nothing.cpp
+  BossRoom.cpp
+  Player.cpp
+  LevelManager.cpp
+  ViewController.cpp
+  GameController.cpp
+  Level.cpp
+  Item.cpp
+  Game.cpp
+  Enemy.cpp
+  main.cpp
+  Generating Code...
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
   RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)

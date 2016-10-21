@@ -4,7 +4,7 @@ namespace RogueLike { namespace Model {
 
 	Enemy::Enemy()
 	{
-
+		
 	}
 
 	const uint Enemy::Attack()

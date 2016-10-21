@@ -8,4 +8,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_isDiscovered = false;
 	}
 
+	BossRoom::~BossRoom()
+	{
+
+	}
+
 } } }

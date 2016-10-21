@@ -115,7 +115,7 @@ namespace RogueLike { namespace Model {
 		if (dungeonLength < 1) {
 			Room::IRoom* end = new Room::StairsRoom('E', currentRoom->GetX(), currentRoom->GetY(), true);
 			this->_endPoint = end;
-			if(currentRoom != nullptr)
+			if(currentRoom)
 				delete currentRoom;
 			_locations[end->GetY() * _width + end->GetX()] = end;
 			return;
@@ -226,8 +226,8 @@ namespace RogueLike { namespace Model {
 			newRoom = _locations[(y * _width) + x];
 		} else {
 			newRoom = new Room::Room('N', x, y);
-			if(_locations[y * _width + x] != nullptr)
-				delete _locations[y * _width + x]; // delete nothing.
+			if(_locations[y * _width + x])
+				delete _locations[y * _width + x]; // delete room.
 			_locations[y * _width + x] = newRoom;
 			dungeonLength--;
 		}
@@ -235,7 +235,6 @@ namespace RogueLike { namespace Model {
 		// Link current room with last room and back
 		((Room::Room*)currentRoom)->AddAdjacentRoom(newRoom, direction);
 		((Room::Room*)newRoom)->AddAdjacentRoom(currentRoom, (direction > 1) ? direction - 2 : direction + 2);
-		//std::cout << ", AdjacentRooms: " << ((Room::Room*)currentRoom)->GetAdjacentRooms().size() << std::endl;
 		createLevelPath(currentRoom, newRoom, dungeonLength);
 	}
 
