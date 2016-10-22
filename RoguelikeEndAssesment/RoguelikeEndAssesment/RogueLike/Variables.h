@@ -1,11 +1,14 @@
-#pragma once
+#ifndef _VARIABLES_H
+#define _VARIABLES_H
 
-#include <string>
+namespace RogueLike {
+	namespace Globals {
 
-namespace RogueLike { namespace Globals {
+		extern const bool DEBUG;
+		extern char const * const ROOM_OPTIONS[];
+		extern char const * const COMBAT_OPTIONS[];
 
-		const bool DEBUG = true;
-		//const std::string ROOM_OPTIONS[] = { "vechten", "vluchten", "oppakken", "uitrusten", "spullen zien", "kaart bekijken", "eigenschappen zien" };
-		//const std::string COMBAT_OPTIONS[] = { "aanvallen", "vluchten", "spullen gebruiken" };
+	}
+}
 
-} }
+#endif // !_VARIABLES_H
