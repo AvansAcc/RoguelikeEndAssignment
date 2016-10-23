@@ -25,12 +25,12 @@ namespace RogueLike { namespace Model {
 	public:
 
 	private:
-		void createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength);
-
+		void createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength, std::vector<Room::Room*> *tempList);
+		void createExtraPath(const int percentage, int roomIndex, std::vector<Room::Room*> *tempList);
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		virtual ~Level();
-		const char* const GetMap(const int w, const int h); // For your viewing purposes
+		const char* const GetMap(); // For your viewing purposes
 		void GenerateMap();
 		const int GetLevel() const { return this->_level; }
 
