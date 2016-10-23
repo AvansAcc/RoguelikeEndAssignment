@@ -13,12 +13,12 @@ namespace RogueLike { namespace View {
 	}
 	void OutputView::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
-		int dimension = (width * 3 - 3) * (height * 2 - 2);
+		int dimension = (width * 4 - 3) * (height * 2 - 1);
 		if (map != nullptr)
 		{
 			for (unsigned int i = 0; i < dimension; i++)
 			{
-				std::cout << ((i % (width * 3 - 3) == 0) ? "\n" : "") << map[i];
+				std::cout << ((i % (width * 4 - 3) == 0) ? "\n" : "") << map[i];
 			}
 			std::cout << std::endl;
 		}
