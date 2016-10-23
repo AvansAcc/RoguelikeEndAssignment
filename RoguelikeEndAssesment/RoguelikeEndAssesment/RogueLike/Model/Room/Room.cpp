@@ -28,7 +28,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	}
 	const char Room::GetIcon() const
 	{
-		if (this->_isDiscovered || true)
+		if (this->IsDiscovered())
 			return this->_icon;
 		else
 			return '.';
@@ -48,9 +48,12 @@ namespace RogueLike { namespace Model { namespace Room {
 		return this->_ypos;
 	}
 
-	const bool Room::IsDiscovered()
+	const bool Room::IsDiscovered() const
 	{
-		return this->_isDiscovered;
+		if (Globals::DEBUG == true)
+			return true;
+		else
+			return this->_isDiscovered;
 	}
 
 	void Room::AddItem(Item* item)

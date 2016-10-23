@@ -68,7 +68,10 @@ namespace RogueLike { namespace Model {
 					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[1] != nullptr) {
-							map[i] = '-';
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() && (x < _width && ((Room::Room*)this->_locations[y * _width + (x+1)])->IsDiscovered()))
+								map[i] = '-';
+							else
+								map[i] = ' ';
 						}
 						else {
 							map[i] = ' ';
@@ -91,7 +94,10 @@ namespace RogueLike { namespace Model {
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[2] != nullptr)
 						{
-							map[i] = '|';
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() && (y < _height && ((Room::Room*)this->_locations[(y+1) * _width + x])->IsDiscovered()))
+								map[i] = '|';
+							else
+								map[i] = ' ';
 						}
 						else 
 						{
@@ -139,7 +145,7 @@ namespace RogueLike { namespace Model {
 			std::cout << "Icon: " << var->GetIcon() << ", X: " << var->GetX() << " Y: " << var->GetY() << " ";
 			if (var->GetRealIcon() != '.')
 			{
-				for (int i = 0; i < ((Room::Room*)var)->GetAdjacentRooms().size(); i++)
+				for (unsigned int i = 0; i < ((Room::Room*)var)->GetAdjacentRooms().size(); i++)
 				{
 					if (((Room::Room*)var)->GetAdjacentRooms()[i] == nullptr) {
 						std::cout << "X" << " ";
