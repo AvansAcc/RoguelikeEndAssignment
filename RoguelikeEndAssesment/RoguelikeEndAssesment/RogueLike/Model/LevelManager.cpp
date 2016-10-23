@@ -50,7 +50,7 @@ namespace RogueLike { namespace Model {
 	const char* const LevelManager::GetMap()
 	{
 		if (_currentLevel != nullptr)
-			return this->_currentLevel->GetMap(this->_width, this->_height);
+			return this->_currentLevel->GetMap();
 		return nullptr;
 	}
 
