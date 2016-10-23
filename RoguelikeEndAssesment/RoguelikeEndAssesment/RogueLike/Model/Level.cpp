@@ -75,7 +75,6 @@ namespace RogueLike { namespace Model {
 			return;
 		}
 		
-		//std::cout << "Pos: " << std::setw(2) << currentRoom->GetX() << ", " << std::setw(2) << currentRoom->GetY();
 
 		// Check available rooms
 		bool availableDirections[] = {true, true, true, true};
