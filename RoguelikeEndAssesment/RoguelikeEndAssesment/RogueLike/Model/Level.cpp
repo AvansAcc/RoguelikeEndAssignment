@@ -38,35 +38,36 @@ namespace RogueLike { namespace Model {
 		if (_locations.empty())
 			return nullptr;
 
-		int dimension = (_width * 4 - 3) * (_height * 2 - 1);
-		//char* map = new char[dimension];
+		int w_dim = (_width * 4 - 3);
+		int h_dim = (_height * 2 - 1);
 
-		std::vector<char> map;
-
-		for (int i = 0; i < dimension; i++)
-		{
-			map.push_back(NULL);
-		}
+		int dimension = w_dim * h_dim;
+		char* map = new char[dimension];
 
 		bool isEven = false;
 		for (int i = 0; i < dimension; i++)
 		{
-			if (i % (_width * 4 - 3) == 0) {
+			if (i % w_dim == 0) {
 				isEven = !isEven;
 			}
 
+			int x = ((i % w_dim) / 4);
+			int y = (int)(i / w_dim) / 2;
+			
 			if (isEven) // If Even
 			{
-				if (i % 4 == 0) {
-					map[i] = this->_locations[i / 4]->GetIcon();
+				int index = (i - (i / w_dim));
+
+				if (index % 4 == 0) {
+					map[i] = this->_locations[y * _width + x]->GetIcon();
 				}
-				else if (i > 0 && (i - 1) % 4 == 0) {
+				else if (i > 0 && (index - 1) % 4 == 0) {
 					map[i] = ' ';
 				}
-				else if (i > 0 && (i - 2) % 4 == 0) {
-					if (this->_locations[(i - 2) / 4]->GetRealIcon() != '.')
+				else if (i > 0 && (index - 2) % 4 == 0) {
+					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
 					{
-						if (((Room::Room*)this->_locations[(i - 2) / 4])->GetAdjacentRooms()[1] != nullptr) {
+						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[1] != nullptr) {
 							map[i] = '-';
 						}
 						else {
@@ -77,17 +78,18 @@ namespace RogueLike { namespace Model {
 						map[i] = ' ';
 					}
 				}
-				else if (i > 0 && (i - 3) % 4 == 0) {
+				else if (i > 0 && (index - 3) % 4 == 0) {
 					map[i] = ' ';
 				}
 			}
 			else // If Uneven
 			{
-				if ((i - 1) % 4 == 0)
+				int index = (i - ((i / w_dim) * w_dim));
+				if (index % 4 == 0)
 				{
-					if (this->_locations[(i - _width) / 4]->GetRealIcon() != '.')
+					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
 					{
-						if (((Room::Room*)this->_locations[(i - _width) / 4])->GetAdjacentRooms()[2] != nullptr) 
+						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[2] != nullptr)
 						{
 							map[i] = '|';
 						}
@@ -108,7 +110,7 @@ namespace RogueLike { namespace Model {
 			}
 		}
 
-		return nullptr;
+		return map;
 	}
 
 	void Level::GenerateMap()
@@ -132,9 +134,9 @@ namespace RogueLike { namespace Model {
 		this->createExtraPath(2, 0, _tempList);
 		delete _tempList;
 		
-		/*for each (Room::IRoom* var in _locations)
+		for each (Room::IRoom* var in _locations)
 		{
-			std::cout << " X: " << var->GetX() << " Y: " << var->GetY() << " ";
+			std::cout << "Icon: " << var->GetIcon() << ", X: " << var->GetX() << " Y: " << var->GetY() << " ";
 			if (var->GetRealIcon() != '.')
 			{
 				for (int i = 0; i < ((Room::Room*)var)->GetAdjacentRooms().size(); i++)
@@ -148,7 +150,7 @@ namespace RogueLike { namespace Model {
 				}
 			}
 			std::cout << std::endl;
-		}*/
+		}
 	}
 
 	void Level::createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength, std::vector<Room::Room*> *tempList)
@@ -157,7 +159,6 @@ namespace RogueLike { namespace Model {
 			return;
 		}
 		
-		//std::cout << "Pos: " << std::setw(2) << currentRoom->GetX() << ", " << std::setw(2) << currentRoom->GetY();
 
 		// Check available rooms
 		bool availableDirections[] = {true, true, true, true};
