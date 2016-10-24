@@ -21,10 +21,10 @@ namespace RogueLike {
 
 	void RogueLike::Update()
 	{
-		/*while (this->_running)
+		while (this->_running)
 		{
-			this->_gameController->Update();
-		}*/
+			_running = this->_gameController->Update();
+		}
 		this->Quit();
 	}
 

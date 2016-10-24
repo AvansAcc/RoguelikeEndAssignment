@@ -7,7 +7,6 @@
 #include "../Utils/Random.h"
 
 namespace RogueLike { namespace Model {
-	
 	class Item;
 	class Player {
 	private:
@@ -23,12 +22,12 @@ namespace RogueLike { namespace Model {
 
 	private:
 	public:
-		Player();
+		Player(std::string name);
 		virtual ~Player();
 		const std::string GetName();
-		void SetName(const std::string name);
 		const char GetIcon();
 		const uint Attack();
 		void Damage(const uint damage);
+		const bool isDead();
 	};
 } }

@@ -2,12 +2,12 @@
 
 namespace RogueLike { namespace Model {
 
-	Player::Player()
+	Player::Player(std::string name)
 	{
 		_isDead = false;
 		_lifepoints = 100;
 		_defence = 0;
-		_name = "";
+		_name = name;
 		_level = 0;
 		_xp = 0;
 		_attack = 0;
@@ -45,9 +45,10 @@ namespace RogueLike { namespace Model {
 	{
 		return _name;
 	}
-	void Player::SetName(const std::string name)
+
+	const bool Player::isDead()
 	{
-		this->_name = name;
+		return _isDead;
 	}
 
 } }

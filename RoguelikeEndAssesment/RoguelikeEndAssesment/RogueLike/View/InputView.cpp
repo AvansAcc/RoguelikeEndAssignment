@@ -15,9 +15,10 @@ namespace RogueLike { namespace View {
 		return answer;
 	}
 
-	std::string InputView::AskWord()
+	std::string InputView::AskWord(std::string message)
 	{
 		std::string answer = "";
+		std::cout << message << " ";
 		std::getline(std::cin, answer);
 		return answer;
 	}

@@ -15,17 +15,27 @@ namespace RogueLike { namespace Model {
 			delete _levelManager;
 	}
 
-	void Game::Start(uint width, uint height, uint max_levels)
+	void Game::Start(uint width, uint height, uint max_levels, std::string name)
 	{
 		_levelManager = new LevelManager(width, height, max_levels);
-		_player = new Player();
+		_player = new Player(name);
 		_levelManager->Start();
 	}
 
-
-	void Game::Update()
+	std::vector<std::string> GetAvailableActions() 
 	{
-		// TODO: Update Game
+		std::vector<std::string> n;
+		return n;
+	}
+
+	const bool Game::Update()
+	{
+		if (_player->isDead() /*|| hasDefeatedBoss */) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	const char* const Game::GetMap()

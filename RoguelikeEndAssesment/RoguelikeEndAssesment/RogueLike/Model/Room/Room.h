@@ -12,10 +12,12 @@ namespace RogueLike { namespace Model { namespace Room {
 	
 	class Room : public IRoom {
 	private:
+		
+	protected:
+		std::string _description;
 		std::vector<IRoom*> _adjacentRooms;
 		std::vector<Enemy*> _enemies;
 		Item* _item;
-	protected:
 		bool _isDiscovered;
 	public:
 		Room(char icon, int x, int y);
@@ -27,7 +29,8 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const bool IsDiscovered() const;
 		virtual void AddItem(Item* item);
 		virtual void AddAdjacentRoom(IRoom* room, int direction);
-		std::vector<IRoom*> GetAdjacentRooms();
+		virtual const std::string GetRoomDescription();
+		virtual const std::vector<IRoom*> GetAdjacentRooms();
 	};
 
 } } }

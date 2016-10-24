@@ -9,8 +9,17 @@ namespace RogueLike { namespace View {
 
 	void OutputView::ShowWelcomScreen()
 	{
-		std::cout << "Welkom vreemdeling! Welkom bij onze geweldige game, Kerkers en Draken!" << std::endl;
+		std::cout << "Welkom bij Kerkers en draken vreemdeling" << std::endl;
 	}
+
+	void OutputView::ShowMenu(std::vector<std::string> menuItems)
+	{
+		for (int i = 0; i < menuItems.size(); i++)
+		{
+			std::cout << (i + 1) << ":  " << menuItems[i] << std::endl;
+		}
+	}
+
 	void OutputView::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
 		int dimension = (width * 4 - 3) * (height * 2 - 1);
@@ -29,21 +38,22 @@ namespace RogueLike { namespace View {
 		return "";
 	}
 
-	void OutputView::ShowMenu()
-	{
-		std::cout << "(Show Menu)" << std::endl;
-	}
 	void OutputView::ShowGame()
 	{
 		std::cout << "(Show Game)" << std::endl;
 	}
-	void OutputView::ShowOptions()
+	void OutputView::ShowOptions(std::vector<std::string> options)
 	{
-		std::cout << "(Show Options)" << std::endl;
+		std::cout << "Kies wat je wilt doen door het bijbehorende getal mee te geven:" << std::endl;
+		for (int i = 0; i < options.size(); i++)
+		{
+			std::cout << (i + 1) << ":  " << options[i] << std::endl;
+		}
 	}
 
 	void OutputView::ShowQuit()
 	{
+		std::cout << std::endl;
 		std::cout << "Jammer dat je weggaat!" << std::endl;
 		std::cout << "Tot de volgende keer!" << std::endl;
 	}

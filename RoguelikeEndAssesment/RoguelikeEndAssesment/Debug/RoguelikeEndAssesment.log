@@ -1,23 +1,14 @@
-﻿  stdafx.cpp
-  OutputView.cpp
-  InputView.cpp
-  Variables.cpp
-  Random.cpp
-  RogueLike.cpp
-  StartRoom.cpp
-  StairsRoom.cpp
-  Room.cpp
-  Nothing.cpp
-  BossRoom.cpp
-  Player.cpp
-  LevelManager.cpp
-  ViewController.cpp
-  GameController.cpp
-  Level.cpp
-  Item.cpp
-  Game.cpp
-  Enemy.cpp
-  main.cpp
+﻿  GameController.cpp
   Generating Code...
-  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
-  RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)
+  Compiling...
+  StartRoom.cpp
+  BossRoom.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
+  RogueLike.cpp
+  LevelManager.cpp
+  Level.cpp
+  Game.cpp
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Martin\Documents\GitHub\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
+  RoguelikeEndAssesment.vcxproj -> C:\Users\Martin\Documents\GitHub\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)

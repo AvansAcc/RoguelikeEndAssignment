@@ -63,6 +63,32 @@ namespace RogueLike { namespace Model { namespace Room {
 		
 		this->_item = item;
 	}
+
+	const std::string Room::GetRoomDescription()
+	{
+		std::string returnString;
+		if (!_description.empty()) {
+			returnString = _description;
+		}
+		else {
+			std::string size, cleaness, furniture;
+			int choice;
+			std::vector<std::string> sizes{ "kleine", "gemiddelte", "grote" };
+			std::vector<std::string> cleanesses{ "opgeruimde", "bebloede", "zwartgeblankende" };
+			std::vector<std::string> furnitures{ " met in het midden van de ruimte staat een tafel met 4 stoelen.", " met een bed in de hoek van de ruimte.", ", de ruimte is compleet leeg." };
+
+			choice = Random::GetRandom(0, 3);
+			size = sizes[choice];
+			choice = Random::GetRandom(0, 3);
+			cleaness = cleanesses[choice];
+			choice = Random::GetRandom(0, 3);
+			furniture = furnitures[choice];
+
+			returnString = "Je betreed de kamer. Het is een " + size + " " + cleaness + " ruimte" + furniture;
+			_description = returnString;
+		}
+		return returnString;
+	}
 	
 
 	void Room::AddAdjacentRoom(IRoom* room, int direction)
@@ -73,7 +99,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		_adjacentRooms.at(direction) = room;
 	}
 
-	std::vector<IRoom*> Room::GetAdjacentRooms()
+	const std::vector<IRoom*> Room::GetAdjacentRooms()
 	{
 		return _adjacentRooms;
 	}
