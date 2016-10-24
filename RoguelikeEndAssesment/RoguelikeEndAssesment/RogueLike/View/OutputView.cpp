@@ -16,7 +16,7 @@ namespace RogueLike { namespace View {
 		int dimension = (width * 4 - 3) * (height * 2 - 1);
 		if (map != nullptr)
 		{
-			for (unsigned int i = 0; i < dimension; i++)
+			for (int i = 0; i < dimension; i++)
 			{
 				std::cout << ((i % (width * 4 - 3) == 0) ? "\n" : "") << map[i];
 			}

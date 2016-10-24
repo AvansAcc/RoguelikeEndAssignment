@@ -1,4 +1,23 @@
-﻿  Level.cpp
-c:\users\rick4\documents\visual studio 2015\projects\roguelikeendassignment\roguelikeendassesment\roguelikeendassesment\roguelike\model\level.cpp(149): warning C4018: '<': signed/unsigned mismatch
+﻿  stdafx.cpp
+  OutputView.cpp
+  InputView.cpp
+  Variables.cpp
+  Random.cpp
+  RogueLike.cpp
+  StartRoom.cpp
+  StairsRoom.cpp
+  Room.cpp
+  Nothing.cpp
+  BossRoom.cpp
+  Player.cpp
+  LevelManager.cpp
+  ViewController.cpp
+  GameController.cpp
+  Level.cpp
+  Item.cpp
+  Game.cpp
+  Enemy.cpp
+  main.cpp
+  Generating Code...
   RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.exe
   RoguelikeEndAssesment.vcxproj -> C:\Users\Rick4\Documents\Visual Studio 2015\Projects\RoguelikeEndAssignment\RoguelikeEndAssesment\Debug\RoguelikeEndAssesment.pdb (Full PDB)
