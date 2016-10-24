@@ -2,7 +2,7 @@
 
 namespace RogueLike { namespace Model {
 
-	Player::Player(std::string name)
+	Player::Player(std::string name, int x, int y)
 	{
 		_isDead = false;
 		_lifepoints = 100;
@@ -12,6 +12,8 @@ namespace RogueLike { namespace Model {
 		_xp = 0;
 		_attack = 0;
 		_items.clear();
+		_xpos = x;
+		_ypos = y;
 	}
 	Player::~Player()
 	{
@@ -22,19 +24,21 @@ namespace RogueLike { namespace Model {
 			_items.clear();
 		}
 	}
-		
-	const uint Player::Attack()
+	
+	int Player::GetX() const
 	{
-		return Random::GetRandom(0, 10 * (_level+1));
+		return _xpos;
 	}
-	void Player::Damage(const uint damage)
+
+	int Player::GetY() const 
 	{
-		if ((_lifepoints - damage) >= 0)
-			_lifepoints -= damage;
-		else {
-			_lifepoints = 0;
-			_isDead = true;
-		}
+		return _ypos;
+	}
+
+	void Player::SetNewPlayerLocation(int x, int y) 
+	{
+		_xpos = x;
+		_ypos = y;
 	}
 
 	const char Player::GetIcon()
@@ -49,6 +53,20 @@ namespace RogueLike { namespace Model {
 	const bool Player::isDead()
 	{
 		return _isDead;
+	}
+
+	const uint Player::Attack()
+	{
+		return Random::GetRandom(0, 10 * (_level+1));
+	}
+	void Player::Damage(const uint damage)
+	{
+		if ((_lifepoints - damage) >= 0)
+			_lifepoints -= damage;
+		else {
+			_lifepoints = 0;
+			_isDead = true;
+		}
 	}
 
 } }

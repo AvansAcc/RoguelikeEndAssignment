@@ -77,8 +77,9 @@ namespace RogueLike { namespace Controller {
 
 	void GameController::DoAction()
 	{
-		this->_game->GetAvailableActions();
-		this->_viewController
+		std::vector<std::string> options = this->_game->GetAvailableActions();
+		int choice = this->_viewController->ShowOptions(options);
+
 
 	}
 

@@ -42,6 +42,7 @@ namespace RogueLike { namespace View {
 	{
 		std::cout << "(Show Game)" << std::endl;
 	}
+
 	void OutputView::ShowOptions(std::vector<std::string> options)
 	{
 		std::cout << "Kies wat je wilt doen door het bijbehorende getal mee te geven:" << std::endl;

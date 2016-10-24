@@ -26,11 +26,13 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const char GetRealIcon() const override;
 		virtual const int GetX() const override;
 		virtual const int GetY() const override;
+		virtual const std::vector<IRoom*> GetAdjacentRooms();
+		virtual const std::vector<Enemy*> GetEnemies();
 		virtual const bool IsDiscovered() const;
+
 		virtual void AddItem(Item* item);
 		virtual void AddAdjacentRoom(IRoom* room, int direction);
 		virtual const std::string GetRoomDescription();
-		virtual const std::vector<IRoom*> GetAdjacentRooms();
 	};
 
 } } }

@@ -13,6 +13,7 @@ namespace RogueLike { namespace Model {
 	public:
 
 	private:
+		Room::Room* GetCurrentPlayerRoom();
 	public:
 		Game();
 		virtual ~Game();

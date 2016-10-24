@@ -48,6 +48,16 @@ namespace RogueLike { namespace Model { namespace Room {
 		return this->_ypos;
 	}
 
+	const std::vector<IRoom*> Room::GetAdjacentRooms()
+	{
+		return _adjacentRooms;
+	}
+
+	const std::vector<Enemy*> Room::GetEnemies()
+	{
+		return _enemies;
+	}
+
 	const bool Room::IsDiscovered() const
 	{
 		if (Globals::DEBUG == true)
@@ -97,11 +107,6 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
-	}
-
-	const std::vector<IRoom*> Room::GetAdjacentRooms()
-	{
-		return _adjacentRooms;
 	}
 
 } } }

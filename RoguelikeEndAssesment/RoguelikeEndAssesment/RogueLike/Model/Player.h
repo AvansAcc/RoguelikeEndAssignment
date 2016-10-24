@@ -18,16 +18,20 @@ namespace RogueLike { namespace Model {
 		uint _attack;
 		std::vector<Item*> _items;
 		bool _isDead;
+		int _xpos, _ypos;
 	public:
 
 	private:
 	public:
-		Player(std::string name);
+		Player(std::string name, int x, int y);
 		virtual ~Player();
+		int GetX() const;
+		int GetY() const;
+		void SetNewPlayerLocation(int x, int y);
 		const std::string GetName();
 		const char GetIcon();
+		const bool isDead();
 		const uint Attack();
 		void Damage(const uint damage);
-		const bool isDead();
 	};
 } }
