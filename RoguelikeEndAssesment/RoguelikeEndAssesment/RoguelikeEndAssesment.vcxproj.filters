@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="RogueLike\Model\Level.cpp" />
+    <ClCompile Include="RogueLike\Controller\GameController.cpp" />
+    <ClCompile Include="RogueLike\Controller\ViewController.cpp" />
+    <ClCompile Include="RogueLike\RogueLike.cpp" />
+    <ClCompile Include="RogueLike\View\InputView.cpp" />
+    <ClCompile Include="RogueLike\View\OutputView.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="RogueLike\Model\Game.cpp" />
+    <ClCompile Include="RogueLike\Model\Player.cpp" />
+    <ClCompile Include="RogueLike\Model\LevelManager.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\Room.cpp" />
+    <ClCompile Include="RogueLike\Model\Item.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\Nothing.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\StairsRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Room\BossRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Enemy.cpp" />
+    <ClCompile Include="RogueLike\Utils\Random.cpp" />
+    <ClCompile Include="RogueLike\Variables.cpp" />
+    <ClCompile Include="RogueLike\Utils\File.cpp" />
+    <ClCompile Include="RogueLike\Utils\ErrorHandling\Exception.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RogueLike\Common.h" />
+    <ClInclude Include="RogueLike\Controller\GameController.h" />
+    <ClInclude Include="RogueLike\Controller\ViewController.h" />
+    <ClInclude Include="RogueLike\Model\Room\BossRoom.h" />
+    <ClInclude Include="RogueLike\Model\Enemy.h" />
+    <ClInclude Include="RogueLike\Model\Enum\EnemyType.h" />
+    <ClInclude Include="RogueLike\Model\Game.h" />
+    <ClInclude Include="RogueLike\Model\Room\IRoom.h" />
+    <ClInclude Include="RogueLike\Model\Item.h" />
+    <ClInclude Include="RogueLike\Model\Level.h" />
+    <ClInclude Include="RogueLike\Model\LevelManager.h" />
+    <ClInclude Include="RogueLike\Model\Room\Nothing.h" />
+    <ClInclude Include="RogueLike\Model\Player.h" />
+    <ClInclude Include="RogueLike\Model\Room\Room.h" />
+    <ClInclude Include="RogueLike\Model\Room\StairsRoom.h" />
+    <ClInclude Include="RogueLike\Model\Room\StartRoom.h" />
+    <ClInclude Include="RogueLike\RogueLike.h" />
+    <ClInclude Include="RogueLike\Utils\Random.h" />
+    <ClInclude Include="RogueLike\Variables.h" />
+    <ClInclude Include="RogueLike\View\InputView.h" />
+    <ClInclude Include="RogueLike\View\OutputView.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="RogueLike\Utils\File.h" />
+    <ClInclude Include="RogueLike\Utils\ErrorHandling\Exception.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Map.txt" />
+  </ItemGroup>
+</Project>
