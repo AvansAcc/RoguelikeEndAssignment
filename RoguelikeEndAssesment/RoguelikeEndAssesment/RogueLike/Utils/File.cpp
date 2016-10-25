@@ -31,8 +31,10 @@ namespace RogueLike { namespace Utils {
 	// Read as Binary file.
 	std::string File::ReadBinaryFile()
 	{
-		if (this->_fullpath.empty())
+		if (this->_fullpath.empty()) {
+			throw ErrorHandling::FileNotFoundException();
 			return "";
+		}
 
 		std::ifstream file(this->_fullpath, std::ios::in | std::ios::binary | std::ios::ate);
 		char* block = nullptr;
@@ -59,16 +61,20 @@ namespace RogueLike { namespace Utils {
 		}
 		else
 		{
-			std::cout << "Unable to open file: " << this->_fullpath << std::endl;
-			//throw "Unable to open the file."; // TODO
+			//std::cout << "Unable to open file: " << this->_fullpath << std::endl;
+			std::string str = "Unable to open file: ";
+			str.append(_fullpath);
+			throw ErrorHandling::FileNotFoundException(str);
 			return "";
 		}
 	}
 
 	std::string File::Read()
 	{
-		if (this->_fullpath.empty())
+		if (this->_fullpath.empty()) {
+			throw ErrorHandling::FileNotFoundException();
 			return "";
+		}
 
 		std::ifstream file(this->_fullpath, std::ios::in | std::ios::binary | std::ios::ate);
 		std::streampos size;
@@ -95,16 +101,20 @@ namespace RogueLike { namespace Utils {
 		}
 		else
 		{
-			std::cout << "Unable to open file: " << this->_fullpath << std::endl;
-			//throw "Unable to open the file."; // TODO
+			//std::cout << "Unable to open file: " << this->_fullpath << std::endl;
+			std::string str = "Unable to open file: ";
+			str.append(_fullpath);
+			throw ErrorHandling::FileNotFoundException(str);
 			return "";
 		}
 	}
 
 	bool File::Write(const std::string data, bool overwrite)
 	{
-		if (this->_fullpath.empty())
+		if (this->_fullpath.empty()) {
+			throw ErrorHandling::FileNotFoundException();
 			return false;
+		}
 
 		std::ofstream file(this->_fullpath, ((overwrite) ? (std::ofstream::out | std::ofstream::trunc) : (std::ios::out | std::ios::app | std::ios::binary)));
 		
@@ -119,8 +129,10 @@ namespace RogueLike { namespace Utils {
 		}
 		else
 		{
-			std::cout << "Unable to open file: " << this->_fullpath << std::endl;
-			//throw "Unable to open the file."; // TODO
+			//std::cout << "Unable to open file: " << this->_fullpath << std::endl;
+			std::string str = "Unable to open file: ";
+			str.append(_fullpath);
+			throw ErrorHandling::FileNotFoundException(str);
 			return false;
 		}
 	}

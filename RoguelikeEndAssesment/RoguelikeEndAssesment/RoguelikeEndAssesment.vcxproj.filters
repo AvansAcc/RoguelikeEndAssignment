@@ -23,6 +23,7 @@
     <ClCompile Include="RogueLike\Variables.cpp" />
     <ClCompile Include="RogueLike\Utils\File.cpp" />
     <ClCompile Include="RogueLike\Utils\ErrorHandling\Exception.cpp" />
+    <ClCompile Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RogueLike\Common.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="RogueLike\Utils\File.h" />
     <ClInclude Include="RogueLike\Utils\ErrorHandling\Exception.h" />
+    <ClInclude Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Map.txt" />

@@ -3,8 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
+#include <string.h>
 #include <vector>
+#include "ErrorHandling/FileNotFoundException.h"
 
 namespace RogueLike { namespace Utils {
 

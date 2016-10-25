@@ -78,4 +78,25 @@ namespace RogueLike { namespace Model { namespace Room {
 		return _adjacentRooms;
 	}
 
+
+
+	Room::Room(const Room& other) 
+		: IRoom('.', 0, 0)
+	{
+
+	}
+	Room::Room(Room&& other) 
+		: IRoom('.', 0, 0)
+	{
+	
+	}
+	Room& Room::operator=(const Room& other)
+	{
+
+	}
+	Room& Room::operator=(Room&& other)
+	{
+
+	}
+
 } } }
