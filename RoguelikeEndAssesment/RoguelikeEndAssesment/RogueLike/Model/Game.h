@@ -2,6 +2,7 @@
 
 #include "LevelManager.h"
 #include "Player.h"
+#include "../Variables.h"
 
 namespace RogueLike { namespace Model {
 	class Game {
@@ -10,6 +11,7 @@ namespace RogueLike { namespace Model {
 		Player* _player;
 		LevelManager* _levelManager;
 		bool _isGameOver;
+		bool _isInCombat;
 	public:
 
 	private:
@@ -26,6 +28,8 @@ namespace RogueLike { namespace Model {
 		const bool Update();
 
 		std::vector<std::string> GetAvailableActions();
+		const std::vector<std::string> GetGameInfo();
+		const bool MovePlayer(int dir);
 
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }

@@ -15,7 +15,9 @@ namespace RogueLike { namespace Model {
 	public:
 		Item(std::string name, uint amount, uint max_amount, std::string description);
 		//bool Use(Player& player);
-		std::string Look();
-		std::string GetDescription();
+		const std::string Look();
+		const std::string GetName() { return this->_name; };
+		const std::string GetDescription() { return this->_description; };
+		const uint GetMaxAmount() { return this->_maxAmount; };
 	};
 } }

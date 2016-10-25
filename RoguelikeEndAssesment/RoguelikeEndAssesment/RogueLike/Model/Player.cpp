@@ -37,6 +37,9 @@ namespace RogueLike { namespace Model {
 
 	void Player::SetNewPlayerLocation(int x, int y) 
 	{
+		if (x > 1 || y > 1) {
+			return;
+		}
 		_xpos = x;
 		_ypos = y;
 	}

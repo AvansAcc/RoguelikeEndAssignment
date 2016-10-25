@@ -51,13 +51,22 @@ namespace RogueLike { namespace Controller {
 
 	const int ViewController::ShowOptions(std::vector<std::string> options)
 	{
-		this->ShowOptions(options);
+		this->_outputView->ShowOptions(options);
 		return this->AskInt("\n", options.size());
 	}
 
 	void ViewController::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
+		this->ClearScreen();
 		this->_outputView->ShowMap(map, width, height);
+		this->PressAnyKeyToContinue();
+	}
+
+	void ViewController::ShowGame(std::vector<std::string> gameInfo)
+	{
+		this->ClearScreen();
+
+		this->_outputView->ShowGame(gameInfo);
 	}
 
 	char ViewController::GetStartScreenInput()
@@ -69,7 +78,7 @@ namespace RogueLike { namespace Controller {
 
 	void ViewController::PressAnyKeyToContinue()
 	{
-		this->Say("\nDruk op een willekeurige toets en vervolgens enter om door te gaan...");
+		this->Say("\nDruk op een willekeurige toets en vervolgens op enter om door te gaan...");
 		std::cin.get();
 		this->_inputView->AskLetter();
 	}

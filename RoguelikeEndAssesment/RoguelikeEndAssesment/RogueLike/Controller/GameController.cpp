@@ -65,24 +65,102 @@ namespace RogueLike { namespace Controller {
 
 	const bool GameController::Update()
 	{
-		bool returnValue = _game->Update();
-		if (!returnValue) {
+		bool returnValue = !_game->Update();
+		if (returnValue) {
 			this->DoAction();
 		}
 		else {
 			this->_viewController->ShowCloseScreen();
 		}
-		return this->_game->Update();
+		return returnValue;
 	}
 
 	void GameController::DoAction()
 	{
+		std::vector<std::string> gameInfo = this->_game->GetGameInfo();
+		this->_viewController->ShowGame(gameInfo);
+
 		std::vector<std::string> options = this->_game->GetAvailableActions();
 		int choice = this->_viewController->ShowOptions(options);
 
-
+		switch (choice)
+		{
+			case 1:
+			{
+				std::cout << "1";
+				break;
+			}
+			case 2:
+			{
+				std::cout << "2";
+				break;
+			}
+			case 3:
+			{
+				std::cout << "3";
+				break;
+			}
+			case 4:
+			{
+				std::cout << "4";
+				break;
+			}
+			case 5:
+			{
+				std::cout << "5";
+				break;
+			}
+			case 6:
+			{
+				const char* const map = this->_game->GetMap();
+				this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+				delete[] map;
+				break;
+			}
+			case 7:
+			{
+				std::cout << "7";
+				break;
+			}
+			case 8:
+			{			
+				this->HandleDirChoice();
+				break;
+			}
+			default:
+				break;
+		}
 	}
 
+	void GameController::HandleDirChoice()
+	{	
+		bool isvalid = false;
+		bool wrongAnswer = false;
+		while (!isvalid)
+		{
+			if (!wrongAnswer) {
+				this->_viewController->ClearScreen();
+				this->_viewController->Say("Dat is helaas geen richting waar je heen kunt");
+			}
+			std::string dir = this->_viewController->AskWord("\nWelke richting wil je op? (noord, oost, zuid, west) (typ \"terug\" als je terug wilt)");
+			if (dir == "noord") {
+				isvalid = this->_game->MovePlayer(0);
+			}
+			else if (dir == "oost") {
+				isvalid = this->_game->MovePlayer(1);
+			}
+			else if (dir == "zuid") {
+				isvalid = this->_game->MovePlayer(2);
+			}
+			else if (dir == "west") {
+				isvalid = this->_game->MovePlayer(3);
+			}
+			else if (dir == "back") {
+				isvalid = true;
+			}
+			wrongAnswer = isvalid;
+		}
+	}
 
 	// Copy constructor
 	GameController::GameController(const GameController& other)

@@ -14,6 +14,7 @@ namespace RogueLike { namespace Controller {
 	private:
 		void StartNewGame();
 		void LoadGame();
+		void HandleDirChoice();
 	public:
 		GameController();
 		GameController(const GameController& other);
