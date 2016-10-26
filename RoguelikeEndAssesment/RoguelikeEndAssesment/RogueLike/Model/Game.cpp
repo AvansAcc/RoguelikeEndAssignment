@@ -28,7 +28,7 @@ namespace RogueLike { namespace Model {
 	{
 		_levelManager = new LevelManager(width, height, max_levels);
 		_levelManager->Start();
-		_player = new Player(name, _levelManager->GetLevel()->GetStartPoint()->GetX(), _levelManager->GetLevel()->GetStartPoint()->GetY());
+		_player = new Player(name, _levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), _levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
 		this->GetCurrentPlayerRoom()->Discover();
 		this->LoadEnemiesFile();
 	}
@@ -79,7 +79,8 @@ namespace RogueLike { namespace Model {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
 			} else {
 				std::string name = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
-				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
+				std::string sentence = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? "Er kijken" : "Er kijkt";
+				beschrijving.append(sentence + " " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
 			}
 		}
 		else {
@@ -105,6 +106,7 @@ namespace RogueLike { namespace Model {
 		if (r->GetAdjacentRooms()[dir] == nullptr) {
 			return false;
 		}
+		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
 
 		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
 		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
@@ -117,7 +119,10 @@ namespace RogueLike { namespace Model {
 		}
 
 		// Chance to spawn enemies in room.
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
+		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
+			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
+		else
+			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
 
 		return true;
 	}
@@ -139,12 +144,12 @@ namespace RogueLike { namespace Model {
 			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom());
 			if (sr->IsDirectionDown()) {
 				this->_levelManager->NextLevel(false);
-				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetStartPoint()->GetX(), this->_levelManager->GetLevel()->GetStartPoint()->GetY());
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
 				returnString = "\nJe neemt de trap verder de donkere diepte in, met elke stap die je zet voelt het alsof de lucht je verder verstikt.";
 			}
 			else {
 				this->_levelManager->NextLevel(true);
-				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetEndPoint()->GetX(), this->_levelManager->GetLevel()->GetEndPoint()->GetY());
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetY());
 				returnString = "\nJe neemt de trap omhoog waar de lucht minder zwaar op je drukt.";
 			}
 		}
@@ -169,7 +174,7 @@ namespace RogueLike { namespace Model {
 
 	Room::Room* Game::GetCurrentPlayerRoom()
 	{
-		return ((Room::Room*)_levelManager->GetLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
+		return ((Room::Room*)_levelManager->GetCurrentLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
 	}
 
 	const bool Game::Update()
