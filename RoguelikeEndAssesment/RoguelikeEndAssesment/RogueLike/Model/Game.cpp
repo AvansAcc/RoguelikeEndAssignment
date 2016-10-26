@@ -100,7 +100,7 @@ namespace RogueLike { namespace Model {
 
 	const bool Game::Update()
 	{
-		if (_player->isDead() /*|| hasDefeatedBoss */) {
+		if (_player != nullptr && _player->isDead() /*|| hasDefeatedBoss */) {
 			_isGameOver = true;
 		}
 		return _isGameOver;
@@ -108,7 +108,7 @@ namespace RogueLike { namespace Model {
 
 	const char* const Game::GetMap()
 	{
-		return this->_levelManager->GetMap();
+		return this->_levelManager->GetMap(this->_player->GetX(), this->_player->GetY());
 	}
 
 
