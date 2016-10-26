@@ -57,6 +57,9 @@ namespace RogueLike { namespace Model {
 			if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) == nullptr) {
 				options[8] = "";
 			}
+			if (Globals::DEBUG) {
+				options[7] = "Richting kiezen";
+			}
 		}		
 		return options;
 	}
@@ -74,6 +77,7 @@ namespace RogueLike { namespace Model {
 		
 		beschrijving = "Vijanden:\n";
 		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
+			this->_hasThreat = true;
 			std::string noOfEnemies = std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies());
 			if (this->_isInCombat) {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
@@ -84,6 +88,7 @@ namespace RogueLike { namespace Model {
 			}
 		}
 		else {
+			this->_hasThreat = false;
 			beschrijving.append("Er zijn geen vijanden in deze kamer");
 		}
 		returnValue.push_back(beschrijving);
@@ -113,10 +118,6 @@ namespace RogueLike { namespace Model {
 
 		this->_player->SetNewPlayerLocation(x, y);
 		this->GetCurrentPlayerRoom()->Discover();
-		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0)
-		{
-			this->_hasThreat = true;
-		}
 
 		// Chance to spawn enemies in room.
 		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
@@ -140,7 +141,7 @@ namespace RogueLike { namespace Model {
 	const std::string Game::UseStairs()
 	{
 		std::string returnString;
-		if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) != NULL) {
+		if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) != nullptr) {
 			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom());
 			if (sr->IsDirectionDown()) {
 				this->_levelManager->NextLevel(false);
@@ -163,10 +164,10 @@ namespace RogueLike { namespace Model {
 
 	const std::string Game::RestPlayer()
 	{
-		this->_player->Heal(50);
-		std::string returnString = "\nJe bent uitgerust en hebt 50 levenpunten gekregen.";
-		// TODO spawn random enemies
-		if ( true/*enemiesHaveSpawned*/) {
+		this->_player->Heal(30);
+		std::string returnString = "\nJe bent uitgerust en hebt 30 levenpunten gekregen.";
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
+		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
 			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
 		}
 		return returnString;
