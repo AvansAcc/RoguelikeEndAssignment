@@ -44,8 +44,8 @@ namespace RogueLike { namespace Controller {
 	{
 		_game = new Model::Game();
 		this->_viewController->ClearScreen();
-		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (max 25)", 25);
-		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (max 25)", 25);
+		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 2, max 25)", 2, 25);
+		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (min 2, max 25)", 2, 25);
 		uint max_levels = this->_viewController->AskInt("Hoe diep zal de kerken zijn? (max 10)", 10);
 		std::string name = this->_viewController->AskWord("Ten slotte, hoe heet onze held?");
 		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
@@ -142,11 +142,7 @@ namespace RogueLike { namespace Controller {
 			case 9: // Trap gebruiken
 			{
 				if (!_game->IsInCombat()) {
-					std::string s = this->_game->UseStairs();
-					this->_viewController->Say(s);
-					if (!s.empty()) {
-						this->_viewController->PressAnyKeyToContinue();
-					}
+					this->UseStairs();
 				}
 				break;
 			}
@@ -197,6 +193,15 @@ namespace RogueLike { namespace Controller {
 		this->_viewController->PressAnyKeyToContinue();
 		// TODO interface voor items gebruiken bouwen
 
+	}
+
+	void GameController::UseStairs()
+	{
+		std::string s = this->_game->UseStairs();
+		this->_viewController->Say(s);
+		if (!s.empty()) {
+			this->_viewController->PressAnyKeyToContinue();
+		}
 	}
 
 	// Copy constructor

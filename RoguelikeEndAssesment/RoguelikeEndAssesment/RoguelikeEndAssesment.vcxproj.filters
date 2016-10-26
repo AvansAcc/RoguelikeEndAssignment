@@ -55,5 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Map.txt" />
+    <Text Include="Assets\monsters.txt" />
   </ItemGroup>
 </Project>
