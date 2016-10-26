@@ -35,7 +35,7 @@ namespace RogueLike { namespace Model {
 		Level& operator=(const Level& other);
 		Level& operator=(Level&& other);
 
-		const char* const GetMap(); // For your viewing purposes
+		const char* const GetMap(const int player_x, const int player_y); // For your viewing purposes
 		void GenerateMap();
 
 		const std::vector<Room::IRoom*> GetLocations() const { return this->_locations; }

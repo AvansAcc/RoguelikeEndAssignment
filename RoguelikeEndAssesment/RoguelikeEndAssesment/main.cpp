@@ -4,6 +4,7 @@
 
 #include "RogueLike/RogueLike.h"
 
+
 void StartGame()
 {
 	RogueLike::RogueLike r;
@@ -17,7 +18,7 @@ int main()
 
 	StartGame();
 
-	system("PAUSE");
+	//system("PAUSE");
 
 	_CrtDumpMemoryLeaks();
     return 0;

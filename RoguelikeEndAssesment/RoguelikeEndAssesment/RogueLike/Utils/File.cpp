@@ -29,7 +29,7 @@ namespace RogueLike { namespace Utils {
 
 
 	// Read as Binary file.
-	std::string File::ReadBinaryFile()
+	/*std::string File::ReadBinaryFile()
 	{
 		if (this->_fullpath.empty()) {
 			throw ErrorHandling::FileNotFoundException();
@@ -67,7 +67,7 @@ namespace RogueLike { namespace Utils {
 			throw ErrorHandling::FileNotFoundException(str);
 			return "";
 		}
-	}
+	}*/
 
 	std::string File::Read()
 	{

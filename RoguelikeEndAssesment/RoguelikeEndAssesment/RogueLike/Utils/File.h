@@ -23,7 +23,7 @@ namespace RogueLike { namespace Utils {
 		File(const std::string path);
 		~File();
 
-		std::string ReadBinaryFile();
+		//std::string ReadBinaryFile();
 		std::string Read();
 		bool Write(const std::string data, bool overwrite = false);
 		const bool IsEmpty() const;
