@@ -3,7 +3,7 @@
 #include <string>
 #include "Exception.h"
 
-namespace RogueLike { namespace Utils { namespace ErrorHandling {
+namespace RogueLike { namespace ErrorHandling {
 
 	class FileNotFoundException : public Exception {
 	private:
@@ -17,4 +17,4 @@ namespace RogueLike { namespace Utils { namespace ErrorHandling {
 		virtual const char* what() const noexcept;
 	};
 
-} } }
+} }

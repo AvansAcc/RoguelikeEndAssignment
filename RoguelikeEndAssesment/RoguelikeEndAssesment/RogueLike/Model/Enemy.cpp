@@ -4,7 +4,14 @@ namespace RogueLike { namespace Model {
 
 	Enemy::Enemy()
 	{
-		
+		this->Name = "";
+		this->Level = 0;
+		this->Lifepoints = 0;
+		this->Defence = 0;
+		this->Hitchance = 0;
+		this->MinDamage = 0;
+		this->MaxDamage = 0;
+		this->Type = Enum::EnemyType::NORMAL;
 	}
 	Enemy::~Enemy()
 	{
@@ -17,7 +24,15 @@ namespace RogueLike { namespace Model {
 	}
 	void Enemy::Damage(const uint damage)
 	{
-		// TODO: Enemy take Damage
+		if (this->Lifepoints - damage >= 0)
+			this->Lifepoints -= damage;
+		else
+			this->Lifepoints = 0;
+	}
+
+	const bool Enemy::IsDead() const
+	{
+		return (this->Lifepoints <= 0);
 	}
 
 	std::string Enemy::GetStatus()

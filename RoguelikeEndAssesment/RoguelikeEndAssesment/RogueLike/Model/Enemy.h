@@ -25,5 +25,6 @@ namespace RogueLike { namespace Model {
 		const uint Attack(); // Enemy to player
 		void Damage(const uint damage); // player to enemy
 		std::string GetStatus(); // status of lifepoints
+		const bool IsDead() const;
 	};
 } }
