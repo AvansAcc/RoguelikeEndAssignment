@@ -107,7 +107,8 @@ namespace RogueLike { namespace Controller {
 			}
 			case 5:
 			{
-				std::cout << "5";
+				this->_viewController->Say(this->_game->GetPlayerVitals());
+				this->_viewController->PressAnyKeyToContinue();
 				break;
 			}
 			case 6:
@@ -139,8 +140,7 @@ namespace RogueLike { namespace Controller {
 		while (!isvalid)
 		{
 			if (!wrongAnswer) {
-				this->_viewController->ClearScreen();
-				this->_viewController->Say("Dat is helaas geen richting waar je heen kunt");
+				this->_viewController->Say("\nDat is helaas geen richting waar je heen kunt");
 			}
 			std::string dir = this->_viewController->AskWord("\nWelke richting wil je op? (noord, oost, zuid, west) (typ \"b\" als je terug wilt)");
 			if (dir == "noord") {

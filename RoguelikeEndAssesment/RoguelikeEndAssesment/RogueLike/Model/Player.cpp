@@ -8,6 +8,7 @@ namespace RogueLike { namespace Model {
 		_lifepoints = 100;
 		_defence = 0;
 		_name = name;
+		_icon = 'P';
 		_level = 0;
 		_xp = 0;
 		_attack = 0;
@@ -24,38 +25,26 @@ namespace RogueLike { namespace Model {
 			_items.clear();
 		}
 	}
-	
-	int Player::GetX() const
-	{
-		return _xpos;
-	}
 
-	int Player::GetY() const 
+	std::string Player::GetVitals()
 	{
-		return _ypos;
+		std::string returnString = "Statistieken:";
+		returnString.append("\nNaam:        " + _name);
+		returnString.append("\nLevens:      " + std::to_string(_lifepoints));
+		returnString.append("\nLevel:       " + std::to_string(_level));
+		returnString.append("\nErvaring:    " + std::to_string(_xp) + "/100");
+		returnString.append("\nAanval:      " + std::to_string(_attack));
+		returnString.append("\nVerdediging: " + std::to_string(_defence));
+		return returnString;
 	}
 
 	void Player::SetNewPlayerLocation(int x, int y) 
 	{
-		if (x > 1 || y > 1) {
+		if (x > 1 || x < -1 || y > 1 || y < -1) {
 			return;
 		}
-		_xpos = x;
-		_ypos = y;
-	}
-
-	const char Player::GetIcon()
-	{
-		return 'P';
-	}
-	const std::string Player::GetName()
-	{
-		return _name;
-	}
-
-	const bool Player::isDead()
-	{
-		return _isDead;
+		_xpos += x;
+		_ypos += y;
 	}
 
 	const uint Player::Attack()

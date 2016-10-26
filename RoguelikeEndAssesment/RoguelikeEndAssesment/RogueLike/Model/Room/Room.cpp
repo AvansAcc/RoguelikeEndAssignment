@@ -91,9 +91,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		else {
 			std::string size, cleaness, furniture;
 			int choice;
-			std::vector<std::string> sizes{ "kleine", "gemiddelte", "grote" };
+			std::vector<std::string> sizes{ "kleine", "middelgrote", "grote" };
 			std::vector<std::string> cleanesses{ "opgeruimde", "bebloede", "zwartgeblankende" };
-			std::vector<std::string> furnitures{ " met in het midden van de ruimte staat een tafel met 4 stoelen.", " met een bed in de hoek van de ruimte.", ", de ruimte is compleet leeg." };
+			std::vector<std::string> furnitures{ " met in het midden van de ruimte een tafel met 4 stoelen.", " met een bed in de hoek van de ruimte.", ", de ruimte is compleet leeg." };
 
 			choice = Random::GetRandom(0, 3);
 			size = sizes[choice];

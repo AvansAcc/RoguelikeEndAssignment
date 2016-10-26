@@ -30,6 +30,7 @@ namespace RogueLike { namespace Model {
 		std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();
 		const bool MovePlayer(int dir);
+		const std::string GetPlayerVitals() const { return this->_player->GetVitals(); }
 
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }

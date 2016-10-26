@@ -78,8 +78,7 @@ namespace RogueLike { namespace Controller {
 
 	void ViewController::PressAnyKeyToContinue()
 	{
-		this->Say("\nDruk op een willekeurige toets en vervolgens op enter om door te gaan...");
-		std::cin.get();
+		this->Say("\nDruk op enter om door te gaan...");
 		this->_inputView->AskLetter();
 	}
 

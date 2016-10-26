@@ -13,6 +13,7 @@ namespace RogueLike { namespace Model {
 		uint _lifepoints;
 		uint _defence;
 		std::string _name;
+		char _icon;
 		uint _level;
 		uint _xp;
 		uint _attack;
@@ -25,12 +26,15 @@ namespace RogueLike { namespace Model {
 	public:
 		Player(std::string name, int x, int y);
 		virtual ~Player();
-		int GetX() const;
-		int GetY() const;
+
+		int GetX() const { return _xpos; };
+		int GetY() const { return _ypos; };
+		const std::string GetName() const { return _name; };
+		const char GetIcon() const { return _icon; };
+		const bool isDead() const { return _isDead; };
+
+		std::string GetVitals();
 		void SetNewPlayerLocation(int x, int y);
-		const std::string GetName();
-		const char GetIcon();
-		const bool isDead();
 		const uint Attack();
 		void Damage(const uint damage);
 	};

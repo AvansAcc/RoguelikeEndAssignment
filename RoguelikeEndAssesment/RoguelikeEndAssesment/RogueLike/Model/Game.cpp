@@ -87,8 +87,6 @@ namespace RogueLike { namespace Model {
 		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
 		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
 
-		x += this->_player->GetX();
-		y += this->_player->GetY();
 		this->_player->SetNewPlayerLocation(x, y);
 		this->GetCurrentPlayerRoom()->Discover();
 

@@ -11,6 +11,7 @@ namespace RogueLike { namespace View {
 	char InputView::AskLetter()
 	{
 		char answer = 0;
+		std::cin.get();
 		answer = std::getchar();
 		return answer;
 	}
@@ -18,6 +19,7 @@ namespace RogueLike { namespace View {
 	std::string InputView::AskWord(std::string message)
 	{
 		std::string answer = "";
+		std::cin.get();
 		std::cout << message << " ";
 		std::getline(std::cin, answer);
 		return answer;
