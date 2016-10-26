@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <typeinfo>
-#include "..\Utils\Random.h"
+#include "../Utils/Random.h"
 #include "../Common.h"
 
 #include "Room/IRoom.h"
@@ -11,6 +11,8 @@
 #include "Room/StartRoom.h"
 #include "Room/StairsRoom.h"
 #include "Room/Nothing.h"
+#include "../Utils/File.h"
+#include "../ErrorHandling/FileNotFoundException.h"
 
 namespace RogueLike { namespace Model {
 	class Level {
@@ -22,6 +24,7 @@ namespace RogueLike { namespace Model {
 		std::vector<Room::IRoom*> _locations;
 		Room::IRoom* _startPoint;
 		Room::IRoom* _endPoint;
+		std::vector<Enemy*> _enemies;
 	public:
 
 	private:

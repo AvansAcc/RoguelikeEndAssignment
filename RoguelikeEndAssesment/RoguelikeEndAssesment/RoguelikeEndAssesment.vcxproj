@@ -159,8 +159,8 @@
     <ClInclude Include="RogueLike\Model\Room\StairsRoom.h" />
     <ClInclude Include="RogueLike\Model\Room\StartRoom.h" />
     <ClInclude Include="RogueLike\RogueLike.h" />
-    <ClInclude Include="RogueLike\Utils\ErrorHandling\Exception.h" />
-    <ClInclude Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.h" />
+    <ClInclude Include="RogueLike\ErrorHandling\Exception.h" />
+    <ClInclude Include="RogueLike\ErrorHandling\FileNotFoundException.h" />
     <ClInclude Include="RogueLike\Utils\File.h" />
     <ClInclude Include="RogueLike\Utils\Random.h" />
     <ClInclude Include="RogueLike\Variables.h" />
@@ -185,8 +185,8 @@
     <ClCompile Include="RogueLike\Model\Room\StairsRoom.cpp" />
     <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
-    <ClCompile Include="RogueLike\Utils\ErrorHandling\Exception.cpp" />
-    <ClCompile Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.cpp" />
+    <ClCompile Include="RogueLike\ErrorHandling\Exception.cpp" />
+    <ClCompile Include="RogueLike\ErrorHandling\FileNotFoundException.cpp" />
     <ClCompile Include="RogueLike\Utils\File.cpp" />
     <ClCompile Include="RogueLike\Utils\Random.cpp" />
     <ClCompile Include="RogueLike\Variables.cpp" />

@@ -1,6 +1,6 @@
 #include "FileNotFoundException.h"
 
-namespace RogueLike { namespace Utils { namespace ErrorHandling {
+namespace RogueLike { namespace ErrorHandling {
 
 
 	FileNotFoundException::FileNotFoundException() noexcept
@@ -34,4 +34,4 @@ namespace RogueLike { namespace Utils { namespace ErrorHandling {
 			return "File not found exception!";
 	}
 
-} } }
+} }

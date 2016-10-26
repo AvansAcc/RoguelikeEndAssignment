@@ -1,6 +1,6 @@
 #include "Exception.h"
 
-namespace RogueLike { namespace Utils { namespace ErrorHandling {
+namespace RogueLike { namespace ErrorHandling {
 
 
 	Exception::Exception() noexcept
@@ -50,4 +50,4 @@ namespace RogueLike { namespace Utils { namespace ErrorHandling {
 		return *this;
 	}
 
-} } }
+} }

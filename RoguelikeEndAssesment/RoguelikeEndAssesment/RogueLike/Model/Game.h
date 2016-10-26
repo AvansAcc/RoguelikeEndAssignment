@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../Common.h"
+#include "../Variables.h"
 #include "LevelManager.h"
 #include "Player.h"
-#include "../Variables.h"
 
 namespace RogueLike { namespace Model {
 	class Game {
@@ -12,6 +13,7 @@ namespace RogueLike { namespace Model {
 		LevelManager* _levelManager;
 		bool _isGameOver;
 		bool _isInCombat;
+		std::vector<Enemy*> _enemies;
 		bool _hasThreat;
 	public:
 
@@ -43,5 +45,6 @@ namespace RogueLike { namespace Model {
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 		const char* const GetMap();
+		void LoadEnemiesFile();
 	};
 } }

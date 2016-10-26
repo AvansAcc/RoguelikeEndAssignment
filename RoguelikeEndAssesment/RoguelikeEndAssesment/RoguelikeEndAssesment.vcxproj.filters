@@ -22,8 +22,8 @@
     <ClCompile Include="RogueLike\Utils\Random.cpp" />
     <ClCompile Include="RogueLike\Variables.cpp" />
     <ClCompile Include="RogueLike\Utils\File.cpp" />
-    <ClCompile Include="RogueLike\Utils\ErrorHandling\Exception.cpp" />
-    <ClCompile Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.cpp" />
+    <ClCompile Include="RogueLike\ErrorHandling\Exception.cpp" />
+    <ClCompile Include="RogueLike\ErrorHandling\FileNotFoundException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RogueLike\Common.h" />
@@ -50,8 +50,8 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="RogueLike\Utils\File.h" />
-    <ClInclude Include="RogueLike\Utils\ErrorHandling\Exception.h" />
-    <ClInclude Include="RogueLike\Utils\ErrorHandling\FileNotFoundException.h" />
+    <ClInclude Include="RogueLike\ErrorHandling\Exception.h" />
+    <ClInclude Include="RogueLike\ErrorHandling\FileNotFoundException.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Map.txt" />

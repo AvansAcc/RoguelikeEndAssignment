@@ -9,6 +9,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		std::string Name;
+		std::string Plural;
 		Enum::EnemyType Type;
 		int MaxDamage;
 		uint Hitchance;
@@ -25,5 +26,6 @@ namespace RogueLike { namespace Model {
 		const uint Attack(); // Enemy to player
 		void Damage(const uint damage); // player to enemy
 		std::string GetStatus(); // status of lifepoints
+		const bool IsDead() const;
 	};
 } }

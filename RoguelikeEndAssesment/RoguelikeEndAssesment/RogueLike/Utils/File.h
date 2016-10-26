@@ -5,7 +5,7 @@
 #include <sstream>
 #include <string.h>
 #include <vector>
-#include "ErrorHandling/FileNotFoundException.h"
+#include "../ErrorHandling/FileNotFoundException.h"
 
 namespace RogueLike { namespace Utils {
 
