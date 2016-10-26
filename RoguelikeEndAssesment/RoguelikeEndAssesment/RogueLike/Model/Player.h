@@ -7,27 +7,34 @@
 #include "../Utils/Random.h"
 
 namespace RogueLike { namespace Model {
-	
 	class Item;
 	class Player {
 	private:
 		uint _lifepoints;
 		uint _defence;
 		std::string _name;
+		char _icon;
 		uint _level;
 		uint _xp;
 		uint _attack;
 		std::vector<Item*> _items;
 		bool _isDead;
+		int _xpos, _ypos;
 	public:
 
 	private:
 	public:
-		Player();
+		Player(std::string name, int x, int y);
 		virtual ~Player();
-		const std::string GetName();
-		void SetName(const std::string name);
-		const char GetIcon();
+
+		int GetX() const { return _xpos; };
+		int GetY() const { return _ypos; };
+		const std::string GetName() const { return _name; };
+		const char GetIcon() const { return _icon; };
+		const bool isDead() const { return _isDead; };
+
+		std::string GetVitals();
+		void SetNewPlayerLocation(int x, int y);
 		const uint Attack();
 		void Damage(const uint damage);
 	};

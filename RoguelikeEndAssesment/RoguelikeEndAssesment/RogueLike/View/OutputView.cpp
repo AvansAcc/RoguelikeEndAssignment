@@ -9,10 +9,20 @@ namespace RogueLike { namespace View {
 
 	void OutputView::ShowWelcomScreen()
 	{
-		std::cout << "Welkom vreemdeling! Welkom bij onze geweldige game, Kerkers en Draken!" << std::endl;
+		std::cout << "Welkom bij Kerkers en draken vreemdeling" << std::endl;
 	}
+
+	void OutputView::ShowMenu(std::vector<std::string> menuItems)
+	{
+		for (unsigned int i = 0; i < menuItems.size(); i++)
+		{
+			std::cout << (i + 1) << ":  " << menuItems[i] << std::endl;
+		}
+	}
+
 	void OutputView::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
+		std::cout << std::endl;
 		int dimension = (width * 4 - 3) * (height * 2 - 1);
 		if (map != nullptr)
 		{
@@ -24,26 +34,29 @@ namespace RogueLike { namespace View {
 		}
 	}
 
-	std::string OutputView::GetARoomDescription()
+	void OutputView::ShowGame(std::vector<std::string> gameInfo)
 	{
-		return "";
+		std::cout << std::endl;
+		for (unsigned int i = 0; i < gameInfo.size(); i++)
+		{
+			std::cout << gameInfo[i] << std::endl << std::endl;
+		}
 	}
 
-	void OutputView::ShowMenu()
+	void OutputView::ShowOptions(std::vector<std::string> options)
 	{
-		std::cout << "(Show Menu)" << std::endl;
-	}
-	void OutputView::ShowGame()
-	{
-		std::cout << "(Show Game)" << std::endl;
-	}
-	void OutputView::ShowOptions()
-	{
-		std::cout << "(Show Options)" << std::endl;
+		std::cout << std::endl << "Kies wat je wilt doen door het bijbehorende getal mee te geven:" << std::endl;
+		for (unsigned int i = 0; i < options.size(); i++)
+		{
+			if (!options[i].empty()) {
+				std::cout << (i + 1) << ":  " << options[i] << std::endl;
+			}
+		}
 	}
 
 	void OutputView::ShowQuit()
 	{
+		std::cout << std::endl;
 		std::cout << "Jammer dat je weggaat!" << std::endl;
 		std::cout << "Tot de volgende keer!" << std::endl;
 	}

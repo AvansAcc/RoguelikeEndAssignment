@@ -10,6 +10,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	public:
 		StartRoom(char icon, int x, int y);
 		virtual ~StartRoom();
+		const std::string GetRoomDescription() override;
 	};
 
 } } }

@@ -14,7 +14,7 @@ namespace RogueLike { namespace View {
 		InputView();
 	
 		char AskLetter();
-		std::string AskWord();
+		std::string AskWord(std::string message);
 		uint AskInt(std::string message);
 	};
 } }

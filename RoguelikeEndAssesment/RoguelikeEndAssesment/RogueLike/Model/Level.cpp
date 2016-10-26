@@ -128,7 +128,14 @@ namespace RogueLike { namespace Model {
 
 		int x = _locations[(startLoc[1] * _width) + startLoc[0]]->GetX();
 		int y = _locations[(startLoc[1] * _width) + startLoc[0]]->GetY();
-		_startPoint = new Room::StartRoom('S', x, y);
+		
+		if (_level <= 0) {
+			_startPoint = new Room::StartRoom('S', x, y);
+		}
+		else {
+			_startPoint = new Room::StairsRoom('^', x, y, false);
+		}
+		
 		if (_locations[(startLoc[1] * _width) + startLoc[0]])
 			delete _locations[(startLoc[1] * _width) + startLoc[0]];
 		_locations[(startLoc[1] * _width) + startLoc[0]] = _startPoint;
@@ -140,7 +147,7 @@ namespace RogueLike { namespace Model {
 		this->createExtraPath(2, 0, _tempList);
 		delete _tempList;
 		
-		for each (Room::IRoom* var in _locations)
+		/*for each (Room::IRoom* var in _locations)
 		{
 			std::cout << "Icon: " << var->GetIcon() << ", X: " << var->GetX() << " Y: " << var->GetY() << " ";
 			if (var->GetRealIcon() != '.')
@@ -156,7 +163,7 @@ namespace RogueLike { namespace Model {
 				}
 			}
 			std::cout << std::endl;
-		}
+		}*/
 	}
 
 	void Level::createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength, std::vector<Room::Room*> *tempList)
@@ -278,7 +285,13 @@ namespace RogueLike { namespace Model {
 		
 		if (dungeonLength < 1)
 		{
-			Room::IRoom* end = new Room::StairsRoom('E', newRoom->GetX(), newRoom->GetY(), true);
+			Room::IRoom* end; 
+			if (_level == _maxDepth) {
+				end = new Room::BossRoom('E', newRoom->GetX(), newRoom->GetY());
+			}
+			else {
+				end = new Room::StairsRoom('v', newRoom->GetX(), newRoom->GetY(), true);
+			}
 			this->_endPoint = end;
 			if (newRoom)
 				delete newRoom;
