@@ -11,6 +11,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		BossRoom(char icon, int x, int y);
 		virtual ~BossRoom();
 		const std::string GetRoomDescription() override;
+		void ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel) override;
 	};
 
 } } }

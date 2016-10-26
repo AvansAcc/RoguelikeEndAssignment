@@ -16,10 +16,18 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		if (!_adjacentRooms.empty())
 			_adjacentRooms.clear();
-		if(!_enemies.empty())
-			_enemies.clear();
+		this->DeleteEnemies();
 		delete _item;
 	}
+	void Room::DeleteEnemies()
+	{
+		if (!_enemies.empty()) {
+			for (unsigned int i = 0; i < _enemies.size(); i++)
+				delete _enemies[i];
+			_enemies.clear();
+		}
+	}
+
 	const char Room::GetIcon() const
 	{
 		if (this->IsDiscovered())
@@ -163,16 +171,42 @@ namespace RogueLike { namespace Model { namespace Room {
 
 		_adjacentRooms.at(direction) = room;
 	}
-	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies)
+	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel)
 	{
-		int chanceSpawn = Random::GetRandom(0, 4); // 25%
-		if (chanceSpawn == 0 && !enemies.empty())
+		this->DeleteEnemies();
+		std::vector<Enemy*> availableEnemies;
+
+		for (unsigned int i=0; i < enemies.size(); i++)
 		{
-			int chanceEnemy = Random::GetRandom(0, enemies.size());
+			if ((currentlevel <= 0 || enemies[i]->Level >= (currentlevel-2)) && enemies[i]->Level <= (currentlevel+1))
+			{
+				if(enemies[i]->Type != Enum::EnemyType::BOSS)
+					availableEnemies.push_back(enemies[i]);
+			}
+		}
+
+		int chanceSpawn = Random::GetRandom(0, 4); // 25%
+		if (chanceSpawn == 0 && !availableEnemies.empty())
+		{
+			int chanceEnemy = Random::GetRandom(0, availableEnemies.size());
 			int changeAmount = Random::GetRandom(1, 4); // 3
+			Enemy* enemy = nullptr;
+
 			for (int i = 0; i < changeAmount; i++)
 			{
-				this->_enemies.push_back(enemies[chanceEnemy]);
+				enemy = new Enemy();
+				enemy->Name = availableEnemies[chanceEnemy]->Name;
+				enemy->Plural = availableEnemies[chanceEnemy]->Plural;
+				enemy->Type = Enum::EnemyType::NORMAL;
+				enemy->Level = availableEnemies[chanceEnemy]->Level;
+				enemy->Lifepoints = availableEnemies[chanceEnemy]->Lifepoints;
+				enemy->AmountAttacks = availableEnemies[chanceEnemy]->AmountAttacks;
+				enemy->Defence = availableEnemies[chanceEnemy]->Defence;
+				enemy->Hitchance = availableEnemies[chanceEnemy]->Hitchance;
+				enemy->MinDamage = availableEnemies[chanceEnemy]->MinDamage;
+				enemy->MaxDamage = availableEnemies[chanceEnemy]->MaxDamage;
+				
+				this->_enemies.push_back(enemy);
 			}
 		}
 	}

@@ -44,7 +44,8 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const std::string GetRoomDescription();
 		virtual const std::string GetRoomDirectionDescription();
 		
-		virtual void ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies);
+		virtual void ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel);
+		virtual void DeleteEnemies();
 	};
 
 } } }
