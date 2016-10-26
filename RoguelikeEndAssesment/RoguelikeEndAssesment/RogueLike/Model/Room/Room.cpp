@@ -116,23 +116,23 @@ namespace RogueLike { namespace Model { namespace Room {
 		}
 		else {
 			std::string direction;
-			returnString = "Je ziet een gang richting ";
+			returnString = "Er is een gang in de volgende richtingen: {";
 			bool firstCorridor = true;
 			for (unsigned int i = 0; i < _adjacentRooms.size(); i++)
 			{
 				switch (i)
 				{
 					case 0:
-						direction = "het noorden";
+						direction = "noord";
 							break;
 					case 1:
-						direction = "het oosten";
+						direction = "oost";
 						break;
 					case 2:
-						direction = "het zuiden";
+						direction = "zuid";
 						break;
 					case 3:
-						direction = "het westen";
+						direction = "west";
 						break;
 				}
 				if (_adjacentRooms[i] != nullptr) {
@@ -141,11 +141,11 @@ namespace RogueLike { namespace Model { namespace Room {
 						firstCorridor = false;
 					}
 					else {
-						returnString.append(", " + direction);
+						returnString.append(" | " + direction);
 					}
 				}
 			}
-			returnString.append(". Voor de rest zijn er alleen muren");
+			returnString.append("}. Voor de rest zijn er alleen muren");
 			_directionDescription = returnString;
 		}
 		return returnString;

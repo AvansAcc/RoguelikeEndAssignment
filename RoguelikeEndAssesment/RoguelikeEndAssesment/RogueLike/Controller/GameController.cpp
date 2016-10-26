@@ -135,14 +135,14 @@ namespace RogueLike { namespace Controller {
 	void GameController::HandleDirChoice()
 	{	
 		bool isvalid = false;
-		bool wrongAnswer = false;
+		bool wrongAnswer = true;
 		while (!isvalid)
 		{
 			if (!wrongAnswer) {
 				this->_viewController->ClearScreen();
 				this->_viewController->Say("Dat is helaas geen richting waar je heen kunt");
 			}
-			std::string dir = this->_viewController->AskWord("\nWelke richting wil je op? (noord, oost, zuid, west) (typ \"terug\" als je terug wilt)");
+			std::string dir = this->_viewController->AskWord("\nWelke richting wil je op? (noord, oost, zuid, west) (typ \"b\" als je terug wilt)");
 			if (dir == "noord") {
 				isvalid = this->_game->MovePlayer(0);
 			}
@@ -155,7 +155,7 @@ namespace RogueLike { namespace Controller {
 			else if (dir == "west") {
 				isvalid = this->_game->MovePlayer(3);
 			}
-			else if (dir == "back") {
+			else if (dir == "b") {
 				isvalid = true;
 			}
 			wrongAnswer = isvalid;
