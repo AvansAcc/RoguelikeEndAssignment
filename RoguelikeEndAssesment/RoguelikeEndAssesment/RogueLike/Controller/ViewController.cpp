@@ -14,27 +14,71 @@ namespace RogueLike { namespace Controller {
 		delete _outputView;
 	}
 
-
+	void ViewController::ClearScreen() 
+	{
+		system("cls");
+	}
 
 	void ViewController::ShowWelcomeScreen()
 	{
+		this->ClearScreen();
 		_outputView->ShowWelcomScreen();
+		this->PressAnyKeyToContinue();
+	}
+
+	const int ViewController::ShowMenuScreen()
+	{
+		this->ClearScreen();
+		this->Say("Kerkers en draken\n\n");
+		std::vector<std::string> menuItems{ "Nieuw spel", "Spel laden", "Credits", "Afsluiten" };
+		_outputView->ShowMenu(menuItems);
+		return this->AskInt("\nMaak uw keuze uit de menu items (geef het nummer mee)", menuItems.size());
+	}
+
+	void ViewController::ShowCreditScreen()
+	{
+		this->ClearScreen();
+		this->Say("Dit project is gemaakt voor de C++1 eindopdracht op Avans hogeschool\n\n");
+		this->Say("Gemaakt door:\nRick Smeets\nMartin van der Geest\n");
+		this->PressAnyKeyToContinue();
+	}
+
+	void ViewController::ShowCloseScreen()
+	{
+		_outputView->ShowQuit();
+		this->PressAnyKeyToContinue();
+	}
+
+	const int ViewController::ShowOptions(std::vector<std::string> options)
+	{
+		this->_outputView->ShowOptions(options);
+		return this->AskInt("\n", options.size());
 	}
 
 	void ViewController::ShowMap(const char* const map, unsigned int width, unsigned int height)
 	{
+		this->ClearScreen();
 		this->_outputView->ShowMap(map, width, height);
+		this->PressAnyKeyToContinue();
+	}
+
+	void ViewController::ShowGame(std::vector<std::string> gameInfo)
+	{
+		this->ClearScreen();
+
+		this->_outputView->ShowGame(gameInfo);
 	}
 
 	char ViewController::GetStartScreenInput()
 	{
 		// TODO: Check the expected input and return it. Else: ask again.
-		this->_inputView->AskWord();
+		//this->_inputView->AskWord("");
 		return '.';
 	}
 
 	void ViewController::PressAnyKeyToContinue()
 	{
+		this->Say("\nDruk op enter om door te gaan...");
 		this->_inputView->AskLetter();
 	}
 
@@ -43,6 +87,15 @@ namespace RogueLike { namespace Controller {
 		this->_outputView->Say(message);
 	}
 
+	std::string ViewController::AskWord(std::string message)
+	{
+		std::string result = "";
+		while (result.empty())
+		{
+			result = this->_inputView->AskWord(message);
+		}
+		return result;
+	}
 
 	uint ViewController::AskInt(std::string message, unsigned int maxInt)
 	{

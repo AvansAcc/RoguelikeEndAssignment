@@ -4,8 +4,8 @@ namespace RogueLike {
 	namespace Globals {
 
 		const bool DEBUG = false;
-		char const * const ROOM_OPTIONS[7] = { "vechten", "vluchten", "oppakken", "uitrusten", "spullen zien", "kaart bekijken", "eigenschappen zien" };
-		char const * const COMBAT_OPTIONS[3] = { "aanvallen", "vluchten", "spullen gebruiken" };
+		std::vector<std::string> ROOM_OPTIONS { "Vechten", "Vluchten", "Uitrusten", "Spullen zien", "Eigenschappen zien", "Kaart bekijken", "Item oppakken", "Een gang in lopen" };
+		std::vector<std::string> COMBAT_OPTIONS { "Aanvallen", "Vluchten", "Spullen gebruiken" };
 	
 	}
 }

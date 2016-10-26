@@ -11,6 +11,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		StairsRoom(char icon, int x, int y, bool isDirectionDown);
 		virtual ~StairsRoom();
 		const bool IsDirectionDown();
+		const std::string GetRoomDescription() override;
 	};
 
 } } }

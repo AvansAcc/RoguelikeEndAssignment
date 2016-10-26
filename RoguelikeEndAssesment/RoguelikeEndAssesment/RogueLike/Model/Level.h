@@ -32,8 +32,10 @@ namespace RogueLike { namespace Model {
 		virtual ~Level();
 		const char* const GetMap(); // For your viewing purposes
 		void GenerateMap();
-		const int GetLevel() const { return this->_level; }
 
+		const std::vector<Room::IRoom*> GetLocations() const { return this->_locations; }
+		const Room::IRoom* GetStartPoint() const { return this->_startPoint; };
+		const Room::IRoom* GetEndPoint() const { return this->_endPoint; };
 		const unsigned int GetWidth() const { return this->_width; }
 		const unsigned int GetHeight() const { return this->_height; }
 	};

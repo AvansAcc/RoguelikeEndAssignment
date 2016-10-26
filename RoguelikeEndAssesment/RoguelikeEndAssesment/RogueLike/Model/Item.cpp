@@ -10,14 +10,9 @@ namespace RogueLike { namespace Model {
 		this->_description = description;
 	}
 
-	std::string Item::Look()
+	const std::string Item::Look()
 	{
 		return (_name + " has " + std::to_string(_amount) + " left.");
-	}
-
-	std::string Item::GetDescription()
-	{
-		return this->_description;
 	}
 
 } }

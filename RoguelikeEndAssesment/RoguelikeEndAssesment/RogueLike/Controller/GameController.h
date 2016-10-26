@@ -12,6 +12,9 @@ namespace RogueLike { namespace Controller {
 	public:
 
 	private:
+		void StartNewGame();
+		void LoadGame();
+		void HandleDirChoice();
 	public:
 		GameController();
 		GameController(const GameController& other);
@@ -21,7 +24,8 @@ namespace RogueLike { namespace Controller {
 		virtual ~GameController();
 
 		void Start();
-		void Update();
+		const bool Update();
+		void DoAction();
 	};
 
 } }

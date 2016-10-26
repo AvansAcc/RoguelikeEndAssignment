@@ -13,4 +13,17 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	}
 
+	const std::string StartRoom::GetRoomDescription()
+	{
+		std::string returnString;
+		if (!_description.empty()) {
+			returnString = _description;
+		}
+		else {
+			returnString = "Je betreed de eerste kamer. De deur naar buiten sluit achter je en je vraagt je af of je het licht ooit nog zult zien";
+			_description = returnString;
+		}
+		return returnString;
+	}
+
 } } }
