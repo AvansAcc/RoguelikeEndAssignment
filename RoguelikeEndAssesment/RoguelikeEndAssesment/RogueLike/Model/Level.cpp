@@ -11,6 +11,7 @@ namespace RogueLike { namespace Model {
 		this->_level = depth;
 		this->_maxDepth = maxdepth;
 		this->_locations.clear();
+		this->_enemies.clear();
 
 		for (int y = 0; y < _height; y++)
 		{
@@ -24,11 +25,15 @@ namespace RogueLike { namespace Model {
 	}
 	Level::~Level()
 	{
-		if (!_locations.empty())
-		{
+		if (!_locations.empty()) {
 			for (unsigned int i = 0; i < _locations.size(); i++)
 				delete _locations[i];
 			_locations.clear();
+		}
+		if (!_enemies.empty()) {
+			for (unsigned int i = 0; i < _enemies.size(); i++)
+				delete _enemies[i];
+			_enemies.clear();
 		}
 		_startPoint = nullptr;
 		_endPoint = nullptr;
@@ -146,27 +151,8 @@ namespace RogueLike { namespace Model {
 		std::vector<Room::Room*> *_tempList = new std::vector<Room::Room*>();
 
 		this->createLevelPath(nullptr, _startPoint, randomDungeonLength, _tempList);
-		//std::cout << std::endl << std::endl << "ExtraPath: " << std::endl;
 		this->createExtraPath(2, 0, _tempList);
 		delete _tempList;
-		
-		/*for each (Room::IRoom* var in _locations)
-		{
-			std::cout << "Icon: " << var->GetIcon() << ", X: " << var->GetX() << " Y: " << var->GetY() << " ";
-			if (var->GetRealIcon() != '.')
-			{
-				for (unsigned int i = 0; i < ((Room::Room*)var)->GetAdjacentRooms().size(); i++)
-				{
-					if (((Room::Room*)var)->GetAdjacentRooms()[i] == nullptr) {
-						std::cout << "X" << " ";
-					}
-					else {
-						std::cout << ((Room::Room*)var)->GetAdjacentRooms()[i]->GetRealIcon() << " ";
-					}
-				}
-			}
-			std::cout << std::endl;
-		}*/
 	}
 
 	void Level::createLevelPath(Room::IRoom* previousRoom, Room::IRoom* currentRoom, int dungeonLength, std::vector<Room::Room*> *tempList)
@@ -438,10 +424,7 @@ namespace RogueLike { namespace Model {
 		}
 		createExtraPath(percentage, ++roomIndex, tempList);
 	}
-
-
-
-
+	
 
 	Level::Level(const Level& other)
 		: _startPoint{ std::move(other._startPoint) }

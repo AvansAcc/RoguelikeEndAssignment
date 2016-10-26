@@ -15,6 +15,13 @@ namespace RogueLike { namespace Model {
 			delete _player;
 		if(_levelManager)
 			delete _levelManager;
+
+		if (!_enemies.empty())
+		{
+			for (unsigned int i = 0; i < _enemies.size(); i++)
+				delete _enemies[i];
+			_enemies.clear();
+		}
 	}
 
 	void Game::Start(uint width, uint height, uint max_levels, std::string name)
@@ -23,17 +30,16 @@ namespace RogueLike { namespace Model {
 		_levelManager->Start();
 		_player = new Player(name, _levelManager->GetLevel()->GetStartPoint()->GetX(), _levelManager->GetLevel()->GetStartPoint()->GetY());
 		this->GetCurrentPlayerRoom()->Discover();
+		this->LoadEnemiesFile();
 	}
 
 	std::vector<std::string> Game::GetAvailableActions() 
 	{
 		std::vector<std::string> options;
-		if (this->_isInCombat) {
-			//options = std::vector<std::string>({ "Aanvallen", "Vluchten", "Spullen gebruiken" });
+		if (_isInCombat) {
 			options = *Globals::COMBAT_OPTIONS;
 		}
 		else {
-			//options = std::vector<std::string> { "Vechten", "Vluchten", "Spullen zien", "Uitrusten", "Eigenschappen zien", "Kaart bekijken", "Item oppakken", "Een gang in lopen", "Trap gebruiken", "Afsluiten" };
 			options = *Globals::ROOM_OPTIONS;
 			if (!this->_hasThreat) {
 				options[0] = "";
@@ -68,9 +74,9 @@ namespace RogueLike { namespace Model {
 			std::string noOfEnemies = std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies());
 			if (this->_isInCombat) {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
-			}
-			else {
-				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + "je aan.");
+			} else {
+				std::string name = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
+				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
 			}
 		}
 		else {
@@ -107,6 +113,9 @@ namespace RogueLike { namespace Model {
 			this->_hasThreat = true;
 		}
 
+		// Chance to spawn enemies in room.
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
+
 		return true;
 	}
 
@@ -131,6 +140,99 @@ namespace RogueLike { namespace Model {
 	const char* const Game::GetMap()
 	{
 		return this->_levelManager->GetMap(this->_player->GetX(), this->_player->GetY());
+	}
+
+	void Game::LoadEnemiesFile()
+	{
+		try
+		{
+			Utils::File f("./Assets/monsters.txt");
+			std::string s = f.Read();
+
+
+			size_t pos = 0;
+			std::string delimiter = "]";
+			std::vector<std::string> tokens;
+			std::string token = "";
+
+
+			// Remove enters
+			while ((pos = s.find("\r\n")) != std::string::npos) { s.erase(pos, 2); }
+
+
+			// split monsters
+			while ((pos = s.find(delimiter)) != std::string::npos) {
+				token = s.substr(0, pos);
+				s.erase(0, pos + delimiter.length());
+
+				token.erase(0, 1); // Remove [
+				tokens.push_back(token);
+			}
+
+			for each(std::string monster in tokens)
+			{
+				Enemy* enemy = new Enemy();
+				unsigned int index = 0;
+				std::string percentage = "";
+				std::string amount_attacks = "";
+				std::string min_damage = "";
+				std::string max_damage = "";
+				while ((pos = monster.find(";")) != std::string::npos)
+				{
+					token = monster.substr(0, pos);
+					monster.erase(0, pos + 1);
+
+
+					switch (index)
+					{
+					case 0: // Naam
+						enemy->Name = token;
+						break;
+					case 1: // Naam
+						enemy->Plural = token;
+						break;
+					case 2: // Level
+						if (token == "BAAS")
+						{
+							enemy->Level = 0;
+							enemy->Type = Enum::EnemyType::BOSS;
+						}
+						else {
+							enemy->Level = FromString<int>(token);
+							enemy->Type = Enum::EnemyType::NORMAL;
+						}
+						break;
+					case 3: // Aanval
+						percentage = token.substr(0, token.find('x'));
+						amount_attacks = token.substr(token.find('x') + 1, token.size() - 1);
+						enemy->Hitchance = FromString<int>(percentage);
+						enemy->AmountAttacks = FromString<int>(amount_attacks);
+						break;
+					case 4: // Schade
+						min_damage = token.substr(0, token.find('-'));
+						max_damage = token.substr(token.find('-') + 1, token.size() - 1);
+						enemy->MinDamage = FromString<int>(min_damage);
+						enemy->MaxDamage = FromString<int>(max_damage);
+						break;
+					case 5: // Verdediging
+						enemy->Defence = FromString<int>(token);
+						break;
+						//case 5: // Levenspunten
+						//	enemy->Lifepoints = FromString<int>(token);
+						//	break;
+					default:
+						break;
+					}
+					index++;
+				}
+				enemy->Lifepoints = FromString<int>(monster);
+				this->_enemies.push_back(enemy);
+			}
+
+		}
+		catch (ErrorHandling::FileNotFoundException& e) {
+			std::cout << e.what() << std::endl;
+		}
 	}
 
 

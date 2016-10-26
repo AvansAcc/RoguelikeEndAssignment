@@ -7,7 +7,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_adjacentRooms.clear();
 		for (int i = 0; i < 4; i++)
 			this->_adjacentRooms.push_back(nullptr);
-		this->_enemy = nullptr;
+		this->_enemies.clear();
 		this->_item = nullptr;
 		this->_isDiscovered = false;
 	}
@@ -16,8 +16,8 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		if (!_adjacentRooms.empty())
 			_adjacentRooms.clear();
-
-		delete _enemy;
+		if(!_enemies.empty())
+			_enemies.clear();
 		delete _item;
 	}
 	const char Room::GetIcon() const
@@ -49,11 +49,16 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	const Enemy* Room::GetEnemy() const
 	{
-		return _enemy;
+		for (unsigned int i=0; i < _enemies.size(); i++)
+		{
+			if (!_enemies[i]->IsDead())
+				return _enemies[i];
+		}
+		return nullptr;
 	}
-	const int Room::GetAmountOfEnemies() const
+	const unsigned int Room::GetAmountOfEnemies() const
 	{
-		return amountOfEnemies;
+		return _enemies.size();
 	}
 
 	Item* Room::GetItem() const 
@@ -157,6 +162,19 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
+	}
+	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies)
+	{
+		int chanceSpawn = Random::GetRandom(0, 5); // 20%
+		if (chanceSpawn == 0 && !enemies.empty())
+		{
+			int chanceEnemy = Random::GetRandom(0, enemies.size());
+			int changeAmount = Random::GetRandom(1, 4); // 3
+			for (int i = 0; i < changeAmount; i++)
+			{
+				this->_enemies.push_back(enemies[chanceEnemy]);
+			}
+		}
 	}
 
 } } }

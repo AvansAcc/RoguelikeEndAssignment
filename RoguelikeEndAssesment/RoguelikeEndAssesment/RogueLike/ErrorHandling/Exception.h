@@ -3,7 +3,7 @@
 #include <exception>
 #include <iostream>
 
-namespace RogueLike { namespace Utils { namespace ErrorHandling {
+namespace RogueLike { namespace ErrorHandling {
 
 	class Exception : public std::exception {
 	protected:
@@ -21,4 +21,4 @@ namespace RogueLike { namespace Utils { namespace ErrorHandling {
 		virtual const char* what() const noexcept;
 	};
 
-} } }
+} }

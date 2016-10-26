@@ -7,6 +7,7 @@
 #include "../Enemy.h"
 #include "../Item.h"
 #include "../../Variables.h"
+#include "../../Utils/File.h"
 
 namespace RogueLike { namespace Model { namespace Room {
 	
@@ -17,8 +18,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		std::string _description;
 		std::string _directionDescription;
 		std::vector<IRoom*> _adjacentRooms;
-		Enemy* _enemy;
-		int amountOfEnemies;
+		std::vector<Enemy*> _enemies;
 		Item* _item;
 		bool _isDiscovered;
 	public:
@@ -34,7 +34,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const int GetY() const override;
 		virtual const std::vector<IRoom*> GetAdjacentRooms();
 		virtual const Enemy* GetEnemy() const;
-		virtual const int GetAmountOfEnemies() const;
+		virtual const unsigned int GetAmountOfEnemies() const;
 		virtual Item* GetItem() const;
 		virtual const bool IsDiscovered() const;
 		virtual void Discover();
@@ -43,6 +43,8 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual void AddAdjacentRoom(IRoom* room, int direction);
 		virtual const std::string GetRoomDescription();
 		virtual const std::string GetRoomDirectionDescription();
+		
+		virtual void ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies);
 	};
 
 } } }
