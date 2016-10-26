@@ -83,15 +83,15 @@ namespace RogueLike { namespace Controller {
 		{
 			case 1: // Vechten
 			{
-				if (_game->IsInCombat()) {
+				if (_game->HasThreat()) {
 					// TODO
 				}
 				break;
 			}
 			case 2: // Vluchten
 			{
-				if (_game->IsInCombat()) {
-					this->Flee();
+				if (_game->IsInCombat() || _game->HasThreat()) {
+					this->_game->FleePlayer();
 				}
 				break;
 			}
@@ -103,7 +103,8 @@ namespace RogueLike { namespace Controller {
 			case 4: // Uitrusten
 			{
 				if (!_game->IsInCombat()) {
-					this->Rest();
+					this->_viewController->Say(this->_game->RestPlayer());
+					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;
 			}
@@ -141,7 +142,11 @@ namespace RogueLike { namespace Controller {
 			case 9: // Trap gebruiken
 			{
 				if (!_game->IsInCombat()) {
-					// TODO
+					std::string s = this->_game->UseStairs();
+					this->_viewController->Say(s);
+					if (!s.empty()) {
+						this->_viewController->PressAnyKeyToContinue();
+					}
 				}
 				break;
 			}
@@ -188,16 +193,9 @@ namespace RogueLike { namespace Controller {
 
 	void GameController::LookAtInventory() 
 	{
-
-	}
-
-	void GameController::Flee() 
-	{
-
-	}
-
-	void GameController::Rest()
-	{
+		this->_viewController->Say(this->_game->LookAtPlayerInventory());
+		this->_viewController->PressAnyKeyToContinue();
+		// TODO interface voor items gebruiken bouwen
 
 	}
 

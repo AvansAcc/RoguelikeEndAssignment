@@ -16,8 +16,6 @@ namespace RogueLike { namespace Controller {
 		void LoadGame();
 		void HandleDirChoice();
 		void LookAtInventory();
-		void Flee();
-		void Rest();
 	public:
 		GameController();
 		virtual ~GameController();

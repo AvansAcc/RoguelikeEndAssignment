@@ -54,9 +54,14 @@ namespace RogueLike { namespace Model {
 		return nullptr;
 	}
 
-	void LevelManager::NextLevel()
+	void LevelManager::NextLevel(bool up)
 	{
-		this->_level++;
+		if (up) {
+			this->_level--;
+		}
+		else {
+			this->_level++;
+		}
 		this->SetLevel(_level);
 	}
 
