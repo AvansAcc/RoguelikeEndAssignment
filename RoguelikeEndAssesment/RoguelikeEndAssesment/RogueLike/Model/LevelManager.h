@@ -25,7 +25,7 @@ namespace RogueLike { namespace Model {
 		LevelManager& operator=(const LevelManager& other);
 		LevelManager& operator=(LevelManager&& other);
 
-		void NextLevel();
+		void NextLevel(bool up);
 		void Start();
 
 		const Level* LevelManager::GetLevel() const { return this->_currentLevel; };

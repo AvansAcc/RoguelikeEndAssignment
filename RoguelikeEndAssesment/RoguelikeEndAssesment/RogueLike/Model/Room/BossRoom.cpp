@@ -20,7 +20,7 @@ namespace RogueLike { namespace Model { namespace Room {
 			returnString = _description;
 		}
 		else {
-			returnString = "Je betreed de kamer. Er is iets extreem fout aan deze ruimte, je voelt je aan alle kanten bekeken en al je instincten schreeuwn om weg te rennen.";
+			returnString = "Je betreed de kamer. Er is iets extreem fout aan deze ruimte, je voelt je aan alle kanten bekeken en al je instincten schreeuwen om weg te rennen.";
 			_description = returnString;
 		}
 		return returnString;

@@ -33,8 +33,11 @@ namespace RogueLike { namespace Model {
 		const char GetIcon() const { return _icon; };
 		const bool isDead() const { return _isDead; };
 
-		std::string GetVitals();
+		const std::string GetVitals();
+		const std::string GetInventory();
+		void Heal(int heal);
 		void SetNewPlayerLocation(int x, int y);
+		void TeleportPlayerLocation(int x, int y);
 		const uint Attack();
 		void Damage(const uint damage);
 	};

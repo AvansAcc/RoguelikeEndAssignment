@@ -26,16 +26,36 @@ namespace RogueLike { namespace Model {
 		}
 	}
 
-	std::string Player::GetVitals()
+	const std::string Player::GetVitals()
 	{
 		std::string returnString = "Statistieken:";
 		returnString.append("\nNaam:        " + _name);
-		returnString.append("\nLevens:      " + std::to_string(_lifepoints));
+		returnString.append("\nLevens:      " + std::to_string(_lifepoints) + "/100");
 		returnString.append("\nLevel:       " + std::to_string(_level));
 		returnString.append("\nErvaring:    " + std::to_string(_xp) + "/100");
 		returnString.append("\nAanval:      " + std::to_string(_attack));
 		returnString.append("\nVerdediging: " + std::to_string(_defence));
 		return returnString;
+	}
+
+	const std::string Player::GetInventory()
+	{
+		std::string returnString = "Bezittingen: ";
+		for each (Item* item in this->_items) {
+			returnString.append("\n" + item->Look());
+		}
+		if (this->_items.size() <= 0) {
+			returnString.append("\nJe hebt op dit moment geen bezittingen.");
+		}
+		return returnString;
+	}
+
+	void Player::Heal(int heal)
+	{
+		_lifepoints += heal;
+		if (_lifepoints > 100) {
+			_lifepoints = 100;
+		}
 	}
 
 	void Player::SetNewPlayerLocation(int x, int y) 
@@ -45,6 +65,12 @@ namespace RogueLike { namespace Model {
 		}
 		_xpos += x;
 		_ypos += y;
+	}
+
+	void Player::TeleportPlayerLocation(int x, int y)
+	{
+		_xpos = x;
+		_ypos = y;
 	}
 
 	const uint Player::Attack()
