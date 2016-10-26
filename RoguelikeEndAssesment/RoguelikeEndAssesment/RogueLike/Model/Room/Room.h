@@ -24,6 +24,10 @@ namespace RogueLike { namespace Model { namespace Room {
 	public:
 		Room(char icon, int x, int y);
 		virtual ~Room();
+		Room(const Room& other);
+		Room(Room&& other);
+		Room& operator=(const Room& other);
+		Room& operator=(Room&& other);
 		virtual const char GetIcon() const override;
 		virtual const char GetRealIcon() const override;
 		virtual const int GetX() const override;

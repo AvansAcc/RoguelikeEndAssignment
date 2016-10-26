@@ -30,6 +30,11 @@ namespace RogueLike { namespace Model {
 	public:
 		Level(int width, int height, int level, int maxDepth);
 		virtual ~Level();
+		Level(const Level& other);
+		Level(Level&& other);
+		Level& operator=(const Level& other);
+		Level& operator=(Level&& other);
+
 		const char* const GetMap(); // For your viewing purposes
 		void GenerateMap();
 

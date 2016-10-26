@@ -436,4 +436,68 @@ namespace RogueLike { namespace Model {
 		createExtraPath(percentage, ++roomIndex, tempList);
 	}
 
+
+
+
+
+	Level::Level(const Level& other)
+		: _startPoint{ std::move(other._startPoint) }
+		, _endPoint{ std::move(other._endPoint) }
+		, _locations{ std::move(other._locations) }
+	{
+	}
+	Level::Level(Level&& other)
+		: _startPoint{ std::move(other._startPoint) }
+		, _endPoint{ std::move(other._endPoint) }
+		, _locations{ std::move(other._locations) }
+	{
+		other._startPoint = nullptr;
+		other._endPoint = nullptr;
+		other._locations.clear();
+	}
+	Level& Level::operator=(const Level& other)
+	{
+		if (this != &other)
+		{
+			if (_startPoint)
+				delete _startPoint;
+			if (_endPoint)
+				delete _endPoint;
+			if (!_locations.empty()) {
+				for (unsigned int i = 0; i < _locations.size(); i++)
+					delete _locations[i];
+				_locations.clear();
+			}
+
+			Level copy{ std::move(other) };
+
+			std::swap(*this, copy);
+		}
+		return *this;
+	}
+	Level& Level::operator=(Level&& other)
+	{
+		if (this != &other)
+		{
+			if (_startPoint)
+				delete _startPoint;
+			if (_endPoint)
+				delete _endPoint;
+			if (!_locations.empty()) {
+				for (unsigned int i = 0; i < _locations.size(); i++)
+					delete _locations[i];
+				_locations.clear();
+			}
+
+			std::swap(_startPoint, other._startPoint);
+			std::swap(_endPoint, other._endPoint);
+			std::swap(_locations, other._locations);
+
+			other._startPoint = nullptr;
+			other._endPoint = nullptr;
+			other._locations.clear();
+		}
+		return *this;
+	}
+
 } }
