@@ -10,12 +10,12 @@
 
 # Build results
 
-[Dd]ebug/
-[Rr]elease/
-x64/
-build/
-[Bb]in/
-[Oo]bj/
+[Dd]ebug
+[Rr]elease
+x64
+build
+[Bb]in
+[Oo]bj
 
 # NuGet Packages
 *.nupkg
@@ -194,12 +194,8 @@ $RECYCLE.BIN/
 *.tlog
 *.db
 *.opendb
-*.tlog
 *.pdb
-RoguelikeEndAssesment/RoguelikeEndAssesment/Debug/vc140.pdb
 *.idb
-RoguelikeEndAssesment/RoguelikeEndAssesment/Debug/RoguelikeEndAssesment.log
 *.pdb
-RoguelikeEndAssesment/Debug/RoguelikeEndAssesment.pdb
 *.log
-*.log
+*.suo
