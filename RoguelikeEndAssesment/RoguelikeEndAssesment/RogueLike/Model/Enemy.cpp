@@ -5,6 +5,7 @@ namespace RogueLike { namespace Model {
 	Enemy::Enemy()
 	{
 		this->Name = "";
+		this->Plural = "";
 		this->Level = 0;
 		this->Lifepoints = 0;
 		this->Defence = 0;

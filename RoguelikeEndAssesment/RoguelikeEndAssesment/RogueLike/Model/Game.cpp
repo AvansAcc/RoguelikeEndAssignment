@@ -74,9 +74,9 @@ namespace RogueLike { namespace Model {
 			std::string noOfEnemies = std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies());
 			if (this->_isInCombat) {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
-			}
-			else {
-				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + "je aan.");
+			} else {
+				std::string name = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
+				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
 			}
 		}
 		else {
@@ -188,7 +188,10 @@ namespace RogueLike { namespace Model {
 					case 0: // Naam
 						enemy->Name = token;
 						break;
-					case 1: // Level
+					case 1: // Naam
+						enemy->Plural = token;
+						break;
+					case 2: // Level
 						if (token == "BAAS")
 						{
 							enemy->Level = 0;
@@ -199,19 +202,19 @@ namespace RogueLike { namespace Model {
 							enemy->Type = Enum::EnemyType::NORMAL;
 						}
 						break;
-					case 2: // Aanval
+					case 3: // Aanval
 						percentage = token.substr(0, token.find('x'));
 						amount_attacks = token.substr(token.find('x') + 1, token.size() - 1);
 						enemy->Hitchance = FromString<int>(percentage);
 						enemy->AmountAttacks = FromString<int>(amount_attacks);
 						break;
-					case 3: // Schade
+					case 4: // Schade
 						min_damage = token.substr(0, token.find('-'));
 						max_damage = token.substr(token.find('-') + 1, token.size() - 1);
 						enemy->MinDamage = FromString<int>(min_damage);
 						enemy->MaxDamage = FromString<int>(max_damage);
 						break;
-					case 4: // Verdediging
+					case 5: // Verdediging
 						enemy->Defence = FromString<int>(token);
 						break;
 						//case 5: // Levenspunten

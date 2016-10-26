@@ -9,6 +9,7 @@ namespace RogueLike { namespace Model {
 	private:
 	public:
 		std::string Name;
+		std::string Plural;
 		Enum::EnemyType Type;
 		int MaxDamage;
 		uint Hitchance;
