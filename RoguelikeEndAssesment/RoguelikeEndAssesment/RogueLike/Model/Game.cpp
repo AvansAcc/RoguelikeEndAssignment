@@ -6,6 +6,7 @@ namespace RogueLike { namespace Model {
 	{
 		_isGameOver = false;
 		_isInCombat = false;
+		_hasThreat = false;
 	}
 
 	Game::~Game()
@@ -40,8 +41,18 @@ namespace RogueLike { namespace Model {
 		}
 		else {
 			options = *Globals::ROOM_OPTIONS;
+			if (!this->_hasThreat) {
+				options[0] = "";
+				options[1] = "";
+			}
 			if (this->GetCurrentPlayerRoom()->GetItem() == nullptr) {
 				options[6] = "";
+			}
+			if (this->_hasThreat)
+			{
+				options[6] = "";
+				options[7] = "";
+				options[8] = "";
 			}
 		}		
 		return options;
@@ -97,6 +108,10 @@ namespace RogueLike { namespace Model {
 
 		this->_player->SetNewPlayerLocation(x, y);
 		this->GetCurrentPlayerRoom()->Discover();
+		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0)
+		{
+			this->_hasThreat = true;
+		}
 
 		// Chance to spawn enemies in room.
 		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);

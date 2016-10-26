@@ -14,6 +14,7 @@ namespace RogueLike { namespace Model {
 		bool _isGameOver;
 		bool _isInCombat;
 		std::vector<Enemy*> _enemies;
+		bool _hasThreat;
 	public:
 
 	private:
@@ -32,8 +33,9 @@ namespace RogueLike { namespace Model {
 		std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();
 		const bool MovePlayer(int dir);
-		const std::string GetPlayerVitals() const { return this->_player->GetVitals(); }
 
+		const bool IsInCombat() const { return _isInCombat; };
+		const std::string GetPlayerVitals() const { return this->_player->GetVitals(); }
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 

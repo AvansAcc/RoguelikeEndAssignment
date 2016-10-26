@@ -77,60 +77,79 @@ namespace RogueLike { namespace Controller {
 
 		std::vector<std::string> options = this->_game->GetAvailableActions();
 		int choice = this->_viewController->ShowOptions(options);
+		bool isAllowed = true;
 
 		switch (choice)
 		{
 			case 1: // Vechten
 			{
-				std::cout << "1";
+				if (_game->IsInCombat()) {
+					// TODO
+				}
 				break;
 			}
 			case 2: // Vluchten
 			{
-				std::cout << "2";
+				if (_game->IsInCombat()) {
+					this->Flee();
+				}
 				break;
 			}
-			case 3: // Uitrusten
+			case 3: // Spullen bekijken
 			{
-				std::cout << "3";
+				this->LookAtInventory();
 				break;
 			}
-			case 4: // Spullen bekijken
+			case 4: // Uitrusten
 			{
-				std::cout << "4";
+				if (!_game->IsInCombat()) {
+					this->Rest();
+				}
 				break;
 			}
 			case 5: // Eigenschappen speler zien
 			{
-				this->_viewController->Say(this->_game->GetPlayerVitals());
-				this->_viewController->PressAnyKeyToContinue();
+				if (!_game->IsInCombat()) {
+					this->_viewController->Say(this->_game->GetPlayerVitals());
+					this->_viewController->PressAnyKeyToContinue();
+				}
 				break;
 			}
 			case 6: // Kaart bekijken
 			{
-				const char* const map = this->_game->GetMap();
-				this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
-				delete[] map;
+				if (!_game->IsInCombat()) {
+					const char* const map = this->_game->GetMap();
+					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+					delete[] map;
+				}
 				break;
 			}
 			case 7: // Item oppakken
 			{
-				std::cout << "7";
+				if (!_game->IsInCombat()) {
+					// TODO
+				}
 				break;
 			}
 			case 8: // Verplaatsen
-			{			
-				this->HandleDirChoice();
+			{
+				if (!_game->IsInCombat()) {
+					this->HandleDirChoice();
+				}
 				break;
 			}
 			case 9: // Trap gebruiken
 			{
-				std::cout << "9";
+				if (!_game->IsInCombat()) {
+					// TODO
+				}
 				break;
 			}
 			case 10: // Exit
 			{
-				this->_game->GameOver();
+				if (!_game->IsInCombat()) {
+					this->_game->GameOver();
+				}
 				break;
 			}
 			default:
@@ -165,6 +184,21 @@ namespace RogueLike { namespace Controller {
 			}
 			wrongAnswer = isvalid;
 		}
+	}
+
+	void GameController::LookAtInventory() 
+	{
+
+	}
+
+	void GameController::Flee() 
+	{
+
+	}
+
+	void GameController::Rest()
+	{
+
 	}
 
 	// Copy constructor
