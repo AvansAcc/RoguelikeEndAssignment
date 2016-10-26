@@ -28,12 +28,12 @@ namespace RogueLike { namespace Model {
 	{
 		std::vector<std::string> options;
 		if (_isInCombat) {
-			options = std::vector<std::string>({ "Aanvallen", "Vluchten", "Spullen gebruiken" });
-			//options = Globals::COMBAT_OPTIONS;
+			//options = std::vector<std::string>({ "Aanvallen", "Vluchten", "Spullen gebruiken" });
+			options = *Globals::COMBAT_OPTIONS;
 		}
 		else {
-			options = std::vector<std::string> { "Vechten", "Vluchten", "Uitrusten", "Spullen zien", "Eigenschappen zien", "Kaart bekijken", "Item oppakken", "Een gang in lopen", "Trap gebruiken", "Afsluiten" };
-			//options = Globals::ROOM_OPTIONS;
+			//options = std::vector<std::string> { "Vechten", "Vluchten", "Uitrusten", "Spullen zien", "Eigenschappen zien", "Kaart bekijken", "Item oppakken", "Een gang in lopen", "Trap gebruiken", "Afsluiten" };
+			options = *Globals::ROOM_OPTIONS;
 			if (this->GetCurrentPlayerRoom()->GetItem() == nullptr) {
 				options[6] = "";
 			}
