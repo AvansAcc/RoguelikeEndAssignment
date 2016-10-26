@@ -10,6 +10,9 @@ namespace RogueLike {
 	RogueLike::~RogueLike()
 	{
 		delete _gameController;
+		
+		delete Globals::COMBAT_OPTIONS;
+		delete Globals::ROOM_OPTIONS;
 	}
 	
 	void RogueLike::Start()
