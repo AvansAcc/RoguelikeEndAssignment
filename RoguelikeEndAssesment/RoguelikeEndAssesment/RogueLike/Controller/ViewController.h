@@ -31,6 +31,7 @@ namespace RogueLike { namespace Controller {
 		char GetStartScreenInput();
 		std::string AskWord(std::string message);
 		uint AskInt(std::string message, unsigned int maxInt);
+		uint AskInt(std::string message, unsigned int minInt, unsigned int maxInt);
 		void Say(const std::string& message);
 
 		void PressAnyKeyToContinue();

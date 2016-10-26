@@ -111,7 +111,19 @@ namespace RogueLike { namespace Controller {
 		return result;
 	}
 
-
+	uint ViewController::AskInt(std::string message, unsigned int minInt, unsigned int maxInt)
+	{
+		uint result = 0;
+		while (result < 1)
+		{
+			result = this->_inputView->AskInt(message);
+			if (result > maxInt || result < minInt)
+			{
+				result = 0;
+			}
+		}
+		return result;
+	}
 
 	// Copy constructor
 	ViewController::ViewController(const ViewController& other)

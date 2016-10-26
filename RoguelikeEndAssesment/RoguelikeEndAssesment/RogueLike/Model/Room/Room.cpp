@@ -165,7 +165,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	}
 	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies)
 	{
-		int chanceSpawn = Random::GetRandom(0, 5); // 20%
+		int chanceSpawn = Random::GetRandom(0, 4); // 25%
 		if (chanceSpawn == 0 && !enemies.empty())
 		{
 			int chanceEnemy = Random::GetRandom(0, enemies.size());

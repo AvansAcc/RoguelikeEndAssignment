@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\Map.txt" />
+    <Text Include="Assets\monsters.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
