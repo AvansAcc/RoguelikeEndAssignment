@@ -42,7 +42,7 @@ namespace RogueLike { namespace Model {
 		} else {
 			this->_level = level;
 			this->_currentLevel = new Level(_width, _height, level, _maxLevels);
-			this->_levels.push_back(_currentLevel);
+			this->_levels.push_back(std::move(_currentLevel)); // use the move constructor
 			this->_currentLevel->GenerateMap();
 		}
 	}
@@ -72,6 +72,59 @@ namespace RogueLike { namespace Model {
 		if (_levels.empty() || _level >= _levels.size())
 			return 0;
 		return this->_levels[_level]->GetHeight();
+	}
+
+
+
+	LevelManager::LevelManager(const LevelManager& other)
+		: _currentLevel{ other._currentLevel }
+		, _levels{ std::move(other._levels) }
+	{
+	}
+	LevelManager::LevelManager(LevelManager&& other)
+		: _currentLevel{ other._currentLevel }
+		, _levels{ std::move(other._levels) }
+	{
+		other._currentLevel = nullptr;
+		other._levels.clear();
+	}
+	LevelManager& LevelManager::operator=(const LevelManager& other)
+	{
+		if (this != &other)
+		{
+			if (_currentLevel)
+				delete _currentLevel;
+			if (!_levels.empty()) {
+				for(unsigned int i=0; i < _levels.size(); i++)
+					delete _levels[i];
+				_levels.clear();
+			}
+
+			LevelManager copy{ std::move(other) };;
+
+			std::swap(*this, copy);
+		}
+		return *this;
+	}
+	LevelManager& LevelManager::operator=(LevelManager&& other)
+	{
+		if (this != &other)
+		{
+			if (_currentLevel)
+				delete _currentLevel;
+			if (!_levels.empty()) {
+				for (unsigned int i = 0; i < _levels.size(); i++)
+					delete _levels[i];
+				_levels.clear();
+			}
+
+			std::swap(_currentLevel, other._currentLevel);
+			std::swap(_levels, other._levels);
+
+			other._currentLevel = nullptr;
+			other._levels.clear();
+		}
+		return *this;
 	}
 
 } }

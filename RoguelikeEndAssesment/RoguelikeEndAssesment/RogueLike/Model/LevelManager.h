@@ -20,6 +20,11 @@ namespace RogueLike { namespace Model {
 	public:
 		LevelManager(uint width, uint height, uint max_levels);
 		virtual ~LevelManager();
+		LevelManager(const LevelManager& other);
+		LevelManager(LevelManager&& other);
+		LevelManager& operator=(const LevelManager& other);
+		LevelManager& operator=(LevelManager&& other);
+
 		void NextLevel();
 		void Start();
 

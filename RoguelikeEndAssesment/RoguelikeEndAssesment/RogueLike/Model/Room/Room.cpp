@@ -159,4 +159,29 @@ namespace RogueLike { namespace Model { namespace Room {
 		_adjacentRooms.at(direction) = room;
 	}
 
+	std::vector<IRoom*> Room::GetAdjacentRooms()
+	{
+		return _adjacentRooms;
+	}
+
+
+
+	Room::Room(const Room& other) 
+		: IRoom('.', 0, 0)
+	{
+
+	}
+	Room::Room(Room&& other) 
+		: IRoom('.', 0, 0)
+	{
+	
+	}
+	Room& Room::operator=(const Room& other)
+	{
+
+	}
+	Room& Room::operator=(Room&& other)
+	{
+
+	}
 } } }
