@@ -108,7 +108,7 @@ namespace RogueLike { namespace Model {
 
 	const char* const Game::GetMap()
 	{
-		return this->_levelManager->GetMap();
+		return this->_levelManager->GetMap(this->_player->GetX(), this->_player->GetY());
 	}
 
 

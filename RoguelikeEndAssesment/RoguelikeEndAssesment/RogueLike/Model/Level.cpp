@@ -33,7 +33,7 @@ namespace RogueLike { namespace Model {
 		_startPoint = nullptr;
 		_endPoint = nullptr;
 	}
-	const char* const Level::GetMap()
+	const char* const Level::GetMap(const int player_x, const int player_y)
 	{
 		if (_locations.empty())
 			return nullptr;
@@ -59,7 +59,10 @@ namespace RogueLike { namespace Model {
 				int index = (i - (i / w_dim));
 
 				if (index % 4 == 0) {
-					map[i] = this->_locations[y * _width + x]->GetIcon();
+					if (x == player_x && y == player_y)
+						map[i] = 'P';
+					else
+						map[i] = this->_locations[y * _width + x]->GetIcon();
 				}
 				else if (i > 0 && (index - 1) % 4 == 0) {
 					map[i] = ' ';
@@ -68,7 +71,7 @@ namespace RogueLike { namespace Model {
 					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[1] != nullptr) {
-							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() && (x < _width && ((Room::Room*)this->_locations[y * _width + (x+1)])->IsDiscovered()))
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (x < _width && ((Room::Room*)this->_locations[y * _width + (x+1)])->IsDiscovered()))
 								map[i] = '-';
 							else
 								map[i] = ' ';
@@ -94,7 +97,7 @@ namespace RogueLike { namespace Model {
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[2] != nullptr)
 						{
-							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() && (y < _height && ((Room::Room*)this->_locations[(y+1) * _width + x])->IsDiscovered()))
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (y < _height && ((Room::Room*)this->_locations[(y+1) * _width + x])->IsDiscovered()))
 								map[i] = '|';
 							else
 								map[i] = ' ';
