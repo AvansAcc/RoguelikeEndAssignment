@@ -54,6 +54,9 @@ namespace RogueLike { namespace Model {
 				options[7] = "";
 				options[8] = "";
 			}
+			if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) == nullptr) {
+				options[8] = "";
+			}
 		}		
 		return options;
 	}
@@ -117,6 +120,51 @@ namespace RogueLike { namespace Model {
 		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
 
 		return true;
+	}
+
+	void Game::FleePlayer()
+	{
+		Room::Room* currRoom = ((Room::Room*)this->GetCurrentPlayerRoom());
+		bool success = false;
+		while (!success) {
+			int r = Random::GetRandom(0, 3);
+			success = this->MovePlayer(r);
+		}
+	}
+
+	const std::string Game::UseStairs()
+	{
+		std::string returnString;
+		if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) != NULL) {
+			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom());
+			if (sr->IsDirectionDown()) {
+				this->_levelManager->NextLevel(false);
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetStartPoint()->GetX(), this->_levelManager->GetLevel()->GetStartPoint()->GetY());
+				returnString = "\nJe neemt de trap verder de donkere diepte in, met elke stap die je zet voelt het alsof de lucht je verder verstikt.";
+			}
+			else {
+				this->_levelManager->NextLevel(true);
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetEndPoint()->GetX(), this->_levelManager->GetLevel()->GetEndPoint()->GetY());
+				returnString = "\nJe neemt de trap omhoog waar de lucht minder zwaar op je drukt.";
+			}
+		}
+		return returnString;
+	}
+
+	const std::string Game::LookAtPlayerInventory()
+	{
+		return this->_player->GetInventory();
+	}
+
+	const std::string Game::RestPlayer()
+	{
+		this->_player->Heal(50);
+		std::string returnString = "\nJe bent uitgerust en hebt 50 levenpunten gekregen.";
+		// TODO spawn random enemies
+		if ( true/*enemiesHaveSpawned*/) {
+			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
+		}
+		return returnString;
 	}
 
 	Room::Room* Game::GetCurrentPlayerRoom()

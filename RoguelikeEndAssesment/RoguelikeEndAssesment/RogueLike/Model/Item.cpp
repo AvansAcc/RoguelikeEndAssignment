@@ -12,7 +12,7 @@ namespace RogueLike { namespace Model {
 
 	const std::string Item::Look()
 	{
-		return (_name + " has " + std::to_string(_amount) + " left.");
+		return (std::to_string(_amount) + "x " + _name +  ". Maximale hoeveelheid om bij je te dragen is " + std::to_string(_amount));
 	}
 
 } }
