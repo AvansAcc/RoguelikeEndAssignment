@@ -15,13 +15,16 @@ namespace RogueLike { namespace Controller {
 		void StartNewGame();
 		void LoadGame();
 		void HandleDirChoice();
+		void LookAtInventory();
+		void Flee();
+		void Rest();
 	public:
 		GameController();
+		virtual ~GameController();
 		GameController(const GameController& other);
 		GameController & operator=(const GameController & other);
 		GameController & operator=(GameController && other);
 		GameController(GameController&& other);
-		virtual ~GameController();
 
 		void Start();
 		const bool Update();
