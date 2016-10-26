@@ -102,7 +102,7 @@ namespace RogueLike { namespace Controller {
 			}
 			case 4: // Uitrusten
 			{
-				if (!_game->IsInCombat()) {
+				if (!_game->IsInCombat() || !_game->HasThreat()) {
 					this->_viewController->Say(this->_game->RestPlayer());
 					this->_viewController->PressAnyKeyToContinue();
 				}
@@ -127,21 +127,21 @@ namespace RogueLike { namespace Controller {
 			}
 			case 7: // Item oppakken
 			{
-				if (!_game->IsInCombat()) {
+				if (!_game->IsInCombat() || !_game->HasThreat()) {
 					// TODO
 				}
 				break;
 			}
 			case 8: // Verplaatsen
 			{
-				if (!_game->IsInCombat()) {
+				if (!_game->IsInCombat() && (!_game->HasThreat() || Globals::DEBUG)) {
 					this->HandleDirChoice();
 				}
 				break;
 			}
 			case 9: // Trap gebruiken
 			{
-				if (!_game->IsInCombat()) {
+				if (!_game->IsInCombat() && !_game->HasThreat()) {
 					this->UseStairs();
 				}
 				break;
