@@ -65,7 +65,7 @@ namespace RogueLike { namespace Controller {
 
 	const bool GameController::Update()
 	{
-		bool returnValue = !_game->Update();
+		bool returnValue = (_game != nullptr) ? !_game->Update() : false;
 		if (returnValue) {
 			this->DoAction();
 		}
