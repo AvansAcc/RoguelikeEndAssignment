@@ -77,22 +77,29 @@ namespace RogueLike { namespace Controller {
 
 		std::vector<std::string> options = this->_game->GetAvailableActions();
 		int choice = this->_viewController->ShowOptions(options);
+		bool isAllowed = true;
 
 		switch (choice)
 		{
 			case 1: // Vechten
 			{
-				std::cout << "1";
+				if (_game->IsInCombat()) {
+					std::cout << "1";
+				}
 				break;
 			}
 			case 2: // Vluchten
 			{
-				std::cout << "2";
+				if (_game->IsInCombat()) {
+					std::cout << "2";
+				}
 				break;
 			}
 			case 3: // Uitrusten
 			{
-				std::cout << "3";
+				if (!_game->IsInCombat()) {
+					std::cout << "3";
+				}
 				break;
 			}
 			case 4: // Spullen bekijken
