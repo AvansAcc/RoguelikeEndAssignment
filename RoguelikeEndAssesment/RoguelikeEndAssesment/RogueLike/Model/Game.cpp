@@ -28,10 +28,12 @@ namespace RogueLike { namespace Model {
 	{
 		std::vector<std::string> options;
 		if (_isInCombat) {
-			options = Globals::COMBAT_OPTIONS;
+			options = std::vector<std::string>({ "Aanvallen", "Vluchten", "Spullen gebruiken" });
+			//options = Globals::COMBAT_OPTIONS;
 		}
 		else {
-			options = Globals::ROOM_OPTIONS;
+			options = std::vector<std::string> { "Vechten", "Vluchten", "Uitrusten", "Spullen zien", "Eigenschappen zien", "Kaart bekijken", "Item oppakken", "Een gang in lopen", "Trap gebruiken", "Afsluiten" };
+			//options = Globals::ROOM_OPTIONS;
 			if (this->GetCurrentPlayerRoom()->GetItem() == nullptr) {
 				options[6] = "";
 			}
@@ -100,10 +102,15 @@ namespace RogueLike { namespace Model {
 
 	const bool Game::Update()
 	{
-		if (_player != nullptr && _player->isDead() /*|| hasDefeatedBoss */) {
-			_isGameOver = true;
+		if (this->_player->isDead() || this->_isGameOver /*|| hasDefeatedBoss */) {
+			this->_isGameOver = true;
 		}
-		return _isGameOver;
+		return this->_isGameOver;
+	}
+
+	void Game::GameOver()
+	{
+		this->_isGameOver = true;
 	}
 
 	const char* const Game::GetMap()

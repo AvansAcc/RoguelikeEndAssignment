@@ -80,47 +80,57 @@ namespace RogueLike { namespace Controller {
 
 		switch (choice)
 		{
-			case 1:
+			case 1: // Vechten
 			{
 				std::cout << "1";
 				break;
 			}
-			case 2:
+			case 2: // Vluchten
 			{
 				std::cout << "2";
 				break;
 			}
-			case 3:
+			case 3: // Uitrusten
 			{
 				std::cout << "3";
 				break;
 			}
-			case 4:
+			case 4: // Spullen bekijken
 			{
 				std::cout << "4";
 				break;
 			}
-			case 5:
+			case 5: // Eigenschappen speler zien
 			{
 				this->_viewController->Say(this->_game->GetPlayerVitals());
 				this->_viewController->PressAnyKeyToContinue();
 				break;
 			}
-			case 6:
+			case 6: // Kaart bekijken
 			{
 				const char* const map = this->_game->GetMap();
 				this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 				delete[] map;
 				break;
 			}
-			case 7:
+			case 7: // Item oppakken
 			{
 				std::cout << "7";
 				break;
 			}
-			case 8:
+			case 8: // Verplaatsen
 			{			
 				this->HandleDirChoice();
+				break;
+			}
+			case 9: // Trap gebruiken
+			{
+				std::cout << "9";
+				break;
+			}
+			case 10: // Exit
+			{
+				this->_game->GameOver();
 				break;
 			}
 			default:
