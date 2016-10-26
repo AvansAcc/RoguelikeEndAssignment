@@ -77,6 +77,7 @@ namespace RogueLike { namespace Model {
 		
 		beschrijving = "Vijanden:\n";
 		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
+			this->_hasThreat = true;
 			std::string noOfEnemies = std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies());
 			if (this->_isInCombat) {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
@@ -86,6 +87,7 @@ namespace RogueLike { namespace Model {
 			}
 		}
 		else {
+			this->_hasThreat = false;
 			beschrijving.append("Er zijn geen vijanden in deze kamer");
 		}
 		returnValue.push_back(beschrijving);
@@ -117,10 +119,6 @@ namespace RogueLike { namespace Model {
 
 		// Chance to spawn enemies in room.
 		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
-		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0)
-		{
-			this->_hasThreat = true;
-		}
 
 		return true;
 	}
@@ -166,7 +164,6 @@ namespace RogueLike { namespace Model {
 		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
 		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
 			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
-			this->_hasThreat = true;
 		}
 		return returnString;
 	}
