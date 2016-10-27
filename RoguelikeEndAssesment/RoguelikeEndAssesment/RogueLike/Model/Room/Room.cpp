@@ -27,13 +27,13 @@ namespace RogueLike { namespace Model { namespace Room {
 			_enemies.clear();
 		}
 	}
-	void Room::DeleteItem()
+	void Room::DeleteItem() // If player doesn't picks item up
 	{
 		if (this->_item)
 			delete _item;
 		this->_item = nullptr;
 	}
-	void Room::RemoveItem()
+	void Room::RemoveItem() // If player picks item up
 	{
 		this->_item = nullptr;
 	}
@@ -65,7 +65,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		return _adjacentRooms;
 	}
 
-	const Enemy* Room::GetEnemy() const
+	Enemy* Room::GetEnemy() const
 	{
 		for (unsigned int i=0; i < _enemies.size(); i++)
 		{
@@ -74,6 +74,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		}
 		return nullptr;
 	}
+
 	const unsigned int Room::GetAmountOfEnemies() const
 	{
 		return _enemies.size();

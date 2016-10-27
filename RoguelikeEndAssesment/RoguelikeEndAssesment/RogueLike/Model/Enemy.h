@@ -3,6 +3,7 @@
 #include <string>
 #include "Enum\EnemyType.h"
 #include "../Common.h"
+#include"../Utils/Random.h"
 
 namespace RogueLike { namespace Model {
 	class Enemy {
@@ -18,13 +19,13 @@ namespace RogueLike { namespace Model {
 		uint Level;
 		uint Defence;
 		uint Lifepoints;
-	
+		uint MaxLifePoints;
 	private:
 	public:
 		Enemy();
 		virtual ~Enemy();
 		const uint Attack(); // Enemy to player
-		void Damage(const uint damage); // player to enemy
+		bool Damage(const uint damage); // player to enemy
 		std::string GetStatus(); // status of lifepoints
 		const bool IsDead() const;
 	};
