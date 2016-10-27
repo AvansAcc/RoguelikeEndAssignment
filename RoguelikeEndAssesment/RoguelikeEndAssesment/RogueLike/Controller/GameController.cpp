@@ -238,6 +238,8 @@ namespace RogueLike { namespace Controller {
 					break;
 				}
 			}
+			this->_viewController->Say(this->_game->CheckCombatOver());
+			this->_viewController->PressAnyKeyToContinue();
 		}
 	}
 

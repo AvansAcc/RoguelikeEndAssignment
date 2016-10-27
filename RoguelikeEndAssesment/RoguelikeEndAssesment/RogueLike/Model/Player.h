@@ -41,7 +41,7 @@ namespace RogueLike { namespace Model {
 		void SetNewPlayerLocation(int x, int y);
 		void TeleportPlayerLocation(int x, int y);
 		const uint Attack();
-		void Damage(const uint damage);
+		bool Damage(const uint damage);
 
 		void SetAttackVital(int effect);
 		void SetDefenceVital(int effect);
