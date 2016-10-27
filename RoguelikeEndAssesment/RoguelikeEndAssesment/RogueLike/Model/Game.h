@@ -14,6 +14,7 @@ namespace RogueLike { namespace Model {
 		bool _isGameOver;
 		bool _isInCombat;
 		std::vector<Enemy*> _enemies;
+		std::vector<Item*> _items;
 		bool _hasThreat;
 	public:
 
@@ -38,6 +39,7 @@ namespace RogueLike { namespace Model {
 		void GameOver();
 		const std::string LookAtPlayerInventory();
 		const std::string RestPlayer();
+		void TakeItem();
 
 		const bool IsInCombat() const { return _isInCombat; };
 		const bool HasThreat() const { return _hasThreat; };
@@ -46,5 +48,6 @@ namespace RogueLike { namespace Model {
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 		const char* const GetMap();
 		void LoadEnemiesFile();
+		void LoadItemsFile();
 	};
 } }
