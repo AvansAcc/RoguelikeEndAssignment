@@ -10,6 +10,7 @@ namespace RogueLike { namespace Model {
 	class Item;
 	class Player {
 	private:
+		friend class GameController;
 		uint _lifepoints;
 		uint _defence;
 		std::string _name;
@@ -36,16 +37,18 @@ namespace RogueLike { namespace Model {
 
 		const std::string GetVitals();
 		const std::string GetInventory();
-		void AddItemToInventory(Item& item);
+		bool AddItemToInventory(Item& item);
 		void Heal(int heal);
 		void SetNewPlayerLocation(int x, int y);
 		void TeleportPlayerLocation(int x, int y);
 		const uint Attack();
 		bool Damage(const uint damage);
+		void UseItem(uint index);
 
 		void SetAttackVital(int effect);
 		void SetDefenceVital(int effect);
 		void EarnXP(int effect);
 		void Teleport(int effect);
+		const std::string GetVitalsAsString() const;
 	};
 } }

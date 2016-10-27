@@ -24,7 +24,6 @@ namespace RogueLike { namespace Model {
 		std::vector<Room::IRoom*> _locations;
 		Room::IRoom* _startPoint;
 		Room::IRoom* _endPoint;
-		std::vector<Enemy*> _enemies;
 	public:
 
 	private:
@@ -46,5 +45,8 @@ namespace RogueLike { namespace Model {
 		const Room::IRoom* GetEndPoint() const { return this->_endPoint; };
 		const unsigned int GetWidth() const { return this->_width; }
 		const unsigned int GetHeight() const { return this->_height; }
+		const unsigned int GetMaxDepth() const { return this->_maxDepth; }
+
+		const std::string GetLevelAsString() const;
 	};
 } }

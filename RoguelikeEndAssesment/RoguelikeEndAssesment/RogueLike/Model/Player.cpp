@@ -6,12 +6,12 @@ namespace RogueLike { namespace Model {
 	{
 		_isDead = false;
 		_lifepoints = 100;
-		_defence = 0;
+		_defence = 20;
 		_name = name;
 		_icon = 'P';
 		_level = 0;
 		_xp = 0;
-		_attack = 0;
+		_attack = 1;
 		_items.clear();
 		_xpos = x;
 		_ypos = y;
@@ -49,10 +49,43 @@ namespace RogueLike { namespace Model {
 		}
 		return returnString;
 	}
-	void Player::AddItemToInventory(Item& item)
+	bool Player::AddItemToInventory(Item& item)
 	{
-		this->_items.push_back(&item);
+		bool item_found = false;
+		for each(Item* it in _items)
+		{
+			if (it->Name == item.Name)
+			{
+				if ((it->Amount + item.Amount) <= it->MaxAmount) {
+					it->Amount += item.Amount;
+					item_found = true;
+					return true; // Add to Existing
+				} else
+					return false; // Full
+			}
+		}
+		if (!item_found) {
+			this->_items.push_back(&item);
+			return true; // Add New
+		}
+		return false;
 	}
+
+	void Player::UseItem(uint index)
+	{
+		if (index < 0 || index >= _items.size())
+			return;
+
+		_items[index]->Use(*this);
+
+		_items[index]->Amount--;
+
+		if (_items[index]->Amount <= 0)
+			_items.erase(_items.begin() + index);
+
+
+	}
+
 	void Player::Heal(int heal)
 	{
 		_lifepoints += heal;
@@ -78,13 +111,15 @@ namespace RogueLike { namespace Model {
 
 	const uint Player::Attack()
 	{
-		return this->_attack;
+		if (Random::GetRandom(0, 2) == 0) // 50% kans om te missen
+			return this->_attack;
+		return 0;
 	}
 	bool Player::Damage(const uint damage)
 	{
-		if (Random::GetRandom(0, 10) <= (_defence * 0.1))
+		if (Random::GetRandom(0, 10) <= (10 - (_defence * 0.1)))
 		{
-			if ((_lifepoints - damage) >= 0)
+			if (damage <= _lifepoints)
 				_lifepoints -= damage;
 			else {
 				_lifepoints = 0;
@@ -139,6 +174,36 @@ namespace RogueLike { namespace Model {
 		} else {
 			this->TeleportPlayerLocation(0, 0); // TODO: Teleport to Endpoint?
 		}
+	}
+
+	const std::string Player::GetVitalsAsString() const
+	{
+		std::string vitals = "";
+		vitals.append(_name).append(";");						// Name
+		vitals.append(std::to_string(_level)).append(";");		// Level
+		vitals.append(std::to_string(_xpos)).append(";");		// xPOS
+		vitals.append(std::to_string(_ypos)).append(";");		// yPOS
+		vitals.append(std::to_string(_attack)).append(";");		// Attack
+		vitals.append(std::to_string(_defence)).append(";");	// Defence
+		vitals.append(std::to_string(_xp)).append(";");			// _xp
+		vitals.append(std::to_string(_lifepoints)).append(";");	// Lifepoints
+		
+		vitals.append("{");
+		for (unsigned int i = 0; i < _items.size(); i++)
+		{
+			vitals.append("[");
+			vitals.append(_items.at(i)->Name);
+			vitals.append(_items.at(i)->Plural);
+			vitals.append(std::to_string(_items.at(i)->Amount));
+			vitals.append(std::to_string(_items.at(i)->MaxAmount));
+			vitals.append(std::to_string(static_cast<int>(_items.at(i)->Ability)));
+			vitals.append(std::to_string(_items.at(i)->Effect));
+			vitals.append(_items.at(i)->Description);
+			vitals.append("]");
+		}
+		vitals.append("}");
+		
+		return vitals;
 	}
 
 } }
