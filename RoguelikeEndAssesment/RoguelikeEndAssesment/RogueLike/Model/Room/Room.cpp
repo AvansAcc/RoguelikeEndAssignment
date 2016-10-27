@@ -56,6 +56,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		}
 		return nullptr;
 	}
+
 	const unsigned int Room::GetAmountOfEnemies() const
 	{
 		return _enemies.size();

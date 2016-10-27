@@ -8,6 +8,7 @@ namespace RogueLike { namespace Model {
 		this->Plural = "";
 		this->Level = 0;
 		this->Lifepoints = 0;
+		this->MaxLifePoints = 0;
 		this->Defence = 0;
 		this->Hitchance = 0;
 		this->MinDamage = 0;

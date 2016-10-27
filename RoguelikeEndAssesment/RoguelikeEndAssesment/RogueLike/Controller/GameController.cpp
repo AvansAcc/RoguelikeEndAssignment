@@ -83,15 +83,17 @@ namespace RogueLike { namespace Controller {
 		{
 			case 1: // Vechten
 			{
-				if (_game->HasThreat()) {
-					// TODO
+				if (this->_game->HasThreat()) {
+					this->StartCombatRound();
 				}
 				break;
 			}
 			case 2: // Vluchten
 			{
-				if (_game->IsInCombat() || _game->HasThreat()) {
-					this->_game->FleePlayer();
+				if (this->_game->HasThreat()) {
+					this->_game->EndCombat();
+					this->_viewController->Say(this->_game->FleePlayer());
+					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;
 			}
@@ -102,7 +104,7 @@ namespace RogueLike { namespace Controller {
 			}
 			case 4: // Uitrusten
 			{
-				if (!_game->IsInCombat() || !_game->HasThreat()) {
+				if (!this->_game->IsInCombat() || !this->_game->HasThreat()) {
 					this->_viewController->Say(this->_game->RestPlayer());
 					this->_viewController->PressAnyKeyToContinue();
 				}
@@ -110,7 +112,7 @@ namespace RogueLike { namespace Controller {
 			}
 			case 5: // Eigenschappen speler zien
 			{
-				if (!_game->IsInCombat()) {
+				if (!this->_game->IsInCombat()) {
 					this->_viewController->Say(this->_game->GetPlayerVitals());
 					this->_viewController->PressAnyKeyToContinue();
 				}
@@ -118,7 +120,7 @@ namespace RogueLike { namespace Controller {
 			}
 			case 6: // Kaart bekijken
 			{
-				if (!_game->IsInCombat()) {
+				if (!this->_game->IsInCombat()) {
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
@@ -127,28 +129,29 @@ namespace RogueLike { namespace Controller {
 			}
 			case 7: // Item oppakken
 			{
-				if (!_game->IsInCombat() || !_game->HasThreat()) {
+				if (!this->_game->IsInCombat() || !this->_game->HasThreat()) {
 					// TODO
 				}
 				break;
 			}
 			case 8: // Verplaatsen
 			{
-				if (!_game->IsInCombat() && (!_game->HasThreat() || Globals::DEBUG)) {
+				if (!this->_game->IsInCombat() && (!this->_game->HasThreat() || Globals::DEBUG)) {
 					this->HandleDirChoice();
 				}
 				break;
 			}
 			case 9: // Trap gebruiken
 			{
-				if (!_game->IsInCombat() && !_game->HasThreat()) {
+				if (!this->_game->IsInCombat() && !this->_game->HasThreat()) {
 					this->UseStairs();
 				}
 				break;
 			}
 			case 10: // Exit
 			{
-				if (!_game->IsInCombat()) {
+				if (!this->_game->IsInCombat()) {
+					this->Save();
 					this->_game->GameOver();
 				}
 				break;
@@ -202,6 +205,45 @@ namespace RogueLike { namespace Controller {
 		if (!s.empty()) {
 			this->_viewController->PressAnyKeyToContinue();
 		}
+	}
+
+	void GameController::StartCombatRound()
+	{
+		this->_game->StartCombat();
+		while (this->_game->IsInCombat()) {
+			this->_viewController->ClearScreen();
+			this->_viewController->Say(this->_game->GetCombatInfo());
+
+			std::vector<std::string> options = this->_game->GetAvailableActions();
+			int choice = this->_viewController->ShowOptions(options);
+
+			switch (choice)
+			{
+				case 1: // Vechten
+				{
+					this->_viewController->Say(this->_game->PlayerCombatRound());
+					this->_viewController->Say(this->_game->EnemyCombatRound());
+					break;
+				}
+				case 2: // Vluchten
+				{
+					this->_game->EndCombat();
+					this->_viewController->Say(this->_game->FleePlayer());
+					this->_viewController->PressAnyKeyToContinue();
+					break;
+				}
+				case 3: // Spullen bekijken
+				{
+					this->LookAtInventory();
+					break;
+				}
+			}
+		}
+	}
+
+	void GameController::Save()
+	{
+		//TODO ask for save and save accordingly
 	}
 
 	// Copy constructor

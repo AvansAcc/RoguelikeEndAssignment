@@ -18,7 +18,7 @@ namespace RogueLike { namespace Model {
 		uint Level;
 		uint Defence;
 		uint Lifepoints;
-	
+		uint MaxLifePoints;
 	private:
 	public:
 		Enemy();

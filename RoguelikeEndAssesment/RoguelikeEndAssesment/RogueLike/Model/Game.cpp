@@ -123,14 +123,39 @@ namespace RogueLike { namespace Model {
 		return true;
 	}
 
-	void Game::FleePlayer()
+	const std::string Game::FleePlayer()
 	{
 		Room::Room* currRoom = ((Room::Room*)this->GetCurrentPlayerRoom());
 		bool success = false;
 		while (!success) {
-			int r = Random::GetRandom(0, 3);
+			int r = Random::GetRandom(0, 4);
 			success = this->MovePlayer(r);
 		}
+		return "\nJe vlucht een willekeurige richting in.";
+	}
+
+	std::string Game::PlayerCombatRound()
+	{
+		std::string returnString = "Jij valt aan";
+		return returnString;
+	}
+
+	std::string Game::EnemyCombatRound()
+	{
+		std::string returnString = "De vijand valt je aan:";
+		return returnString;
+	}
+
+	std::string Game::GetCombatInfo()
+	{
+		std::string returnString = "Je bent in gevecht met:";
+		std::vector<Enemy*> ev = this->GetCurrentPlayerRoom()->GetEnemies();
+		for (int  i = 0; i < ev.size(); i++)
+		{
+			returnString.append("\n" + ev[i]->Name + " " + std::to_string(i) + ": " + std::to_string(ev[i]->Lifepoints) + "/" + std::to_string(ev[i]->MaxLifePoints));
+		}
+		returnString.append("\n\nYou levenpunten zijn " + std::to_string(this->_player->GetHp()) + "/100");
+		return returnString;
 	}
 
 	const std::string Game::UseStairs()
@@ -184,6 +209,16 @@ namespace RogueLike { namespace Model {
 	void Game::GameOver()
 	{
 		this->_isGameOver = true;
+	}
+
+	void Game::StartCombat()
+	{
+		this->_isInCombat = true;
+	}
+
+	void Game::EndCombat()
+	{
+		this->_isInCombat = true;
 	}
 
 	const char* const Game::GetMap()
@@ -275,6 +310,7 @@ namespace RogueLike { namespace Model {
 					index++;
 				}
 				enemy->Lifepoints = FromString<int>(monster);
+				enemy->MaxLifePoints = enemy->Lifepoints;
 				this->_enemies.push_back(enemy);
 			}
 

@@ -33,14 +33,20 @@ namespace RogueLike { namespace Model {
 		std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();
 		const bool MovePlayer(int dir);
-		void FleePlayer();
+		const std::string FleePlayer();
+		std::string PlayerCombatRound();
+		std::string EnemyCombatRound();
+		std::string GetCombatInfo();
 		const std::string UseStairs();
 		void GameOver();
+		void StartCombat();
+		void EndCombat();
 		const std::string LookAtPlayerInventory();
 		const std::string RestPlayer();
 
 		const bool IsInCombat() const { return _isInCombat; };
 		const bool HasThreat() const { return _hasThreat; };
+		const bool IsInCombat() const { return _isInCombat; };
 		const std::string GetPlayerVitals() const { return this->_player->GetVitals(); }
 		const unsigned int GetLevelWidth() const { return this->_levelManager->GetLevelWidth(); }
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }

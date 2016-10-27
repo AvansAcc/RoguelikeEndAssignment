@@ -30,6 +30,7 @@ namespace RogueLike { namespace Model {
 		int GetX() const { return _xpos; };
 		int GetY() const { return _ypos; };
 		const std::string GetName() const { return _name; };
+		const uint GetHp() const { return _lifepoints; }
 		const char GetIcon() const { return _icon; };
 		const bool isDead() const { return _isDead; };
 
