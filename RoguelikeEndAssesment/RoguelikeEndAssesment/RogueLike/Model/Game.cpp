@@ -22,15 +22,22 @@ namespace RogueLike { namespace Model {
 				delete _enemies[i];
 			_enemies.clear();
 		}
+		if (!_items.empty())
+		{
+			for (unsigned int i = 0; i < _items.size(); i++)
+				delete _items[i];
+			_items.clear();
+		}
 	}
 
 	void Game::Start(uint width, uint height, uint max_levels, std::string name)
 	{
 		_levelManager = new LevelManager(width, height, max_levels);
 		_levelManager->Start();
-		_player = new Player(name, _levelManager->GetLevel()->GetStartPoint()->GetX(), _levelManager->GetLevel()->GetStartPoint()->GetY());
+		_player = new Player(name, _levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), _levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
 		this->GetCurrentPlayerRoom()->Discover();
 		this->LoadEnemiesFile();
+		this->LoadItemsFile();
 	}
 
 	std::vector<std::string> Game::GetAvailableActions() 
@@ -83,7 +90,8 @@ namespace RogueLike { namespace Model {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
 			} else {
 				std::string name = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
-				beschrijving.append("Er kijken " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
+				std::string sentence = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? "Er kijken" : "Er kijkt";
+				beschrijving.append(sentence + " " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
 			}
 		}
 		else {
@@ -94,7 +102,7 @@ namespace RogueLike { namespace Model {
 
 		beschrijving = "Item:\n";
 		if (this->GetCurrentPlayerRoom()->GetItem() != nullptr) {
-			beschrijving.append("Er ligt een " + this->GetCurrentPlayerRoom()->GetItem()->GetName() + " in de kamer");
+			beschrijving.append("Er ligt een " + this->GetCurrentPlayerRoom()->GetItem()->Name + " in de kamer");
 		}
 		else {
 			beschrijving.append("Er liggen geen bruikbare spullen in deze kamer");
@@ -110,6 +118,8 @@ namespace RogueLike { namespace Model {
 		if (r->GetAdjacentRooms()[dir] == nullptr) {
 			return false;
 		}
+		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
+		this->GetCurrentPlayerRoom()->DeleteItem(); // Delete item before moving.
 
 		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
 		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
@@ -117,8 +127,14 @@ namespace RogueLike { namespace Model {
 		this->_player->SetNewPlayerLocation(x, y);
 		this->GetCurrentPlayerRoom()->Discover();
 
-		// Chance to spawn enemies in room.
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
+		// Chance to spawn enemies in the room.
+		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
+			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
+		else
+			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
+
+		// Chance to spawn item in the room.
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
 
 		return true;
 	}
@@ -165,12 +181,12 @@ namespace RogueLike { namespace Model {
 			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom());
 			if (sr->IsDirectionDown()) {
 				this->_levelManager->NextLevel(false);
-				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetStartPoint()->GetX(), this->_levelManager->GetLevel()->GetStartPoint()->GetY());
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
 				returnString = "\nJe neemt de trap verder de donkere diepte in, met elke stap die je zet voelt het alsof de lucht je verder verstikt.";
 			}
 			else {
 				this->_levelManager->NextLevel(true);
-				this->_player->TeleportPlayerLocation(this->_levelManager->GetLevel()->GetEndPoint()->GetX(), this->_levelManager->GetLevel()->GetEndPoint()->GetY());
+				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetY());
 				returnString = "\nJe neemt de trap omhoog waar de lucht minder zwaar op je drukt.";
 			}
 		}
@@ -186,16 +202,21 @@ namespace RogueLike { namespace Model {
 	{
 		this->_player->Heal(30);
 		std::string returnString = "\nJe bent uitgerust en hebt 30 levenpunten gekregen.";
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies);
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies, this->_levelManager->GetLevel());
 		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
 			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
 		}
 		return returnString;
 	}
+	void Game::TakeItem()
+	{
+		this->_player->AddItemToInventory(*(this->GetCurrentPlayerRoom()->GetItem()));
+		this->GetCurrentPlayerRoom()->RemoveItem();
+	}
 
 	Room::Room* Game::GetCurrentPlayerRoom()
 	{
-		return ((Room::Room*)_levelManager->GetLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
+		return ((Room::Room*)_levelManager->GetCurrentLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
 	}
 
 	const bool Game::Update()
@@ -240,7 +261,7 @@ namespace RogueLike { namespace Model {
 			std::string token = "";
 
 
-			// Remove enters
+			// Remove newlines
 			while ((pos = s.find("\r\n")) != std::string::npos) { s.erase(pos, 2); }
 
 
@@ -261,18 +282,18 @@ namespace RogueLike { namespace Model {
 				std::string amount_attacks = "";
 				std::string min_damage = "";
 				std::string max_damage = "";
-				while ((pos = monster.find(";")) != std::string::npos)
+				while (!monster.empty())
 				{
+					pos = (monster.find_first_of(';', 1) != std::string::npos) ? monster.find_first_of(';', 1) : monster.size();
 					token = monster.substr(0, pos);
 					monster.erase(0, pos + 1);
-
-
+					
 					switch (index)
 					{
 					case 0: // Naam
 						enemy->Name = token;
 						break;
-					case 1: // Naam
+					case 1: // Naam in meervoud
 						enemy->Plural = token;
 						break;
 					case 2: // Level
@@ -301,21 +322,97 @@ namespace RogueLike { namespace Model {
 					case 5: // Verdediging
 						enemy->Defence = FromString<int>(token);
 						break;
-						//case 5: // Levenspunten
-						//	enemy->Lifepoints = FromString<int>(token);
-						//	break;
+					case 6: // Levenspunten
+						enemy->Lifepoints = FromString<int>(token);
+						enemy->MaxLifePoints = enemy->Lifepoints;
+						break;
 					default:
 						break;
 					}
 					index++;
 				}
-				enemy->Lifepoints = FromString<int>(monster);
-				enemy->MaxLifePoints = enemy->Lifepoints;
 				this->_enemies.push_back(enemy);
 			}
 
 		}
 		catch (ErrorHandling::FileNotFoundException& e) {
+			std::cout << "Error during reading monsters.txt file: ";
+			std::cout << e.what() << std::endl;
+		}
+	}
+	void Game::LoadItemsFile()
+	{
+		try
+		{
+			Utils::File f("./Assets/items.txt");
+			std::string s = f.Read();
+
+
+			size_t pos = 0;
+			std::string delimiter = "]";
+			std::vector<std::string> tokens;
+			std::string token = "";
+
+
+			// Remove newlines
+			while ((pos = s.find("\r\n")) != std::string::npos) { s.erase(pos, 2); }
+
+
+			// split items
+			while ((pos = s.find(delimiter)) != std::string::npos) {
+				token = s.substr(0, pos);
+				s.erase(0, pos + delimiter.length());
+
+				token.erase(0, 1); // Remove [
+				tokens.push_back(token);
+			}
+
+			for each(std::string item in tokens)
+			{
+				Item* _item = new Item();
+				unsigned int index = 0;
+				while (!item.empty())
+				{
+					pos = (item.find_first_of(';', 1) != std::string::npos) ? item.find_first_of(';', 1) : item.size();
+					token = item.substr(0, pos);
+					item.erase(0, pos + 1);
+
+					int ability = 0;
+					switch (index)
+					{
+					case 0: // Naam
+						_item->Name = token;
+						break;
+					case 1: // Naam in meervoud
+						_item->Plural = token;
+						break;
+					case 2: // Maximaal aantal
+						_item->MaxAmount = FromString<int>(token);
+						break;
+					case 3: // Ability
+						ability = FromString<int>(token);
+						if (ability >= 0 && ability < static_cast<int>(Enum::ItemType::COUNT))
+							_item->Ability = (Enum::ItemType)(ability);
+						else
+							_item->Ability = Enum::ItemType::XP;
+						break;
+					case 4: // Effect
+						_item->Effect = FromString<int>(token);
+						break;
+					case 5: // Beschrijving
+						_item->Description = token;
+						break;
+					default:
+						break;
+					}
+					index++;
+				}
+				this->_items.push_back(_item);
+			}
+
+		}
+		catch (ErrorHandling::FileNotFoundException& e) {
+			std::cout << "Error during reading items.txt file: ";
 			std::cout << e.what() << std::endl;
 		}
 	}

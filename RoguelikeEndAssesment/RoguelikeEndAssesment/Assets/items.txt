@@ -1,0 +1,6 @@
+[Levens drankje;Levens drankjes;3;2;-20;Dit drankje geeft je leven.]
+[Zwaard;Zwaarden;1;0;+10;Een machtig zwaard voor een ridder.]
+[Schild;Schilden;1;1;+10;Een zwaar schild om jezelf mee te verdedigen tegen vijanden.]
+[Magisch boek;Magische boeken;1;3;+30;Een dik oud boek vol met rare hieroglyphen.]
+[Boek voor Dummies;Boeken voor Dummies;1;4;0;Een spreuk die je teleporteert naar het begin.]
+[Boek voor Geavanceerden;Boeken voor Geavanceerden;1;4;0;Een spreuk die je teleporteert naar het eind.]
