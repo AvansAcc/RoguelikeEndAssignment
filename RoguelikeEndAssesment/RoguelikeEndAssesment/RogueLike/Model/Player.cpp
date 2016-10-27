@@ -78,16 +78,21 @@ namespace RogueLike { namespace Model {
 
 	const uint Player::Attack()
 	{
-		return Random::GetRandom(0, 10 * (_level+1));
+		return this->_attack;
 	}
-	void Player::Damage(const uint damage)
+	bool Player::Damage(const uint damage)
 	{
-		if ((_lifepoints - damage) >= 0)
-			_lifepoints -= damage;
-		else {
-			_lifepoints = 0;
-			_isDead = true;
+		if (Random::GetRandom(0, 10) <= (_defence * 0.1))
+		{
+			if ((_lifepoints - damage) >= 0)
+				_lifepoints -= damage;
+			else {
+				_lifepoints = 0;
+				_isDead = true;
+			}
+			return true;
 		}
+		return false;
 	}
 
 	void Player::SetAttackVital(int effect)

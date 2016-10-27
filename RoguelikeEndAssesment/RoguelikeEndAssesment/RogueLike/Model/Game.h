@@ -34,9 +34,15 @@ namespace RogueLike { namespace Model {
 		std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();
 		const bool MovePlayer(int dir);
-		void FleePlayer();
+		const std::string FleePlayer();
+		const std::string PlayerCombatRound();
+		const std::string EnemyCombatRound();
+		const std::string GetCombatInfo();
 		const std::string UseStairs();
+		std::string CheckCombatOver();
 		void GameOver();
+		void StartCombat();
+		void EndCombat();
 		const std::string LookAtPlayerInventory();
 		const std::string RestPlayer();
 		void TakeItem();
