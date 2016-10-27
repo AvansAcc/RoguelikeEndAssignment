@@ -35,10 +35,16 @@ namespace RogueLike { namespace Model {
 
 		const std::string GetVitals();
 		const std::string GetInventory();
+		void AddItemToInventory(Item& item);
 		void Heal(int heal);
 		void SetNewPlayerLocation(int x, int y);
 		void TeleportPlayerLocation(int x, int y);
 		const uint Attack();
 		void Damage(const uint damage);
+
+		void SetAttackVital(int effect);
+		void SetDefenceVital(int effect);
+		void EarnXP(int effect);
+		void Teleport(int effect);
 	};
 } }

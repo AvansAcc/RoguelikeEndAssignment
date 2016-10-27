@@ -145,6 +145,7 @@
     <ClInclude Include="RogueLike\Common.h" />
     <ClInclude Include="RogueLike\Controller\GameController.h" />
     <ClInclude Include="RogueLike\Controller\ViewController.h" />
+    <ClInclude Include="RogueLike\Model\Enum\ItemType.h" />
     <ClInclude Include="RogueLike\Model\Room\BossRoom.h" />
     <ClInclude Include="RogueLike\Model\Enemy.h" />
     <ClInclude Include="RogueLike\Model\Enum\EnemyType.h" />
@@ -200,7 +201,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Assets\Map.txt" />
+    <Text Include="Assets\items.txt" />
     <Text Include="Assets\monsters.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

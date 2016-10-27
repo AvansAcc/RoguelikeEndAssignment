@@ -49,7 +49,10 @@ namespace RogueLike { namespace Model {
 		}
 		return returnString;
 	}
-
+	void Player::AddItemToInventory(Item& item)
+	{
+		this->_items.push_back(&item);
+	}
 	void Player::Heal(int heal)
 	{
 		_lifepoints += heal;
@@ -84,6 +87,52 @@ namespace RogueLike { namespace Model {
 		else {
 			_lifepoints = 0;
 			_isDead = true;
+		}
+	}
+
+	void Player::SetAttackVital(int effect)
+	{
+		if (effect < 0) {
+			if (this->_attack - effect >= 0)
+				this->_attack += effect;
+			else
+				this->_attack = 0;
+		}
+		else {
+			this->_attack += effect;
+		}
+	}
+	void Player::SetDefenceVital(int effect)
+	{
+		if (effect < 0) {
+			if (this->_defence - effect >= 0)
+				this->_defence += effect;
+			else
+				this->_defence = 0;
+		}
+		else {
+			this->_defence += effect;
+		}
+	}
+	void Player::EarnXP(int effect)
+	{
+		if (effect < 0) {
+			if (this->_xp - effect >= 0)
+				this->_xp += effect;
+			else
+				this->_xp = 0;
+		}
+		else {
+			this->_xp += effect;
+		}
+	}
+
+	void Player::Teleport(int effect)
+	{
+		if (effect > 0) {
+			this->TeleportPlayerLocation(0, 0); // TODO: Teleport to Startpoint?
+		} else {
+			this->TeleportPlayerLocation(0, 0); // TODO: Teleport to Endpoint?
 		}
 	}
 

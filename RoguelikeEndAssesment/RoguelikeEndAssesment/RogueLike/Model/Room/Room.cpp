@@ -27,6 +27,16 @@ namespace RogueLike { namespace Model { namespace Room {
 			_enemies.clear();
 		}
 	}
+	void Room::DeleteItem()
+	{
+		if (this->_item)
+			delete _item;
+		this->_item = nullptr;
+	}
+	void Room::RemoveItem()
+	{
+		this->_item = nullptr;
+	}
 
 	const char Room::GetIcon() const
 	{
@@ -173,7 +183,6 @@ namespace RogueLike { namespace Model { namespace Room {
 	}
 	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel)
 	{
-		this->DeleteEnemies();
 		std::vector<Enemy*> availableEnemies;
 
 		for (unsigned int i=0; i < enemies.size(); i++)
@@ -208,6 +217,27 @@ namespace RogueLike { namespace Model { namespace Room {
 				
 				this->_enemies.push_back(enemy);
 			}
+		}
+	}
+
+	void Room::ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel)
+	{
+		int chanceSpawn = Random::GetRandom(0, 4); // 25%
+		if (chanceSpawn == 0 && !items.empty())
+		{
+			Item* item = nullptr;
+			int chanceItem = Random::GetRandom(0, items.size());
+
+			item = new Item();
+			item->Name = items[chanceItem]->Name;
+			item->Plural = items[chanceItem]->Plural;
+			item->Amount = 1;
+			item->MaxAmount = items[chanceItem]->MaxAmount;
+			item->Description = items[chanceItem]->Description;
+			item->Effect = items[chanceItem]->Effect;
+			item->Ability = items[chanceItem]->Ability;
+
+			this->AddItem(item);
 		}
 	}
 

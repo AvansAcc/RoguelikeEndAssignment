@@ -128,7 +128,7 @@ namespace RogueLike { namespace Controller {
 			case 7: // Item oppakken
 			{
 				if (!_game->IsInCombat() || !_game->HasThreat()) {
-					// TODO
+					this->_game->TakeItem();
 				}
 				break;
 			}
