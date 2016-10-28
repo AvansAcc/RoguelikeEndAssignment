@@ -1,6 +1,6 @@
 [Levens drankje;Levens drankjes;5;2;-20;Dit drankje geeft je leven.]
 [Paars drankje;Paarse drankjes;2;0;+3;Bij het ruiken van dit drankje voel je je al sterker worden.]
 [Blauw drankje;Blauwe drankjes;2;1;+10;Er staat een vorm van een schild op het potje gekrast.]
-[Magisch boek;Magische boeken;1;3;+30;Een dik oud boek vol met rare hieroglyphen.]
+[Magisch boek;Magische boeken;1;3;+7;Een dik oud boek vol met rare hieroglyphen.]
 [Boek voor Dummies;Boeken voor Dummies;1;4;0;Een spreuk die je teleporteert naar het begin.]
 [Boek voor Geavanceerden;Boeken voor Geavanceerden;1;4;1;Een spreuk die je teleporteert naar het eind.]

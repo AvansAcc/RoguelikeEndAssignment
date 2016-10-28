@@ -25,6 +25,7 @@ namespace RogueLike { namespace Controller {
 
 	void GameController::StartNewGame()
 	{
+		if (_game) delete _game;
 		_game = new Model::Game();
 		this->_viewController->ClearScreen();
 		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 3, max 25)", 3, 25);
@@ -286,11 +287,17 @@ namespace RogueLike { namespace Controller {
 			std::cout << "Error during writing save file: ";
 			std::cout << e.what() << std::endl;
 		}
+		this->_viewController->PressAnyKeyToContinue();
 	}
 
 	void GameController::LoadGame()
 	{
 		// TODO: Load the game state
+
+		Utils::File f("./Assets/SaveFile.txt");
+		
+		std::string loadedfile = f.Read();
+
 	}
 
 	// Copy constructor

@@ -303,7 +303,7 @@ namespace RogueLike { namespace Model {
 
 	Room::Room* Game::GetCurrentPlayerRoom()
 	{
-		return ((Room::Room*)_levelManager->GetCurrentLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
+		return ((Room::Room*)_levelManager->GetCurrentLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelWidth()) + _player->GetX()]);
 	}
 
 	void Game::GameOver()
@@ -318,7 +318,7 @@ namespace RogueLike { namespace Model {
 
 	void Game::EndCombat()
 	{
-		this->_isInCombat = true;
+		this->_isInCombat = false;
 	}
 
 	const char* const Game::GetMap()
