@@ -59,9 +59,6 @@ namespace RogueLike { namespace Model {
 				options[0] = "";
 				options[1] = "";
 			}
-			if (this->GetCurrentPlayerRoom()->GetItem() == nullptr) {
-				options[6] = "";
-			}
 			if (this->_hasThreat)
 			{
 				if (!Globals::DEBUG) {
@@ -177,7 +174,7 @@ namespace RogueLike { namespace Model {
 		if (this->_player->isDead()) {
 			this->_isInCombat = false;
 			this->_isGameOver = true;
-			return "\nJe bent gestorven. De geest van " + this->_player->GetName() + " zal voor altijd door de kerker dwaalen...";
+			return "\nJe bent gestorven. De geest van " + this->_player->GetName() + " zal voor altijd door de kerker dwalen...";
 		}
 		else if (this->GetCurrentPlayerRoom()->GetEnemy() == nullptr) {
 			this->_isInCombat = false;
@@ -225,7 +222,7 @@ namespace RogueLike { namespace Model {
 		this->_player->SetNewPlayerLocation(x, y);
 		// Chance to spawn item in the room.
 		if (!this->GetCurrentPlayerRoom()->IsDiscovered() || Globals::DEBUG) {
-			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel(), 9);
+			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel(), 1);
 		}
 		this->GetCurrentPlayerRoom()->Discover();
 
@@ -298,6 +295,10 @@ namespace RogueLike { namespace Model {
 	const std::string Game::TakeItem()
 	{
 		Item* item = this->GetCurrentPlayerRoom()->GetItem();
+		if (item == nullptr)
+		{
+			return "Je doorzoekt de kamer maar je vind geen bruikbare spullen.";
+		}
 		if (this->_player->AddItemToInventory(*item) == true)
 		{
 			this->GetCurrentPlayerRoom()->RemoveItem();
