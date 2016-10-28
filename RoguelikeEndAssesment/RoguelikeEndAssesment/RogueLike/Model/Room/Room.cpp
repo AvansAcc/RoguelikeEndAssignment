@@ -192,8 +192,11 @@ namespace RogueLike { namespace Model { namespace Room {
 
 		_adjacentRooms.at(direction) = room;
 	}
-	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel)
+	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel, int chance)
 	{
+		if (chance > 10) {
+			chance = 10;
+		}
 		std::vector<Enemy*> availableEnemies;
 
 		for (unsigned int i=0; i < enemies.size(); i++)
@@ -205,8 +208,8 @@ namespace RogueLike { namespace Model { namespace Room {
 			}
 		}
 
-		int chanceSpawn = Random::GetRandom(0, 4); // 25%
-		if (chanceSpawn == 0 && !availableEnemies.empty())
+		int chanceSpawn = Random::GetRandom(1, 11);
+		if (chanceSpawn <= chance && !availableEnemies.empty())
 		{
 			int chanceEnemy = Random::GetRandom(0, availableEnemies.size());
 			int changeAmount = Random::GetRandom(1, 4); // 3
