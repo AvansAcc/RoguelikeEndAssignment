@@ -42,8 +42,8 @@ namespace RogueLike { namespace Model {
 	const std::string Player::GetInventory()
 	{
 		std::string returnString = "Bezittingen: ";
-		for each (Item* item in this->_items) {
-			returnString.append("\n" + item->Look());
+		for (unsigned int i = 0; i < this->_items.size(); i++) {
+			returnString.append("\n" + std::to_string(i + 1) + ": " + _items[i]->Look());
 		}
 		if (this->_items.size() <= 0) {
 			returnString.append("\nJe hebt op dit moment geen bezittingen.");
@@ -72,19 +72,19 @@ namespace RogueLike { namespace Model {
 		return false;
 	}
 
-	void Player::UseItem(uint index)
+	const std::string Player::UseItem(uint index)
 	{
 		if (index < 0 || index >= _items.size())
-			return;
+			return "";
 
-		_items[index]->Use(*this);
+		std::string answer = _items[index]->Use(*this);
 
 		_items[index]->Amount--;
 
 		if (_items[index]->Amount <= 0)
 			_items.erase(_items.begin() + index);
 
-
+		return answer;
 	}
 
 	void Player::Heal(int heal)

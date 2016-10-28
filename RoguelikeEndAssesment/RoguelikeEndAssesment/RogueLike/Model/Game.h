@@ -50,6 +50,8 @@ namespace RogueLike { namespace Model {
 		const std::string PlayerCombatRound();
 		const std::string EnemyCombatRound();
 		const std::string LookAtPlayerInventory();
+		const int GetPlayerItemAmount();
+		const std::string UseInventory(int choice);
 		const std::string RestPlayer();
 		const std::string TakeItem();
 

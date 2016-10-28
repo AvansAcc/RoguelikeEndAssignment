@@ -47,7 +47,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		
 		virtual void ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel, int chance);
 		virtual void DeleteEnemies();
-		virtual void ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel);
+		virtual void ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel, int chance);
 		virtual void RemoveItem(); // Remove the item from room when it is givin to the player.
 		virtual void DeleteItem(); // Delete the item
 	};

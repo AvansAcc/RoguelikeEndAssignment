@@ -21,29 +21,29 @@ namespace RogueLike { namespace Model {
 
 	const std::string Item::Look()
 	{
-		return (std::to_string(Amount) + "x " + Name +  ". Maximale hoeveelheid om bij je te dragen is " + std::to_string(Amount));
+		return (std::to_string(Amount) + "/" + std::to_string(MaxAmount) + " " + Name + ". {Beschrijving: " + this->Description +" }");
 	}
-	const bool Item::Use(Player& player)
+	const std::string Item::Use(Player& player)
 	{
 		switch (Ability)
 		{
 		case Enum::ItemType::ATTACK:
 			player.SetAttackVital(this->Effect);
-			return true;
+			return "Je voelt je sterker dan ooit!";
 		case Enum::ItemType::DEFENCE:
 			player.SetDefenceVital(this->Effect);
-			return true;
+			return "Je voelt je beter dan ooit!";
 		case Enum::ItemType::LIFEPOINTS:
 			player.Heal(this->Effect);
-			return true;
+			return "Je voelt je verwondingen weggaan!";
 		case Enum::ItemType::XP:
 			player.EarnXP(this->Effect);
-			return true;
+			return "Je ervaard allerlei nieuwe belevenissen en gedachten!";
 		case Enum::ItemType::TELEPORT:
 			player.Teleport(this->Effect);
-			return true;
+			return "Je wordt weggetrokken uit de kamer en bent plotseling ergens anders";
 		default:
-			return false;
+			return "";
 		}
 	}
 
