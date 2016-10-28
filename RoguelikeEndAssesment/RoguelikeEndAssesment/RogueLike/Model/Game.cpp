@@ -39,6 +39,25 @@ namespace RogueLike { namespace Model {
 		this->LoadEnemiesFile();
 		this->LoadItemsFile();
 	}
+
+	void Game::Load(LevelManager& levelmanager, Player& player)
+	{
+		if (_levelManager)
+			delete _levelManager;
+		if (_player)
+			delete _player;
+
+		_levelManager = &levelmanager;
+		_player = &player;
+
+		_isGameOver = false;
+		_hasDefeatedBoss = false;
+		_isInCombat = false;
+		//_hasThreat = false; // TODO: Check if _hasThreat
+
+		this->LoadEnemiesFile();
+		this->LoadItemsFile();
+	}
 	const bool Game::Update()
 	{
 		if (this->_hasDefeatedBoss) {

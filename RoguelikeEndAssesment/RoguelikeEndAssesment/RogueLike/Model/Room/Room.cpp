@@ -217,7 +217,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 			for (int i = 0; i < changeAmount; i++)
 			{
-				enemy = new Enemy(*availableEnemies[chanceEnemy]);
+				enemy = new Enemy(*availableEnemies[chanceEnemy]); // use the copy constructor
 				this->_enemies.push_back(enemy);
 			}
 		}
@@ -234,7 +234,7 @@ namespace RogueLike { namespace Model { namespace Room {
 			Item* item = nullptr;
 			int chanceItem = Random::GetRandom(0, items.size());
 
-			item = new Item(*items[chanceItem]);
+			item = new Item(*items[chanceItem]); // use the copy constructor
 			item->Amount = 1;
 			this->AddItem(item);
 		}

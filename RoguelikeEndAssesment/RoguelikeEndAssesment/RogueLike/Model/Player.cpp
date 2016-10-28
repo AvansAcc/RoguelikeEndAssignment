@@ -17,6 +17,7 @@ namespace RogueLike { namespace Model {
 		_xpos = x;
 		_ypos = y;
 	}
+
 	Player::~Player()
 	{
 		if (!_items.empty())
@@ -25,6 +26,23 @@ namespace RogueLike { namespace Model {
 				delete _items[i];
 			_items.clear();
 		}
+	}
+
+	void Player::Load(unsigned int level, unsigned int attack, unsigned int defence, unsigned int lifepoints, unsigned int xp, std::vector<Item*> items)
+	{
+		this->_level = level;
+		this->_attack = attack;
+		this->_defence = defence;
+		this->_lifepoints = lifepoints;
+		this->_maxLifepoints = 100 + ((level-1) * 10);
+		this->_xp = xp;
+		if (!_items.empty())
+		{
+			for (uint i = 0; i < _items.size(); i++)
+				delete _items[i];
+			_items.clear();
+		}
+		this->_items = items;
 	}
 
 	const std::string Player::GetVitals()
@@ -132,7 +150,7 @@ namespace RogueLike { namespace Model {
 	void Player::SetAttackVital(int effect)
 	{
 		if (effect < 0) {
-			if (this->_attack - effect >= 0)
+			if (effect <= (int)this->_attack)
 				this->_attack += effect;
 			else
 				this->_attack = 0;
@@ -144,7 +162,7 @@ namespace RogueLike { namespace Model {
 	void Player::SetDefenceVital(int effect)
 	{
 		if (effect < 0) {
-			if (this->_defence - effect >= 0)
+			if (effect <= (int)this->_defence)
 				this->_defence += effect;
 			else
 				this->_defence = 0;
@@ -157,7 +175,7 @@ namespace RogueLike { namespace Model {
 	{
 		bool returnBool = false;
 		if (effect < 0) {
-			if (this->_xp - effect >= 0)
+			if (effect <= (int)this->_xp)
 				this->_xp += effect;
 			else
 				this->_xp = 0;
@@ -194,6 +212,7 @@ namespace RogueLike { namespace Model {
 	const std::string Player::GetVitalsAsString() const
 	{
 		std::string vitals = "";
+		vitals.append("{");
 		vitals.append(_name).append(";");						// Name
 		vitals.append(std::to_string(_level)).append(";");		// Level
 		vitals.append(std::to_string(_xpos)).append(";");		// x POS
@@ -201,8 +220,8 @@ namespace RogueLike { namespace Model {
 		vitals.append(std::to_string(_attack)).append(";");		// Attack
 		vitals.append(std::to_string(_defence)).append(";");	// Defence
 		vitals.append(std::to_string(_xp)).append(";");			// Xp
-		vitals.append(std::to_string(_lifepoints)).append(";");	// Lifepoints
-		
+		vitals.append(std::to_string(_lifepoints));	// Lifepoints
+		vitals.append("}");
 		vitals.append("{");
 		for (unsigned int i = 0; i < _items.size(); i++)
 		{
