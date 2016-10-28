@@ -83,15 +83,16 @@ namespace RogueLike { namespace Model {
 		returnValue.push_back(beschrijving);
 		
 		beschrijving = "Vijanden:\n";
-		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
+		unsigned int amount_enemies = this->GetCurrentPlayerRoom()->GetAmountOfEnemiesAlive();
+		if (amount_enemies > 0) {
 			this->_hasThreat = true;
-			std::string noOfEnemies = std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies());
+			std::string noOfEnemies = std::to_string(amount_enemies);
 			if (this->_isInCombat) {
 				beschrijving.append("Je bent in gevecht met " + noOfEnemies + " " + this->GetCurrentPlayerRoom()->GetEnemy()->Name + ".");
 			} else {
-				std::string name = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
-				std::string sentence = (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 1) ? "Er kijken" : "Er kijkt";
-				beschrijving.append(sentence + " " + std::to_string(this->GetCurrentPlayerRoom()->GetAmountOfEnemies()) + " " + name + " je aan.");
+				std::string name = (amount_enemies > 1) ? this->GetCurrentPlayerRoom()->GetEnemy()->Plural : this->GetCurrentPlayerRoom()->GetEnemy()->Name;
+				std::string sentence = (amount_enemies > 1) ? "Er kijken" : "Er kijkt";
+				beschrijving.append(sentence + " " + std::to_string(amount_enemies) + " " + name + " je aan.");
 			}
 		}
 		else {
@@ -155,11 +156,11 @@ namespace RogueLike { namespace Model {
 		std::string returnString = "Jij valt aan:\n";
 		unsigned int dmg = this->_player->Attack();
 		Enemy* enemy = this->GetCurrentPlayerRoom()->GetEnemy();
-		if (enemy->Damage(dmg)) {
+		if (dmg > 0 && enemy->Damage(dmg)) {
 			returnString.append("Je doet " + std::to_string(dmg) + " schade tegen " + enemy->Name + ".\n");
 		}
 		else {
-			returnString.append("Je slaat volslagen mis en doet geen schade aan de vijand.");
+			returnString.append("Je slaat volslagen mis en doet geen schade aan de vijand.\n");
 		}
 
 		return returnString;
@@ -174,7 +175,7 @@ namespace RogueLike { namespace Model {
 		{
 			if (foe->IsDead() != true) {
 				unsigned int dmg = foe->Attack();
-				if (this->_player->Damage(dmg)) {
+				if (dmg > 0 && this->_player->Damage(dmg)) {
 					returnString.append("\nVijand " + foe->Name + " doet " + std::to_string(dmg) + " schade tegen jou.");
 				}
 				else {
@@ -193,9 +194,9 @@ namespace RogueLike { namespace Model {
 	{
 		std::string returnString = "Je bent in gevecht met:";
 		std::vector<Enemy*> ev = this->GetCurrentPlayerRoom()->GetEnemies();
-		for (int  i = 0; i < ev.size(); i++)
+		for (unsigned int  i = 0; i < ev.size(); i++)
 		{
-			returnString.append("\n" + ev[i]->Name + " " + std::to_string(i) + ": " + std::to_string(ev[i]->Lifepoints) + "/" + std::to_string(ev[i]->MaxLifePoints));
+			returnString.append("\n" + ev[i]->Name + " " + std::to_string((i+1)) + ": " + std::to_string(ev[i]->Lifepoints) + "/" + std::to_string(ev[i]->MaxLifePoints));
 		}
 		returnString.append("\n\nYou levenpunten zijn " + std::to_string(this->_player->GetHp()) + "/100");
 		return returnString;
@@ -236,10 +237,17 @@ namespace RogueLike { namespace Model {
 		}
 		return returnString;
 	}
-	void Game::TakeItem()
+	const std::string Game::TakeItem()
 	{
-		this->_player->AddItemToInventory(*(this->GetCurrentPlayerRoom()->GetItem()));
-		this->GetCurrentPlayerRoom()->RemoveItem();
+		Item* item = this->GetCurrentPlayerRoom()->GetItem();
+		if (this->_player->AddItemToInventory(*item) == true)
+		{
+			this->GetCurrentPlayerRoom()->RemoveItem();
+			return "Je hebt het " + item->Name + " opgepakt en in je zak gestopt bij de rest van de spullen.";
+		} else {
+			// The item will be remove after moving the player to another room.
+			return "Je merkt dat je er al teveel van hebt, dus je hebt besloten om het te laten liggen.";
+		}
 	}
 
 	Room::Room* Game::GetCurrentPlayerRoom()
@@ -260,11 +268,13 @@ namespace RogueLike { namespace Model {
 		if (this->_player->isDead()) {
 			this->_isInCombat = false;
 			this->_isGameOver = true;
-			return "De geest van " + this->_player->GetName() + " Zal voor altijd door de kerker dwaalen";
+			return "De geest van " + this->_player->GetName() + " zal voor altijd door de kerker dwaalen";
 		}
 		else if (this->GetCurrentPlayerRoom()->GetEnemy() == nullptr) {
 			this->_isInCombat = false;
-			return "De speler heeft de vijanden verslagen";
+			const unsigned int amount = this->GetCurrentPlayerRoom()->GetAmountOfEnemies();
+			std::string sentence = (amount > 1) ? "De speler heeft de vijanden verslagen" : "De speler heeft de vijand verslagen";
+			return sentence;
 		}
 		return "";
 	}
@@ -459,6 +469,18 @@ namespace RogueLike { namespace Model {
 		}
 	}
 
+	const std::string Game::GetPlayerVitalsAsString() const
+	{
+		return this->_player->GetVitalsAsString();
+	}
+	const std::string Game::GetLevelsAsString() const
+	{
+		return this->_levelManager->GetLevelsAsString();
+	}
+	const int Game::GetPlayerCurrentLevel() const
+	{
+		return this->_levelManager->GetLevel();
+	}
 
 	Game::Game(const Game& other)
 		: _levelManager { other._levelManager }

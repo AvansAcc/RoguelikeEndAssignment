@@ -78,7 +78,24 @@ namespace RogueLike { namespace Model {
 			return 0;
 		return this->_levels[_level]->GetHeight();
 	}
+	const unsigned int LevelManager::GetMaxDepth() const
+	{
+		return _maxLevels;
+	}
 
+	const std::string LevelManager::GetLevelsAsString() const
+	{
+		std::string levels = "";
+		levels.append("{");
+		for (unsigned int i=0; i<_levels.size(); i++)
+		{
+			levels.append("[");
+			levels.append(this->_levels[i]->GetLevelAsString());
+			levels.append("]");
+		}
+		levels.append("}");
+		return levels;
+	}
 
 
 	LevelManager::LevelManager(const LevelManager& other)

@@ -30,7 +30,7 @@ namespace RogueLike { namespace Controller {
 	{
 		this->ClearScreen();
 		this->Say("Kerkers en draken\n\n");
-		std::vector<std::string> menuItems{ "Nieuw spel", "Spel laden", "Credits", "Afsluiten" };
+		std::vector<std::string> menuItems{ "Nieuw spel", "Spel laden", "Spel opslaan", "Credits", "Afsluiten" };
 		_outputView->ShowMenu(menuItems);
 		return this->AskInt("\nMaak uw keuze uit de menu items (geef het nummer mee)", menuItems.size());
 	}

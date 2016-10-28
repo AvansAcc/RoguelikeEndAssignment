@@ -5,6 +5,7 @@ namespace RogueLike { namespace Model { namespace Room {
 	Nothing::Nothing(char icon, int x, int y) : IRoom(icon, x, y)
 	{
 		this->_icon = icon;
+		this->_isDiscovered = false;
 	}
 	Nothing::~Nothing()
 	{
@@ -26,6 +27,14 @@ namespace RogueLike { namespace Model { namespace Room {
 	const int Nothing::GetY() const
 	{
 		return this->_ypos;
+	}
+
+	const bool Nothing::IsDiscovered() const
+	{
+		if (Globals::DEBUG == true)
+			return true;
+		else
+			return this->_isDiscovered;
 	}
 
 } } }

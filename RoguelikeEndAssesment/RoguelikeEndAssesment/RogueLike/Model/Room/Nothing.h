@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IRoom.h"
+#include "../../Variables.h"
 
 namespace RogueLike { namespace Model { namespace Room {
 
@@ -14,6 +15,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		const char GetRealIcon() const override;
 		const int GetX() const override;
 		const int GetY() const override;
+		const bool IsDiscovered() const override;
 	};
 
 } } }

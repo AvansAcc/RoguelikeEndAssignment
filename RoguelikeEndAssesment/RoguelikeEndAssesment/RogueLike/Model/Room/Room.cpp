@@ -17,7 +17,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		if (!_adjacentRooms.empty())
 			_adjacentRooms.clear();
 		this->DeleteEnemies();
-		delete _item;
+		this->DeleteItem();
 	}
 	void Room::DeleteEnemies()
 	{
@@ -79,7 +79,17 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		return _enemies.size();
 	}
-
+	
+	const unsigned int Room::GetAmountOfEnemiesAlive() const
+	{
+		unsigned int amount = 0;
+		for each(Enemy* e in _enemies)
+		{
+			if (!e->IsDead())
+				amount++;
+		}
+		return amount;
+	}
 	Item* Room::GetItem() const 
 	{
 		return _item;
@@ -210,6 +220,7 @@ namespace RogueLike { namespace Model { namespace Room {
 				enemy->Type = Enum::EnemyType::NORMAL;
 				enemy->Level = availableEnemies[chanceEnemy]->Level;
 				enemy->Lifepoints = availableEnemies[chanceEnemy]->Lifepoints;
+				enemy->MaxLifePoints = availableEnemies[chanceEnemy]->MaxLifePoints;
 				enemy->AmountAttacks = availableEnemies[chanceEnemy]->AmountAttacks;
 				enemy->Defence = availableEnemies[chanceEnemy]->Defence;
 				enemy->Hitchance = availableEnemies[chanceEnemy]->Hitchance;
@@ -223,7 +234,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	void Room::ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel)
 	{
-		int chanceSpawn = Random::GetRandom(0, 4); // 25%
+		int chanceSpawn = Random::GetRandom(0, 10); // 10.0%
 		if (chanceSpawn == 0 && !items.empty())
 		{
 			Item* item = nullptr;

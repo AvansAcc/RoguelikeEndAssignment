@@ -33,5 +33,8 @@ namespace RogueLike { namespace Model {
 		const char* const GetMap(const int player_x, const int player_y) const;
 		const unsigned int GetLevelWidth() const;
 		const unsigned int GetLevelHeight() const;
+		const unsigned int GetMaxDepth() const;
+
+		const std::string GetLevelsAsString() const;
 	};
 } }

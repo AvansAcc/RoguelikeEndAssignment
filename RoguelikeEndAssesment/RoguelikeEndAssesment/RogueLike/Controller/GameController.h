@@ -9,6 +9,7 @@ namespace RogueLike { namespace Controller {
 	private:
 		ViewController* _viewController;
 		Model::Game* _game;
+		bool _running;
 	public:
 
 	private:
@@ -30,6 +31,7 @@ namespace RogueLike { namespace Controller {
 		void Start();
 		const bool Update();
 		void DoAction();
+		void ShowMenu();
 	};
 
 } }

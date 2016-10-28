@@ -20,7 +20,6 @@ namespace RogueLike { namespace Model { namespace Room {
 		std::vector<IRoom*> _adjacentRooms;
 		std::vector<Enemy*> _enemies;
 		Item* _item;
-		bool _isDiscovered;
 	public:
 		Room(char icon, int x, int y);
 		virtual ~Room();
@@ -36,8 +35,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual Enemy* GetEnemy() const;
 		virtual std::vector<Enemy*> GetEnemies() const { return _enemies; };
 		virtual const unsigned int GetAmountOfEnemies() const;
+		virtual const unsigned int GetAmountOfEnemiesAlive() const;
 		virtual Item* GetItem() const;
-		virtual const bool IsDiscovered() const;
+		virtual const bool IsDiscovered() const override;
 		virtual void Discover();
 
 		virtual void AddItem(Item* item);
