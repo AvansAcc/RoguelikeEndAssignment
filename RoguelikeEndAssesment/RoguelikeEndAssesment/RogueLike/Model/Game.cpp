@@ -223,12 +223,15 @@ namespace RogueLike { namespace Model {
 			return false;
 		}
 		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
-		this->GetCurrentPlayerRoom()->DeleteItem(); // Delete item before moving.
 
 		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
 		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
 
 		this->_player->SetNewPlayerLocation(x, y);
+		// Chance to spawn item in the room.
+		if (!this->GetCurrentPlayerRoom()->IsDiscovered()) {
+			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
+		}
 		this->GetCurrentPlayerRoom()->Discover();
 
 		// Chance to spawn enemies in the room.
@@ -236,9 +239,6 @@ namespace RogueLike { namespace Model {
 			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 0);
 		else
 			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 4);
-
-		// Chance to spawn item in the room.
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
 
 		return true;
 	}
