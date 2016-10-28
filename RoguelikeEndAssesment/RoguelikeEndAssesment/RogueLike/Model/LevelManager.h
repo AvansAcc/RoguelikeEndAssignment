@@ -35,6 +35,8 @@ namespace RogueLike { namespace Model {
 		const unsigned int GetLevelHeight() const;
 		const unsigned int GetMaxDepth() const;
 
+		void Load(unsigned int currentlevel, std::vector<Level*> levels = {});
+
 		const std::string GetLevelsAsString() const;
 	};
 } }

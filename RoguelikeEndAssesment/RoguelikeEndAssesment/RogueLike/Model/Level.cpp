@@ -140,6 +140,7 @@ namespace RogueLike { namespace Model {
 		
 		if (_locations[(startLoc[1] * _width) + startLoc[0]])
 			delete _locations[(startLoc[1] * _width) + startLoc[0]];
+		((Room::Room*)_startPoint)->Discover();
 		_locations[(startLoc[1] * _width) + startLoc[0]] = _startPoint;
 		
 		std::vector<Room::Room*> *_tempList = new std::vector<Room::Room*>();
@@ -425,15 +426,15 @@ namespace RogueLike { namespace Model {
 
 		level.append(std::to_string(_startPoint->GetX())).append(";");		// Startpoint X
 		level.append(std::to_string(_startPoint->GetY())).append(";");		// Startpoint Y
-		level.append(std::to_string(_endPoint->GetX())).append(";"); ;		// EndPoint Y
-		level.append(std::to_string(_endPoint->GetY())).append(";"); ;		// EndPoint Y
+		level.append(std::to_string(_endPoint->GetX())).append(";");		// EndPoint Y
+		level.append(std::to_string(_endPoint->GetY())).append(";");		// EndPoint Y
 		level.append("[");
 		for (unsigned int i = 0; i < _locations.size(); i++)
 		{
-			level.append("{");
 			level.append(std::to_string(_locations[i]->GetRealIcon())).append(";");
 			level.append(std::to_string(_locations[i]->IsDiscovered()));
-			level.append("}");
+			if (i < (_locations.size() - 1))
+				level.append(",");
 		}
 		level.append("]");
 

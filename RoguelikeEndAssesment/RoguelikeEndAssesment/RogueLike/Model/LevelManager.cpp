@@ -24,6 +24,26 @@ namespace RogueLike { namespace Model {
 		this->SetLevel(0);
 	}
 
+	void LevelManager::Load(unsigned int currentlevel, std::vector<Level*> levels)
+	{
+		this->_level = currentlevel;
+		this->ClearLevels();
+		if (levels.empty())
+		{
+			for (unsigned int i = 0; i < this->_level; i++)
+			{
+				Level* level = new Level(_width, _height, i, _maxLevels);
+				level->GenerateMap();
+				this->_levels.push_back(std::move(level)); // use the move constructor
+			}
+		}
+		else {
+			this->_levels = levels;
+		}
+		
+		this->SetLevel(this->_level);
+	}
+
 	void LevelManager::ClearLevels()
 	{
 		if (!_levels.empty())
@@ -42,8 +62,8 @@ namespace RogueLike { namespace Model {
 		} else {
 			this->_level = level;
 			this->_currentLevel = new Level(_width, _height, level, _maxLevels);
-			this->_levels.push_back(std::move(_currentLevel)); // use the move constructor
 			this->_currentLevel->GenerateMap();
+			this->_levels.push_back(std::move(_currentLevel)); // use the move constructor
 		}
 	}
 
@@ -89,9 +109,9 @@ namespace RogueLike { namespace Model {
 		levels.append("{");
 		for (unsigned int i=0; i<_levels.size(); i++)
 		{
-			levels.append("[");
 			levels.append(this->_levels[i]->GetLevelAsString());
-			levels.append("]");
+			if (i < (_levels.size() - 1))
+				levels.append(",");
 		}
 		levels.append("}");
 		return levels;

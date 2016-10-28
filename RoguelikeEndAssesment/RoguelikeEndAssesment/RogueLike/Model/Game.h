@@ -31,6 +31,7 @@ namespace RogueLike { namespace Model {
 		Game& operator=(Game&& other);
 
 		void Start(uint width, uint height, uint max_levels, std::string name);
+		void Load(LevelManager& levelmanager, Player& player);
 		const bool Update();
 		void LoadEnemiesFile();
 		void LoadItemsFile();

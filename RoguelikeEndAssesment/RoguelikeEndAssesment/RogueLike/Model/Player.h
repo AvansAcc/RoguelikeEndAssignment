@@ -29,6 +29,8 @@ namespace RogueLike { namespace Model {
 		Player(std::string name, int x, int y);
 		virtual ~Player();
 
+		void Load(unsigned int level, unsigned int attack, unsigned int defence, unsigned int lifepoints, unsigned int xp, std::vector<Item*> items);
+
 		int GetX() const { return _xpos; };
 		int GetY() const { return _ypos; };
 		const std::string GetName() const { return this->_name; };
