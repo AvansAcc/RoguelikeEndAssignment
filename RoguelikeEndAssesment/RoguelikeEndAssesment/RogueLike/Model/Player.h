@@ -11,6 +11,7 @@ namespace RogueLike { namespace Model {
 	class Player {
 	private:
 		uint _lifepoints;
+		uint _maxLifepoints;
 		uint _defence;
 		std::string _name;
 		char _icon;
@@ -23,16 +24,19 @@ namespace RogueLike { namespace Model {
 	public:
 
 	private:
+		void LevelUp();
 	public:
 		Player(std::string name, int x, int y);
 		virtual ~Player();
 
 		int GetX() const { return _xpos; };
 		int GetY() const { return _ypos; };
-		const std::string GetName() const { return _name; };
-		const uint GetHp() const { return _lifepoints; }
-		const char GetIcon() const { return _icon; };
-		const bool isDead() const { return _isDead; };
+		const std::string GetName() const { return this->_name; };
+		const uint GetHp() const { return this->_lifepoints; }
+		const uint GetMaxHp() const { return this->_maxLifepoints; }
+		const uint GetLvl() const{ return this->_level; }
+		const char GetIcon() const { return this->_icon; };
+		const bool isDead() const { return this->_isDead; };
 
 		const std::string GetVitals();
 		const std::string GetInventory();
@@ -46,7 +50,7 @@ namespace RogueLike { namespace Model {
 
 		void SetAttackVital(int effect);
 		void SetDefenceVital(int effect);
-		void EarnXP(int effect);
+		const bool EarnXP(int effect);
 		void Teleport(int effect);
 		const std::string GetVitalsAsString() const;
 	};

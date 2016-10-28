@@ -27,9 +27,9 @@ namespace RogueLike { namespace Controller {
 	{
 		_game = new Model::Game();
 		this->_viewController->ClearScreen();
-		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 2, max 25)", 2, 25);
-		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (min 2, max 25)", 2, 25);
-		uint max_levels = this->_viewController->AskInt("Hoe diep zal de kerken zijn? (max 10)", 10);
+		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 3, max 25)", 3, 25);
+		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (min 3, max 25)", 3, 25);
+		uint max_levels = this->_viewController->AskInt("Hoe diep zal de kerken zijn? (min 1, max 10)", 10);
 		std::string name = this->_viewController->AskWord("Ten slotte, hoe heet onze held?");
 		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
 
