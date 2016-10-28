@@ -47,6 +47,7 @@ namespace RogueLike { namespace Controller {
 			this->ShowMenu();
 	
 		if (!_running)
+			this->_viewController->ShowCreditScreen();
 			this->_viewController->ShowCloseScreen();
 
 		return _running;
@@ -262,6 +263,8 @@ namespace RogueLike { namespace Controller {
 				{
 					this->_viewController->Say(this->_game->PlayerCombatRound());
 					this->_viewController->Say(this->_game->EnemyCombatRound());
+					this->_viewController->Say(this->_game->CheckCombatOver());
+					this->_viewController->PressAnyKeyToContinue();
 					break;
 				}
 				case 2: // Vluchten
@@ -274,11 +277,11 @@ namespace RogueLike { namespace Controller {
 				{
 					this->LookAtInventory();
 					this->_viewController->Say(this->_game->EnemyCombatRound());
+					this->_viewController->Say(this->_game->CheckCombatOver());
+					this->_viewController->PressAnyKeyToContinue();
 					break;
 				}
 			}
-			this->_viewController->Say(this->_game->CheckCombatOver());
-			this->_viewController->PressAnyKeyToContinue();
 		}
 	}
 
@@ -315,7 +318,6 @@ namespace RogueLike { namespace Controller {
 		}
 		this->_viewController->PressAnyKeyToContinue();
 	}
-
 	void GameController::LoadGame()
 	{
 		// TODO: Load the game state
@@ -332,7 +334,6 @@ namespace RogueLike { namespace Controller {
 		, _game { other._game }
 	{
 	}
-
 	// Copy assignment operator
 	GameController& GameController::operator=(const GameController& other)
 	{
@@ -350,8 +351,6 @@ namespace RogueLike { namespace Controller {
 		}
 		return *this;
 	}
-
-
 	// Move constructor
 	GameController::GameController(GameController&& other)
 		: _viewController { other._viewController }
@@ -360,7 +359,6 @@ namespace RogueLike { namespace Controller {
 		other._viewController = nullptr;
 		other._game = nullptr;
 	}
-
 	// Move assignment operator
 	GameController& GameController::operator=(GameController&& other)
 	{
