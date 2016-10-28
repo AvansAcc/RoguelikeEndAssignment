@@ -5,6 +5,7 @@ namespace RogueLike { namespace Controller {
 	GameController::GameController()
 	{
 		_viewController = new ViewController();
+		_running = false;
 	}
 
 	GameController::~GameController()
@@ -16,28 +17,10 @@ namespace RogueLike { namespace Controller {
 
 	void GameController::Start()
 	{
+		_running = true;
 		this->_viewController->ShowWelcomeScreen();
 		
-		bool menuBool = true;
-		while (menuBool)
-		{
-			int menuChoice = this->_viewController->ShowMenuScreen();
-
-			if (menuChoice == 1) {
-				menuBool = false;
-				this->StartNewGame();
-			}
-			else if (menuChoice == 2) {
-				menuBool = false;
-				this->LoadGame();
-			}
-			else if (menuChoice == 3) {
-				this->_viewController->ShowCreditScreen();
-			}
-			else if (menuChoice == 4) {
-				menuBool = false;
-			}
-		}
+		this->ShowMenu();
 	}
 
 	void GameController::StartNewGame()
@@ -53,23 +36,52 @@ namespace RogueLike { namespace Controller {
 		this->_game->Start(width, height, max_levels, name);
 	}
 
-	void GameController::LoadGame()
-	{
-		// TODO load game
-	}
-
 	const bool GameController::Update()
 	{
-		bool returnValue = (_game != nullptr) ? !_game->Update() : false;
-		if (returnValue) {
+		_running = (_game != nullptr) ? !_game->Update() : false;
+		
+		if (_running)
 			this->DoAction();
-		}
-		else {
+		else
+			this->ShowMenu();
+	
+		if (!_running)
 			this->_viewController->ShowCloseScreen();
-		}
-		return returnValue;
-	}
 
+		return _running;
+	}
+	void GameController::ShowMenu()
+	{
+		bool menuBool = true;
+		while (menuBool)
+		{
+			int menuChoice = this->_viewController->ShowMenuScreen();
+
+			if (menuChoice == 1) {
+				menuBool = false;
+				this->StartNewGame();
+				_running = true;
+			}
+			else if (menuChoice == 2) {
+				menuBool = false;
+				this->LoadGame();
+				_running = true;
+			}
+			else if (menuChoice == 3) {
+				menuBool = false;
+				this->Save();
+				_running = true;
+			}
+			else if (menuChoice == 4) {
+				this->_viewController->ShowCreditScreen();
+				_running = true;
+			}
+			else if (menuChoice == 5) {
+				menuBool = false;
+				_running = false;
+			}
+		}
+	}
 	void GameController::DoAction()
 	{
 		std::vector<std::string> gameInfo = this->_game->GetGameInfo();
@@ -130,7 +142,7 @@ namespace RogueLike { namespace Controller {
 			case 7: // Item oppakken
 			{
 				if (!this->_game->IsInCombat() || !this->_game->HasThreat()) {
-					this->_game->TakeItem();
+					this->_viewController->Say(this->_game->TakeItem());
 				}
 				break;
 			}
@@ -245,7 +257,40 @@ namespace RogueLike { namespace Controller {
 
 	void GameController::Save()
 	{
-		//TODO ask for save and save accordingly
+		if (this->_game == nullptr)
+			return;
+		Utils::File f("./Assets/SaveFile.txt");
+		std::string savestring = "";
+		
+		// The Map
+		savestring.append(std::to_string(this->_game->GetLevelWidth())).append(";");			// Width of Map
+		savestring.append(std::to_string(this->_game->GetLevelHeight())).append(";");			// Height of Map
+		savestring.append(std::to_string(this->_game->GetMaxDepth())).append(";");				// Depth of Map
+		savestring.append(std::to_string(this->_game->GetPlayerCurrentLevel())).append(";");	// Player's Depth
+
+		// Player
+		savestring.append(this->_game->GetPlayerVitalsAsString());
+
+		// Level with rooms (with items & enemies)
+		savestring.append(this->_game->GetLevelsAsString());
+
+		try
+		{
+			if (f.Write(savestring, true))
+				this->_viewController->Say("Alles is succesvol opgeslagen!");
+			else
+				this->_viewController->Say("Er ging iets fout tijdens het opslaan van de game status.");
+		}
+		catch (ErrorHandling::FileNotFoundException& e)
+		{
+			std::cout << "Error during writing save file: ";
+			std::cout << e.what() << std::endl;
+		}
+	}
+
+	void GameController::LoadGame()
+	{
+		// TODO: Load the game state
 	}
 
 	// Copy constructor

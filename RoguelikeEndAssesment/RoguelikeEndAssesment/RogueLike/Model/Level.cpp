@@ -11,7 +11,6 @@ namespace RogueLike { namespace Model {
 		this->_level = depth;
 		this->_maxDepth = maxdepth;
 		this->_locations.clear();
-		this->_enemies.clear();
 
 		for (int y = 0; y < _height; y++)
 		{
@@ -29,11 +28,6 @@ namespace RogueLike { namespace Model {
 			for (unsigned int i = 0; i < _locations.size(); i++)
 				delete _locations[i];
 			_locations.clear();
-		}
-		if (!_enemies.empty()) {
-			for (unsigned int i = 0; i < _enemies.size(); i++)
-				delete _enemies[i];
-			_enemies.clear();
 		}
 		_startPoint = nullptr;
 		_endPoint = nullptr;
@@ -425,6 +419,29 @@ namespace RogueLike { namespace Model {
 		createExtraPath(percentage, ++roomIndex, tempList);
 	}
 	
+	const std::string Level::GetLevelAsString() const
+	{
+		std::string level = "";
+
+		level.append("{");
+		level.append(std::to_string(_startPoint->GetX())).append(";");		// Startpoint X
+		level.append(std::to_string(_startPoint->GetY())).append(";");		// Startpoint Y
+		level.append(std::to_string(_endPoint->GetX())).append(";"); ;		// EndPoint Y
+		level.append(std::to_string(_endPoint->GetY())).append(";"); ;		// EndPoint Y
+		level.append("[");
+		for (unsigned int i = 0; i < _locations.size(); i++)
+		{
+			level.append(std::to_string(_locations[i]->GetRealIcon())).append(";");
+			level.append(std::to_string(_locations[i]->IsDiscovered()));
+			if (i != (_locations.size() - 1))
+				level.append(";");
+		}
+		level.append("]");
+		level.append("}");
+
+		return level;
+	}
+
 
 	Level::Level(const Level& other)
 		: _startPoint{ std::move(other._startPoint) }

@@ -29,9 +29,9 @@ namespace RogueLike { namespace Model {
 	}
 	bool Enemy::Damage(const uint damage)
 	{
-		if (Random::GetRandom(0, 10) <= (Defence * 0.1))
+		if (Random::GetRandom(0, 10) <= (10 - (Defence * 0.1)))
 		{
-			if (this->Lifepoints - damage >= 0)
+			if (damage <= this->Lifepoints)
 				this->Lifepoints -= damage;
 			else
 				this->Lifepoints = 0;
