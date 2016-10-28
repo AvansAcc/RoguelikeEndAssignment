@@ -5,6 +5,7 @@ namespace RogueLike { namespace Model {
 	Game::Game()
 	{
 		_isGameOver = false;
+		_hasDefeatedBoss = false;
 		_isInCombat = false;
 		_hasThreat = false;
 	}
@@ -40,7 +41,15 @@ namespace RogueLike { namespace Model {
 		this->LoadItemsFile();
 	}
 
-	std::vector<std::string> Game::GetAvailableActions() 
+	const bool Game::Update()
+	{
+		if (this->_hasDefeatedBoss) {
+			this->_isGameOver = true;
+		}
+		return this->_isGameOver;
+	}
+
+	const std::vector<std::string> Game::GetAvailableActions() 
 	{
 		std::vector<std::string> options;
 		if (_isInCombat) {
@@ -113,42 +122,16 @@ namespace RogueLike { namespace Model {
 		return returnValue;
 	}
 
-	const bool Game::MovePlayer(int dir)
+	const std::string Game::GetCombatInfo()
 	{
-		Room::Room* r = ((Room::Room*)this->GetCurrentPlayerRoom());
-		if (r->GetAdjacentRooms()[dir] == nullptr) {
-			return false;
+		std::string returnString = "Je bent in gevecht met:";
+		std::vector<Enemy*> ev = this->GetCurrentPlayerRoom()->GetEnemies();
+		for (unsigned int i = 0; i < ev.size(); i++)
+		{
+			returnString.append("\n" + ev[i]->Name + " " + std::to_string((i + 1)) + ": " + std::to_string(ev[i]->Lifepoints) + "/" + std::to_string(ev[i]->MaxLifePoints));
 		}
-		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
-		this->GetCurrentPlayerRoom()->DeleteItem(); // Delete item before moving.
-
-		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
-		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
-
-		this->_player->SetNewPlayerLocation(x, y);
-		this->GetCurrentPlayerRoom()->Discover();
-
-		// Chance to spawn enemies in the room.
-		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
-			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
-		else
-			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel());
-
-		// Chance to spawn item in the room.
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
-
-		return true;
-	}
-
-	const std::string Game::FleePlayer()
-	{
-		Room::Room* currRoom = ((Room::Room*)this->GetCurrentPlayerRoom());
-		bool success = false;
-		while (!success) {
-			int r = Random::GetRandom(0, 4);
-			success = this->MovePlayer(r);
-		}
-		return "\nJe vlucht een willekeurige richting in.";
+		returnString.append("\n\nJe levenpunten zijn " + std::to_string(this->_player->GetHp()) + "/" + std::to_string(this->_player->GetMaxHp()));
+		return returnString;
 	}
 
 	const std::string Game::PlayerCombatRound()
@@ -156,7 +139,13 @@ namespace RogueLike { namespace Model {
 		std::string returnString = "Jij valt aan:\n";
 		unsigned int dmg = this->_player->Attack();
 		Enemy* enemy = this->GetCurrentPlayerRoom()->GetEnemy();
-		if (dmg > 0 && enemy->Damage(dmg)) {
+		
+		if (Globals::DEBUG) {
+			this->_player->Heal(this->_player->GetMaxHp());
+			enemy->Damage(9001);
+			returnString.append("Je aanwezigheid alleen al laat de vijand tot as vergaan.\n");
+		}
+		else if (dmg > 0 && enemy->Damage(dmg)) {
 			returnString.append("Je doet " + std::to_string(dmg) + " schade tegen " + enemy->Name + ".\n");
 		}
 		else {
@@ -165,10 +154,9 @@ namespace RogueLike { namespace Model {
 
 		return returnString;
 	}
-
 	const std::string Game::EnemyCombatRound()
 	{
-		std::string returnString = "De vijand valt je aan:\n";
+		std::string returnString = "\nDe vijand valt je aan:";
 		std::vector<Enemy*> enemies = this->GetCurrentPlayerRoom()->GetEnemies();
 
 		for each (Enemy* foe in enemies)
@@ -189,19 +177,81 @@ namespace RogueLike { namespace Model {
 
 		return returnString.append("\n");
 	}
-
-	const std::string Game::GetCombatInfo()
+	const std::string Game::CheckCombatOver()
 	{
-		std::string returnString = "Je bent in gevecht met:";
-		std::vector<Enemy*> ev = this->GetCurrentPlayerRoom()->GetEnemies();
-		for (unsigned int  i = 0; i < ev.size(); i++)
-		{
-			returnString.append("\n" + ev[i]->Name + " " + std::to_string((i+1)) + ": " + std::to_string(ev[i]->Lifepoints) + "/" + std::to_string(ev[i]->MaxLifePoints));
+		if (this->_player->isDead()) {
+			this->_isInCombat = false;
+			this->_isGameOver = true;
+			return "\nJe bent gestorven. De geest van " + this->_player->GetName() + " zal voor altijd door de kerker dwaalen...";
 		}
-		returnString.append("\n\nYou levenpunten zijn " + std::to_string(this->_player->GetHp()) + "/100");
-		return returnString;
+		else if (this->GetCurrentPlayerRoom()->GetEnemy() == nullptr) {
+			this->_isInCombat = false;
+			std::string sentence;
+			if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != nullptr) {
+				sentence = "\nGefeliciteerd! Je hebt de eindbaas van de kerker verslagen! Je hebt het spel gewonnen!";
+				this->_hasDefeatedBoss = true;
+			}
+			else {
+				const unsigned int amount = this->GetCurrentPlayerRoom()->GetAmountOfEnemies();
+				sentence = (amount > 1) ? "\nJe hebt de vijanden verslagen!" : "\nJe hebt de vijand verslagen!";
+				bool leveledUp = this->XpPlayerUp(this->_player, this->GetCurrentPlayerRoom()->GetEnemies());
+				if (leveledUp) {
+					sentence.append("\nJe hebt genoeg ervaringspunten gekregen om level omhoog te gaan! Je bent nu level " + std::to_string(this->_player->GetLvl()));
+				}
+			}
+			return sentence;
+		}
+		return "";
+	}
+	const bool Game::XpPlayerUp(Player* player, std::vector<Enemy*> enemies)
+	{
+		int lvlDiff = enemies[0]->Level - player->GetLvl();
+		int XpGain = 0;
+		for each (Enemy* foe in enemies)
+		{
+			if (foe->Level + lvlDiff > 0) {
+				XpGain += foe->Level + lvlDiff;
+			}
+		}
+		return player->EarnXP(XpGain);
 	}
 
+	const bool Game::MovePlayer(int dir)
+	{
+		Room::Room* r = ((Room::Room*)this->GetCurrentPlayerRoom());
+		if (r->GetAdjacentRooms()[dir] == nullptr) {
+			return false;
+		}
+		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
+		this->GetCurrentPlayerRoom()->DeleteItem(); // Delete item before moving.
+
+		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
+		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
+
+		this->_player->SetNewPlayerLocation(x, y);
+		this->GetCurrentPlayerRoom()->Discover();
+
+		// Chance to spawn enemies in the room.
+		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
+			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 0);
+		else
+			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 4);
+
+		// Chance to spawn item in the room.
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
+
+		return true;
+	}
+	const std::string Game::FleePlayer()
+	{
+		Room::Room* currRoom = ((Room::Room*)this->GetCurrentPlayerRoom());
+		bool success = false;
+		while (!success) {
+			int r = Random::GetRandom(0, 4);
+			success = this->MovePlayer(r);
+		}
+		return "\nJe vlucht een willekeurige richting in.";
+	}
 	const std::string Game::UseStairs()
 	{
 		std::string returnString;
@@ -217,7 +267,18 @@ namespace RogueLike { namespace Model {
 				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetEndPoint()->GetY());
 				returnString = "\nJe neemt de trap omhoog waar de lucht minder zwaar op je drukt.";
 			}
-			returnString.append(" Je bent nu op niveau " + std::to_string(this->_levelManager->GetLevel()) + ".");
+			returnString.append("\nJe bent nu op niveau " + std::to_string(this->_levelManager->GetLevel()) + ".");
+		}
+		return returnString;
+	}
+
+	const std::string Game::RestPlayer()
+	{
+		this->_player->Heal(25);
+		std::string returnString = "\nJe bent uitgerust en hebt 25 levenpunten gekregen.";
+		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies, this->_levelManager->GetLevel(), 7);
+		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
+			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
 		}
 		return returnString;
 	}
@@ -227,16 +288,6 @@ namespace RogueLike { namespace Model {
 		return this->_player->GetInventory();
 	}
 
-	const std::string Game::RestPlayer()
-	{
-		this->_player->Heal(30);
-		std::string returnString = "\nJe bent uitgerust en hebt 30 levenpunten gekregen.";
-		this->GetCurrentPlayerRoom()->ChanceSpawnRandomEnemies(_enemies, this->_levelManager->GetLevel());
-		if (this->GetCurrentPlayerRoom()->GetAmountOfEnemies() > 0) {
-			returnString.append(" In de tijd dat je hebt uitgerust zijn er monsters verschenen.");
-		}
-		return returnString;
-	}
 	const std::string Game::TakeItem()
 	{
 		Item* item = this->GetCurrentPlayerRoom()->GetItem();
@@ -253,30 +304,6 @@ namespace RogueLike { namespace Model {
 	Room::Room* Game::GetCurrentPlayerRoom()
 	{
 		return ((Room::Room*)_levelManager->GetCurrentLevel()->GetLocations()[(_player->GetY() * _levelManager->GetLevelHeight()) + _player->GetX()]);
-	}
-
-	const bool Game::Update()
-	{
-		if (this->_isGameOver /*|| hasDefeatedBoss */) {
-			this->_isGameOver = true;
-		}
-		return this->_isGameOver;
-	}
-
-	std::string Game::CheckCombatOver()
-	{
-		if (this->_player->isDead()) {
-			this->_isInCombat = false;
-			this->_isGameOver = true;
-			return "De geest van " + this->_player->GetName() + " zal voor altijd door de kerker dwaalen";
-		}
-		else if (this->GetCurrentPlayerRoom()->GetEnemy() == nullptr) {
-			this->_isInCombat = false;
-			const unsigned int amount = this->GetCurrentPlayerRoom()->GetAmountOfEnemies();
-			std::string sentence = (amount > 1) ? "De speler heeft de vijanden verslagen" : "De speler heeft de vijand verslagen";
-			return sentence;
-		}
-		return "";
 	}
 
 	void Game::GameOver()

@@ -6,10 +6,11 @@ namespace RogueLike { namespace Model {
 	{
 		_isDead = false;
 		_lifepoints = 100;
+		_maxLifepoints = 100;
 		_defence = 20;
 		_name = name;
 		_icon = 'P';
-		_level = 0;
+		_level = 1;
 		_xp = 0;
 		_attack = 1;
 		_items.clear();
@@ -30,9 +31,9 @@ namespace RogueLike { namespace Model {
 	{
 		std::string returnString = "Statistieken:";
 		returnString.append("\nNaam:        " + _name);
-		returnString.append("\nLevens:      " + std::to_string(_lifepoints) + "/100");
+		returnString.append("\nLevens:      " + std::to_string(_lifepoints) + "/" + std::to_string(_maxLifepoints));
 		returnString.append("\nLevel:       " + std::to_string(_level));
-		returnString.append("\nErvaring:    " + std::to_string(_xp) + "/100");
+		returnString.append("\nErvaring:    " + std::to_string(_xp) + "/10");
 		returnString.append("\nAanval:      " + std::to_string(_attack));
 		returnString.append("\nVerdediging: " + std::to_string(_defence));
 		return returnString;
@@ -89,7 +90,7 @@ namespace RogueLike { namespace Model {
 	void Player::Heal(int heal)
 	{
 		_lifepoints += heal;
-		if (_lifepoints > 100) {
+		if (_lifepoints > _maxLifepoints) {
 			_lifepoints = 100;
 		}
 	}
@@ -154,8 +155,9 @@ namespace RogueLike { namespace Model {
 			this->_defence += effect;
 		}
 	}
-	void Player::EarnXP(int effect)
+	const bool  Player::EarnXP(int effect)
 	{
+		bool returnBool = false;
 		if (effect < 0) {
 			if (this->_xp - effect >= 0)
 				this->_xp += effect;
@@ -164,7 +166,22 @@ namespace RogueLike { namespace Model {
 		}
 		else {
 			this->_xp += effect;
+			if (this->_xp >= 10) {
+				this->LevelUp();
+				returnBool = true;
+				this->_xp = (this->_xp - 10);
+			}
 		}
+		return returnBool;
+	}
+
+	void Player::LevelUp()
+	{
+		this->_level++;
+		this->_attack += 5;
+		this->_defence += 5;
+		this->_maxLifepoints += 10;
+		this->_lifepoints = _maxLifepoints;
 	}
 
 	void Player::Teleport(int effect)
