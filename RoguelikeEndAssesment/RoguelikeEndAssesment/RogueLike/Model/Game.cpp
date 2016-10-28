@@ -9,7 +9,6 @@ namespace RogueLike { namespace Model {
 		_isInCombat = false;
 		_hasThreat = false;
 	}
-
 	Game::~Game()
 	{
 		if(_player)
@@ -40,7 +39,6 @@ namespace RogueLike { namespace Model {
 		this->LoadEnemiesFile();
 		this->LoadItemsFile();
 	}
-
 	const bool Game::Update()
 	{
 		if (this->_hasDefeatedBoss) {
@@ -66,20 +64,18 @@ namespace RogueLike { namespace Model {
 			}
 			if (this->_hasThreat)
 			{
-				options[6] = "";
-				options[7] = "";
-				options[8] = "";
+				if (!Globals::DEBUG) {
+					options[6] = "";
+					options[7] = "";
+					options[8] = "";
+				}
 			}
 			if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) == nullptr) {
 				options[8] = "";
 			}
-			if (Globals::DEBUG) {
-				options[7] = "Richting kiezen";
-			}
 		}		
 		return options;
 	}
-
 	const std::vector<std::string> Game::GetGameInfo() 
 	{
 		std::vector<std::string> returnValue;
@@ -121,7 +117,6 @@ namespace RogueLike { namespace Model {
 
 		return returnValue;
 	}
-
 	const std::string Game::GetCombatInfo()
 	{
 		std::string returnString = "Je bent in gevecht met:";
@@ -229,8 +224,8 @@ namespace RogueLike { namespace Model {
 
 		this->_player->SetNewPlayerLocation(x, y);
 		// Chance to spawn item in the room.
-		if (!this->GetCurrentPlayerRoom()->IsDiscovered()) {
-			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel());
+		if (!this->GetCurrentPlayerRoom()->IsDiscovered() || Globals::DEBUG) {
+			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel(), 9);
 		}
 		this->GetCurrentPlayerRoom()->Discover();
 
@@ -245,6 +240,7 @@ namespace RogueLike { namespace Model {
 	const std::string Game::FleePlayer()
 	{
 		Room::Room* currRoom = ((Room::Room*)this->GetCurrentPlayerRoom());
+		this->_isInCombat = false;
 		bool success = false;
 		while (!success) {
 			int r = Random::GetRandom(0, 4);
@@ -260,6 +256,7 @@ namespace RogueLike { namespace Model {
 			if (sr->IsDirectionDown()) {
 				this->_levelManager->NextLevel(false);
 				this->_player->TeleportPlayerLocation(this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), this->_levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
+				this->GetCurrentPlayerRoom()->Discover();
 				returnString = "\nJe neemt de trap verder de donkere diepte in, met elke stap die je zet voelt het alsof de lucht je verder verstikt.";
 			}
 			else {
@@ -287,7 +284,17 @@ namespace RogueLike { namespace Model {
 	{
 		return this->_player->GetInventory();
 	}
-
+	const int Game::GetPlayerItemAmount() 
+	{ 
+		return this->_player->GetItems().size();
+	}
+	const std::string Game::UseInventory(int choice) {
+		std::vector<Item*> items = this->_player->GetItems();
+		if (choice < 1 || choice > items.size()) {
+			return "";
+		}
+		return this->_player->UseItem(--choice);
+	}
 	const std::string Game::TakeItem()
 	{
 		Item* item = this->GetCurrentPlayerRoom()->GetItem();
@@ -310,12 +317,10 @@ namespace RogueLike { namespace Model {
 	{
 		this->_isGameOver = true;
 	}
-
 	void Game::StartCombat()
 	{
 		this->_isInCombat = true;
 	}
-
 	void Game::EndCombat()
 	{
 		this->_isInCombat = false;

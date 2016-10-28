@@ -28,8 +28,8 @@ namespace RogueLike { namespace Controller {
 		if (_game) delete _game;
 		_game = new Model::Game();
 		this->_viewController->ClearScreen();
-		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 3, max 25)", 3, 25);
-		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (min 3, max 25)", 3, 25);
+		uint width = this->_viewController->AskInt("Hoe breedt zal de kerker worden? (min 2, max 25)", 2, 25);
+		uint height = this->_viewController->AskInt("Hoe lang zal de kerker worden? (min 2, max 25)", 2, 25);
 		uint max_levels = this->_viewController->AskInt("Hoe diep zal de kerken zijn? (min 1, max 10)", 10);
 		std::string name = this->_viewController->AskWord("Ten slotte, hoe heet onze held?");
 		this->_viewController->Say("Bedankt voor je geduld... Laat het avontuur maar beginnen!\n\n");
@@ -104,7 +104,6 @@ namespace RogueLike { namespace Controller {
 			case 2: // Vluchten
 			{
 				if (this->_game->HasThreat()) {
-					this->_game->EndCombat();
 					this->_viewController->Say(this->_game->FleePlayer());
 					this->_viewController->PressAnyKeyToContinue();
 				}
@@ -142,8 +141,9 @@ namespace RogueLike { namespace Controller {
 			}
 			case 7: // Item oppakken
 			{
-				if (!this->_game->IsInCombat() || !this->_game->HasThreat()) {
+				if ((!this->_game->IsInCombat() && !this->_game->HasThreat()) || Globals::DEBUG) {
 					this->_viewController->Say(this->_game->TakeItem());
+					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;
 			}
@@ -206,9 +206,35 @@ namespace RogueLike { namespace Controller {
 	void GameController::LookAtInventory() 
 	{
 		this->_viewController->Say(this->_game->LookAtPlayerInventory());
-		this->_viewController->PressAnyKeyToContinue();
-		// TODO interface voor items gebruiken bouwen
+		if (this->_game->GetPlayerItemAmount() > 0)
+		{
+			bool isvalid = false;
+			bool useItem = false;
+			while (!isvalid)
+			{
+				std::string answer = this->_viewController->AskWord("\nWil je iets gebruiken? (Y voor ja, N voor nee)");
+				if (answer == "Y" || answer == "y") {
+					isvalid = true;
+					useItem = true;
+				}
+				else if (answer == "N" || answer == "n") {
+					isvalid = true;
+				}
+			}
 
+			isvalid = !useItem;
+			while (!isvalid)
+			{
+				int choice = this->_viewController->AskInt("\nWelk item wil je gebruiken? (kies het bijbehorende getal)", 5);
+
+				std::string answer = this->_game->UseInventory(choice);
+				if (!answer.empty()) {
+					this->_viewController->Say(answer);
+					isvalid = true;
+				}
+			}
+		}
+		this->_viewController->PressAnyKeyToContinue();
 	}
 
 	void GameController::UseStairs()
@@ -240,7 +266,6 @@ namespace RogueLike { namespace Controller {
 				}
 				case 2: // Vluchten
 				{
-					this->_game->EndCombat();
 					this->_viewController->Say(this->_game->FleePlayer());
 					this->_viewController->PressAnyKeyToContinue();
 					break;
@@ -248,6 +273,7 @@ namespace RogueLike { namespace Controller {
 				case 3: // Spullen bekijken
 				{
 					this->LookAtInventory();
+					this->_viewController->Say(this->_game->EnemyCombatRound());
 					break;
 				}
 			}

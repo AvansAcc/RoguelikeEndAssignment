@@ -19,7 +19,7 @@ namespace RogueLike { namespace Model {
 	public:
 		Item();
 		~Item();
-		const bool Use(Player& player);
+		const std::string Use(Player& player);
 		const std::string Look();
 	};
 } }
