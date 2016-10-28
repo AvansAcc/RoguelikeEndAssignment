@@ -214,7 +214,8 @@ namespace RogueLike { namespace Model { namespace Room {
 
 			for (int i = 0; i < changeAmount; i++)
 			{
-				enemy = new Enemy();
+				enemy = new Enemy(*availableEnemies[chanceEnemy]);
+				/*enemy = new Enemy();
 				enemy->Name = availableEnemies[chanceEnemy]->Name;
 				enemy->Plural = availableEnemies[chanceEnemy]->Plural;
 				enemy->Type = Enum::EnemyType::NORMAL;
@@ -225,7 +226,7 @@ namespace RogueLike { namespace Model { namespace Room {
 				enemy->Defence = availableEnemies[chanceEnemy]->Defence;
 				enemy->Hitchance = availableEnemies[chanceEnemy]->Hitchance;
 				enemy->MinDamage = availableEnemies[chanceEnemy]->MinDamage;
-				enemy->MaxDamage = availableEnemies[chanceEnemy]->MaxDamage;
+				enemy->MaxDamage = availableEnemies[chanceEnemy]->MaxDamage;*/
 				
 				this->_enemies.push_back(enemy);
 			}
@@ -240,14 +241,15 @@ namespace RogueLike { namespace Model { namespace Room {
 			Item* item = nullptr;
 			int chanceItem = Random::GetRandom(0, items.size());
 
-			item = new Item();
+			item = new Item(*items[chanceItem]);
+			/*item = new Item();
 			item->Name = items[chanceItem]->Name;
 			item->Plural = items[chanceItem]->Plural;
 			item->Amount = 1;
 			item->MaxAmount = items[chanceItem]->MaxAmount;
 			item->Description = items[chanceItem]->Description;
 			item->Effect = items[chanceItem]->Effect;
-			item->Ability = items[chanceItem]->Ability;
+			item->Ability = items[chanceItem]->Ability;*/
 
 			this->AddItem(item);
 		}

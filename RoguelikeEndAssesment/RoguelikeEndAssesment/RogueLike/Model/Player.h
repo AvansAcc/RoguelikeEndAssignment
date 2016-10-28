@@ -10,7 +10,6 @@ namespace RogueLike { namespace Model {
 	class Item;
 	class Player {
 	private:
-		friend class GameController;
 		uint _lifepoints;
 		uint _defence;
 		std::string _name;

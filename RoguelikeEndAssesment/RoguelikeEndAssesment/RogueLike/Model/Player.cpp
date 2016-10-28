@@ -181,23 +181,23 @@ namespace RogueLike { namespace Model {
 		std::string vitals = "";
 		vitals.append(_name).append(";");						// Name
 		vitals.append(std::to_string(_level)).append(";");		// Level
-		vitals.append(std::to_string(_xpos)).append(";");		// xPOS
-		vitals.append(std::to_string(_ypos)).append(";");		// yPOS
+		vitals.append(std::to_string(_xpos)).append(";");		// x POS
+		vitals.append(std::to_string(_ypos)).append(";");		// y POS
 		vitals.append(std::to_string(_attack)).append(";");		// Attack
 		vitals.append(std::to_string(_defence)).append(";");	// Defence
-		vitals.append(std::to_string(_xp)).append(";");			// _xp
+		vitals.append(std::to_string(_xp)).append(";");			// Xp
 		vitals.append(std::to_string(_lifepoints)).append(";");	// Lifepoints
 		
 		vitals.append("{");
 		for (unsigned int i = 0; i < _items.size(); i++)
 		{
 			vitals.append("[");
-			vitals.append(_items.at(i)->Name);
-			vitals.append(_items.at(i)->Plural);
-			vitals.append(std::to_string(_items.at(i)->Amount));
-			vitals.append(std::to_string(_items.at(i)->MaxAmount));
-			vitals.append(std::to_string(static_cast<int>(_items.at(i)->Ability)));
-			vitals.append(std::to_string(_items.at(i)->Effect));
+			vitals.append(_items.at(i)->Name).append(";");
+			vitals.append(_items.at(i)->Plural).append(";");
+			vitals.append(std::to_string(_items.at(i)->Amount)).append(";");
+			vitals.append(std::to_string(_items.at(i)->MaxAmount)).append(";");
+			vitals.append(std::to_string(static_cast<int>(_items.at(i)->Ability))).append(";");
+			vitals.append(std::to_string(_items.at(i)->Effect)).append(";");
 			vitals.append(_items.at(i)->Description);
 			vitals.append("]");
 		}

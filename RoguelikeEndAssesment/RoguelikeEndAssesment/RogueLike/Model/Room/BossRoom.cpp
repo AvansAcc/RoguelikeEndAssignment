@@ -46,17 +46,19 @@ namespace RogueLike { namespace Model { namespace Room {
 			
 			for (int i = 0; i < changeAmount; i++)
 			{
-				enemy = new Enemy();
+				enemy = new Enemy(*availableEnemies[chanceEnemy]);
+				/*enemy = new Enemy();
 				enemy->Name = availableEnemies[chanceEnemy]->Name;
 				enemy->Plural = availableEnemies[chanceEnemy]->Plural;
 				enemy->Type = Enum::EnemyType::BOSS;
 				enemy->Level = availableEnemies[chanceEnemy]->Level;
 				enemy->Lifepoints = (unsigned int)(availableEnemies[chanceEnemy]->Lifepoints * level_percentage);
+				enemy->MaxLifePoints = (unsigned int)(availableEnemies[chanceEnemy]->MaxLifePoints * level_percentage);
 				enemy->AmountAttacks = availableEnemies[chanceEnemy]->AmountAttacks;
 				enemy->Defence = (unsigned int)(availableEnemies[chanceEnemy]->Defence * level_percentage);
 				enemy->Hitchance = availableEnemies[chanceEnemy]->Hitchance;
 				enemy->MinDamage = (unsigned int)(availableEnemies[chanceEnemy]->MinDamage * level_percentage);
-				enemy->MaxDamage = (unsigned int)(availableEnemies[chanceEnemy]->MaxDamage * level_percentage);
+				enemy->MaxDamage = (unsigned int)(availableEnemies[chanceEnemy]->MaxDamage * level_percentage);*/
 				this->_enemies.push_back(enemy);
 			}
 		}
