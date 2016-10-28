@@ -43,7 +43,6 @@ namespace RogueLike { namespace Model { namespace Room {
 			Enemy* enemy = nullptr;
 			double level_percentage = ((currentlevel+1) * 0.1);
 			
-
 			enemy = new Enemy(*availableEnemies[chanceEnemy]);
 			/*enemy = new Enemy();
 
@@ -59,7 +58,6 @@ namespace RogueLike { namespace Model { namespace Room {
 			enemy->MinDamage = (unsigned int)(availableEnemies[chanceEnemy]->MinDamage * level_percentage);
 			enemy->MaxDamage = (unsigned int)(availableEnemies[chanceEnemy]->MaxDamage * level_percentage);*/
 			this->_enemies.push_back(enemy);
-
 		}
 	}
 
