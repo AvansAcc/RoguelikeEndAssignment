@@ -52,7 +52,7 @@ namespace RogueLike { namespace Model { namespace Room {
 				enemy->Type = Enum::EnemyType::BOSS;
 				enemy->Level = availableEnemies[chanceEnemy]->Level;
 				enemy->Lifepoints = (unsigned int)(availableEnemies[chanceEnemy]->Lifepoints * level_percentage);
-				enemy->MaxLifePoints = availableEnemies[chanceEnemy]->MaxLifePoints;
+				enemy->MaxLifePoints = availableEnemies[chanceEnemy]->MaxLifePoints * level_percentage;
 				enemy->AmountAttacks = availableEnemies[chanceEnemy]->AmountAttacks;
 				enemy->Defence = (unsigned int)(availableEnemies[chanceEnemy]->Defence * level_percentage);
 				enemy->Hitchance = availableEnemies[chanceEnemy]->Hitchance;
