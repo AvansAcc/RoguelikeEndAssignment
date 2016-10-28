@@ -223,10 +223,13 @@ namespace RogueLike { namespace Model { namespace Room {
 		}
 	}
 
-	void Room::ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel)
+	void Room::ChanceSpawnRandomItem(std::vector<Item*>& items, unsigned int currentlevel, int chance)
 	{
-		int chanceSpawn = Random::GetRandom(0, 10); // 10.0%
-		if (chanceSpawn == 0 && !items.empty())
+		if (chance > 10) {
+			chance = 10;
+		}
+		int chanceSpawn = Random::GetRandom(0, 10);
+		if (chanceSpawn <= chance && !items.empty())
 		{
 			Item* item = nullptr;
 			int chanceItem = Random::GetRandom(0, items.size());
