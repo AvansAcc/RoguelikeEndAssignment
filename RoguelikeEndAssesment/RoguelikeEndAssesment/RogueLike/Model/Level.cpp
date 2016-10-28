@@ -423,7 +423,6 @@ namespace RogueLike { namespace Model {
 	{
 		std::string level = "";
 
-		//level.append("{");
 		level.append(std::to_string(_startPoint->GetX())).append(";");		// Startpoint X
 		level.append(std::to_string(_startPoint->GetY())).append(";");		// Startpoint Y
 		level.append(std::to_string(_endPoint->GetX())).append(";"); ;		// EndPoint Y
@@ -437,7 +436,6 @@ namespace RogueLike { namespace Model {
 			level.append("}");
 		}
 		level.append("]");
-		//level.append("}");
 
 		return level;
 	}

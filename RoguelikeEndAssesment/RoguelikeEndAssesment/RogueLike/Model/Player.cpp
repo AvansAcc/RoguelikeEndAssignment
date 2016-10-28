@@ -112,13 +112,11 @@ namespace RogueLike { namespace Model {
 
 	const uint Player::Attack()
 	{
-		if (Random::GetRandom(0, 2) == 0) // 50% kans om te missen
-			return this->_attack;
-		return 0;
+		return this->_attack;
 	}
 	bool Player::Damage(const uint damage)
 	{
-		if (Random::GetRandom(0, 10) <= (10 - (_defence * 0.1)))
+		if (Random::GetRandom(0, 11) <= (10 - (_defence * 0.1)))
 		{
 			if (damage <= _lifepoints)
 				_lifepoints -= damage;
