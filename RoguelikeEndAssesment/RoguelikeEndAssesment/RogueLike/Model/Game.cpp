@@ -535,6 +535,46 @@ namespace RogueLike { namespace Model {
 		return this->_levelManager->GetLevel();
 	}
 
+	int Game::BreadthFirstSearch()
+	{
+		std::vector<Room::Room*> queue;
+		std::vector<Room::Room*> visited;
+		int depth = 0;
+		int group = 1;
+		visited.push_back(this->GetCurrentPlayerRoom());
+		queue.push_back(this->GetCurrentPlayerRoom());
+		while (!queue.empty())
+		{
+			Room::Room* currRoom = queue.front();
+			queue.erase(queue.begin());
+			visited.push_back(currRoom);
+			
+			if (dynamic_cast<Room::StairsRoom*> (currRoom) != nullptr) {
+				Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (currRoom);
+				if (sr->IsDirectionDown()) {
+					break;
+				}
+			}
+			group -= 1;
+
+			for each (Room::IRoom* room in currRoom->GetAdjacentRooms()) if (room != nullptr)
+			{
+				if (std::find(visited.begin(), visited.end(), room) == visited.end() && // If room is not in visited
+					std::find(queue.begin(), queue.end(), room) == queue.end()) // If room is not in queue
+				{
+					if (dynamic_cast<Room::Room*> (room) != nullptr) {
+						queue.push_back(((Room::Room*)room));
+					}
+				}
+			}
+			if (group == 0) {
+				depth++;
+				group = queue.size();
+			}
+		}
+		return depth;
+	}
+
 	Game::Game(const Game& other)
 		: _levelManager { other._levelManager }
 		, _player { other._player }

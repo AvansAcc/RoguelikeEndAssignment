@@ -35,6 +35,7 @@ namespace RogueLike { namespace Model {
 		const bool Update();
 		void LoadEnemiesFile();
 		void LoadItemsFile();
+		int BreadthFirstSearch();
 
 		const std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();

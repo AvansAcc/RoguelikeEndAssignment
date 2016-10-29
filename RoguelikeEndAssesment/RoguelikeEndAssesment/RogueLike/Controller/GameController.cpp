@@ -171,6 +171,14 @@ namespace RogueLike { namespace Controller {
 				}
 				break;
 			}
+			case 11:
+			{
+				if (!this->_game->IsInCombat()) {
+					this->_viewController->Say(std::to_string(this->_game->BreadthFirstSearch()));
+					this->_viewController->PressAnyKeyToContinue();
+				}
+				break;
+			}
 			default:
 				break;
 		}
