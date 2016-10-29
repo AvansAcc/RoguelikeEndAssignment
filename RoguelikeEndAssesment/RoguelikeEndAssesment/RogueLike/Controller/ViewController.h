@@ -28,7 +28,6 @@ namespace RogueLike { namespace Controller {
 		const int ShowOptions(std::vector<std::string> options);
 		void ShowMap(const char* const map, unsigned int width, unsigned int height);
 		void ShowGame(std::vector<std::string> gameInfo);
-		char GetStartScreenInput();
 		std::string AskWord(std::string message);
 		uint AskInt(std::string message, unsigned int maxInt);
 		uint AskInt(std::string message, unsigned int minInt, unsigned int maxInt);

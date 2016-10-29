@@ -69,13 +69,6 @@ namespace RogueLike { namespace Controller {
 		this->_outputView->ShowGame(gameInfo);
 	}
 
-	char ViewController::GetStartScreenInput()
-	{
-		// TODO: Check the expected input and return it. Else: ask again.
-		//this->_inputView->AskWord("");
-		return '.';
-	}
-
 	void ViewController::PressAnyKeyToContinue()
 	{
 		this->Say("\nDruk op enter om door te gaan...");
