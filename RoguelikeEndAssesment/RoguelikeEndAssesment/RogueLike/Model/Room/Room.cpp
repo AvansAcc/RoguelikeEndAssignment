@@ -201,7 +201,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 		for (unsigned int i=0; i < enemies.size(); i++)
 		{
-			if ((currentlevel <= 0 || enemies[i]->Level >= (currentlevel-2)) && enemies[i]->Level <= (currentlevel+1))
+			if ((int)enemies[i]->Level >= ((int)currentlevel-2) && (int)enemies[i]->Level <= ((int)currentlevel+1))
 			{
 				if(enemies[i]->Type != Enum::EnemyType::BOSS)
 					availableEnemies.push_back(enemies[i]);

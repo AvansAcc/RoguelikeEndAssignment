@@ -46,9 +46,10 @@ namespace RogueLike { namespace Controller {
 		else
 			this->ShowMenu();
 	
-		if (!_running)
+		if (!_running) {
 			this->_viewController->ShowCreditScreen();
 			this->_viewController->ShowCloseScreen();
+		}
 
 		return _running;
 	}
@@ -117,7 +118,7 @@ namespace RogueLike { namespace Controller {
 			}
 			case 4: // Uitrusten
 			{
-				if (!this->_game->IsInCombat() || !this->_game->HasThreat()) {
+				if ((!this->_game->IsInCombat() && !this->_game->HasThreat()) || Globals::DEBUG) {
 					this->_viewController->Say(this->_game->RestPlayer());
 					this->_viewController->PressAnyKeyToContinue();
 				}
@@ -527,6 +528,7 @@ namespace RogueLike { namespace Controller {
 		catch (ErrorHandling::FileNotFoundException& e)
 		{
 			std::string error_msg = "Er ging iets fout tijden het lezen van het bestand...";
+			error_msg.append(e.what());
 			this->_viewController->Say(error_msg);
 			this->_viewController->PressAnyKeyToContinue();
 		}
