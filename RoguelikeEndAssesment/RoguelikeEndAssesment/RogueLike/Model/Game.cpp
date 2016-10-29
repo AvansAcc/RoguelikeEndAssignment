@@ -81,6 +81,7 @@ namespace RogueLike { namespace Model {
 			if (this->_hasThreat)
 			{
 				if (!Globals::DEBUG) {
+					options[3] = "";
 					options[6] = "";
 					options[7] = "";
 					options[8] = "";
@@ -306,7 +307,7 @@ namespace RogueLike { namespace Model {
 	}
 	const std::string Game::UseInventory(int choice) {
 		std::vector<Item*> items = this->_player->GetItems();
-		if (choice < 1 || choice > items.size()) {
+		if (choice < 1 || choice > (int)items.size()) {
 			return "";
 		}
 		return this->_player->UseItem(--choice);
