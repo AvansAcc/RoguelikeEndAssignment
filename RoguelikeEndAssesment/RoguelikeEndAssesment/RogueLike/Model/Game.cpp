@@ -588,40 +588,144 @@ namespace RogueLike { namespace Model {
 
 	//	}
 	//}
-	std::string Game::ShortestPath()
+
+	std::string Game::ShortestPathV2()
 	{
+		std::vector<Room::Room*> roomItems;
+		std::vector<Vertex*> vertices{ new Vertex(nullptr, 0, -1, 0) };
 
-		std::vector<Room::Room*> queue;
-		std::vector<Room::Room*> visited;
-		std::vector<Vertex> vertices;
-		
-		queue.push_back(this->GetCurrentPlayerRoom());
+		std::multimap<int, int> weightsDirection; // weight, direction
+		std::map<int, int> hasPassed; // which direction and has room passed
 
-		Vertex v(0, -1);
-		vertices.push_back(v);
+		roomItems.push_back(this->GetCurrentPlayerRoom());
 
-		while (!queue.empty())
+		int indexer = 1;
+		int exit = 0;
+		int currItem = 0;
+
+		while (currItem < roomItems.size())
 		{
-			Room::Room* currRoom = queue.front();
-			queue.erase(queue.begin());
-			visited.push_back(currRoom);
+			Room::Room* currRoom = roomItems[currItem];
+			Vertex* currVertex = vertices[currItem];
 
-			for each (Room::IRoom* room in currRoom->GetAdjacentRooms()) if (room != nullptr)
-			{
-				if (std::find(visited.begin(), visited.end(), room) == visited.end() && // If room is not in visited
-					std::find(queue.begin(), queue.end(), room) == queue.end()) // If room is not in queue
-				{
-					if (dynamic_cast<Room::Room*> (room) != nullptr) {
-						queue.push_back(((Room::Room*)room));
-					}
+			if (dynamic_cast<Room::StairsRoom*> (currRoom) != nullptr) {
+				Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (currRoom);
+				if (sr->IsDirectionDown()) {
+					exit = currItem;
 				}
 			}
+			
+			hasPassed.clear();
+			weightsDirection.clear();
+
+			std::vector<Room::IRoom*>adjRooms = currRoom->GetAdjacentRooms();
+			for (int i = 0; i < adjRooms.size(); i++) if (adjRooms[i] != nullptr)
+			{
+				int roomAlreadyExists = -1;
+				// is de kamer al in roomItems?
+				for (int j = 0; j < roomItems.size(); j++)
+				{
+					if (roomItems[j]->GetX() == adjRooms[i]->GetX() && roomItems[j]->GetY() == adjRooms[i]->GetY()) {
+						roomAlreadyExists = j;
+						break;
+					}
+				}
+				hasPassed[i] = roomAlreadyExists;
+
+				// weigth berekening
+				int distance = 10;
+				for each (Enemy* foe in ((Room::Room*) adjRooms[i])->GetEnemies())
+				{
+					if (!foe->IsDead()) {
+						distance += foe->MaxLifePoints;
+					}
+				}
+				typedef std::multimap<int, int> MapType;
+				weightsDirection.insert(MapType::value_type(distance, i)); //[distance] = i;
+			}
+
+			int weightSize = weightsDirection.size();
+			for (int i = 0; i < weightSize; i++)
+			{
+				// bekijk welke kamer de laagste cost heeft
+				// als kamer nog niet in roomItems is maak m dan + maak een vertex
+				int currItemIndex = hasPassed.find(weightsDirection.begin()->second)->second; // de index van de kamer die al in de lijst staat, als ie erin staat
+				if (currItemIndex == -1) {
+					int dir = weightsDirection.begin()->second;
+					//int reverseDir = (dir > 1) ? dir - 2 : dir + 2;
+
+					roomItems.push_back((Room::Room*)adjRooms[dir]);
+
+					Vertex* nv = new Vertex(currVertex, weightsDirection.begin()->first, dir, indexer);
+					nv->totalDistance += currVertex->totalDistance;
+					vertices.push_back(nv);
+					indexer++;
+				}
+				// als kamer al wel in roomItems is vergelijk dan de distances
+				else {
+					if (vertices[currItemIndex]->totalDistance > (weightsDirection.begin()->first + currVertex->totalDistance)) {
+						int reverseDir = (weightsDirection.begin()->second > 1) ? weightsDirection.begin()->second - 2 : weightsDirection.begin()->second + 2;
+						Vertex* nv = vertices[currItemIndex]; // ga naar de vertex van de room die al in de room lijst stond
+						nv->distance = weightsDirection.begin()->first; // zet de afstand op de korte afstand
+						nv->totalDistance = weightsDirection.begin()->first + currVertex->totalDistance;
+						nv->shortestVertex = currVertex; // zet richting van kortere pad naar huidige vertex
+					}
+				}
+				hasPassed.erase(hasPassed.find(weightsDirection.begin()->second));
+				weightsDirection.erase(weightsDirection.begin());
+			}
+			currItem++;
 		}
+		std::vector<std::string> directionsBack;
+		std::vector<int> foesHp;
+		Vertex* currVertex = vertices[exit];
 
-		//create string
-		return "";
+		while (currVertex->shortestVertex != nullptr)
+		{
+			switch (currVertex->direction)
+			{
+				case 0:
+					directionsBack.push_back("Noord");
+					break;
+				case 1:
+					directionsBack.push_back("Oost");
+					break;
+				case 2:
+					directionsBack.push_back("Zuid");
+					break;
+				case 3:
+					directionsBack.push_back("West");
+					break;
+				default:
+					break;
+			}
+			if (roomItems[currVertex->id]->GetEnemy() != nullptr)
+			{
+				for each (Enemy* foe in roomItems[currVertex->id]->GetEnemies())
+				{
+					foesHp.push_back(foe->MaxLifePoints);
+
+				}
+			}
+			currVertex = currVertex->shortestVertex;
+		}
+		std::string finalstring;
+		for (int i = directionsBack.size() - 1; i >= 0; i--)
+		{
+			finalstring.append(directionsBack[i] + " - ");
+		}
+		finalstring.append("\n" + std::to_string(foesHp.size()) + " vijanden {");
+
+		for (int i = foesHp.size() - 1; i >= 0; i--)
+		{
+			finalstring.append(std::to_string(foesHp[i]) + " hp, ");
+		}
+		finalstring.append("}");
+		for each (Vertex* ver in vertices) {
+			delete ver;
+		}
+		return finalstring;
 	}
-
 
 	// Prim's method
 	/*int Game::SpanningTree()

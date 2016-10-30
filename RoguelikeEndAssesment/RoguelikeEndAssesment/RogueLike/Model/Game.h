@@ -6,6 +6,9 @@
 #include "Player.h"
 #include "Vertex.h"
 
+#include <algorithm>
+#include <map>
+
 namespace RogueLike { namespace Model {
 
 	class Game {
@@ -39,7 +42,7 @@ namespace RogueLike { namespace Model {
 
 		std::string BreadthFirstSearch();
 		//void MinSpanningTree();
-		std::string ShortestPath();
+		std::string ShortestPathV2();
 
 		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 

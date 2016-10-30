@@ -24,6 +24,7 @@
     <ClCompile Include="RogueLike\Utils\File.cpp" />
     <ClCompile Include="RogueLike\ErrorHandling\Exception.cpp" />
     <ClCompile Include="RogueLike\ErrorHandling\FileNotFoundException.cpp" />
+    <ClCompile Include="RogueLike\Model\Vertex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RogueLike\Common.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="RogueLike\ErrorHandling\Exception.h" />
     <ClInclude Include="RogueLike\ErrorHandling\FileNotFoundException.h" />
     <ClInclude Include="RogueLike\Model\Enum\ItemType.h" />
+    <ClInclude Include="RogueLike\Model\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Assets\monsters.txt" />

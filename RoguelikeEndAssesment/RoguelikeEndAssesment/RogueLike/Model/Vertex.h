@@ -1,13 +1,17 @@
 #pragma once
+
 namespace RogueLike {
 	namespace Model {
 		class Vertex
 		{
 		public:
-			Vertex(int shortestdir, int distance);
+			Vertex(Vertex* shortestVertex, int distance, int direction, int id);
 			~Vertex();
-			int shortestdir;
+			Vertex* shortestVertex;
 			int distance;
+			int totalDistance;
+			int direction;
+			int id;
 		};
 	}
 }

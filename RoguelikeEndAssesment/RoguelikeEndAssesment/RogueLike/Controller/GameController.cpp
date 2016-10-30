@@ -182,7 +182,7 @@ namespace RogueLike { namespace Controller {
 			case 12:
 			{
 				if (!this->_game->IsInCombat()) {
-					this->_viewController->Say(this->_game->ShortestPath());
+					this->_viewController->Say(this->_game->ShortestPathV2());
 					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;
