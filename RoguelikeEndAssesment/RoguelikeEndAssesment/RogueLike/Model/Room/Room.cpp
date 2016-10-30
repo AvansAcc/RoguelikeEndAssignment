@@ -7,9 +7,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_adjacentRooms.clear();
 		for (int i = 0; i < 4; i++)
 			this->_adjacentRooms.push_back(nullptr);
-		this->_adjacentVertices.clear();
+		/*this->_adjacentVertices.clear();
 		for (int i = 0; i < 4; i++)
-			this->_adjacentVertices.push_back(nullptr);
+			this->_adjacentVertices.push_back(nullptr);*/
 		for (int i = 0; i < 4; i++)
 			this->_destroyedCorridors.push_back(false);
 		this->_enemies.clear();
@@ -149,7 +149,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	void Room::DeleteAllVertices()
 	{
-		for (int i=0; i < this->_adjacentVertices.size(); i++)
+		for (unsigned int i=0; i < this->_adjacentVertices.size(); i++)
 		{
 			if (this->_adjacentVertices[i] != nullptr)
 			{
@@ -253,6 +253,7 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
+
 		//int e = 10;
 		//for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
 		//	e += foe->MaxLifePoints;

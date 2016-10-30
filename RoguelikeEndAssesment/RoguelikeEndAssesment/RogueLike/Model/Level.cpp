@@ -273,7 +273,7 @@ namespace RogueLike { namespace Model {
 		} else {
 			newRoom = new Room::Room('N', x, y);
 			if (Globals::PRERENDERFOES) {
-				((Room::Room*)newRoom)->ChanceSpawnRandomEnemies(this->_enemies, this->_level, 4);
+				((Room::Room*)newRoom)->ChanceSpawnRandomEnemies(this->_enemies, this->_level, 10);
 			}
 			if(_locations[y * _width + x])
 				delete _locations[y * _width + x]; // delete room.

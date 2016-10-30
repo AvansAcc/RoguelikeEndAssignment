@@ -159,6 +159,7 @@
     <ClInclude Include="RogueLike\Model\Room\Room.h" />
     <ClInclude Include="RogueLike\Model\Room\StairsRoom.h" />
     <ClInclude Include="RogueLike\Model\Room\StartRoom.h" />
+    <ClInclude Include="RogueLike\Model\Vertex.h" />
     <ClInclude Include="RogueLike\RogueLike.h" />
     <ClInclude Include="RogueLike\ErrorHandling\Exception.h" />
     <ClInclude Include="RogueLike\ErrorHandling\FileNotFoundException.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="RogueLike\Model\Room\Room.cpp" />
     <ClCompile Include="RogueLike\Model\Room\StairsRoom.cpp" />
     <ClCompile Include="RogueLike\Model\Room\StartRoom.cpp" />
+    <ClCompile Include="RogueLike\Model\Vertex.cpp" />
     <ClCompile Include="RogueLike\RogueLike.cpp" />
     <ClCompile Include="RogueLike\ErrorHandling\Exception.cpp" />
     <ClCompile Include="RogueLike\ErrorHandling\FileNotFoundException.cpp" />

@@ -138,8 +138,6 @@ namespace RogueLike { namespace Controller {
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
-
-					this->_game->ShortestPath();
 				}
 				break;
 			}
@@ -185,7 +183,8 @@ namespace RogueLike { namespace Controller {
 			{
 				if (!this->_game->IsInCombat()) {
 					//this->_viewController->Say(this->_game->ShortestPath());
-					this->_game->ShortestPath();
+					//this->_game->ShortestPath();
+					this->_viewController->Say(this->_game->ShortestPathV2());
 					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;

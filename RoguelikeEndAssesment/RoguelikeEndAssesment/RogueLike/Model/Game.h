@@ -4,6 +4,10 @@
 #include "../Variables.h"
 #include "LevelManager.h"
 #include "Player.h"
+#include "Vertex.h"
+
+#include <algorithm>
+#include <map>
 
 namespace RogueLike { namespace Model {
 
@@ -38,8 +42,10 @@ namespace RogueLike { namespace Model {
 
 		std::string BreadthFirstSearch();
 		//void MinSpanningTree();
-		void ShortestPathV1();
+
+		//void ShortestPathV1();
 		//Room::Vertex ShortestPathRec(Room::Room* room);
+		std::string ShortestPathV2();
 
 		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 
