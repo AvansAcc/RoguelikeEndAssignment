@@ -4,6 +4,7 @@
 #include "../Variables.h"
 #include "LevelManager.h"
 #include "Player.h"
+#include "Vertex.h"
 
 namespace RogueLike { namespace Model {
 
@@ -37,9 +38,8 @@ namespace RogueLike { namespace Model {
 		void LoadItemsFile();
 
 		std::string BreadthFirstSearch();
-		void MinSpanningTree();
+		//void MinSpanningTree();
 		std::string ShortestPath();
-		void ShortestPathRec(Room::Room* room, std::vector<tempVertex> vertices);
 
 		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 

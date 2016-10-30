@@ -593,13 +593,11 @@ namespace RogueLike { namespace Model {
 
 		std::vector<Room::Room*> queue;
 		std::vector<Room::Room*> visited;
-		std::vector<tempVertex> vertices;
+		std::vector<Vertex> vertices;
 		
 		queue.push_back(this->GetCurrentPlayerRoom());
 
-		tempVertex v;
-		v.distance = 0;
-		v.shortestdir = -1;
+		Vertex v(0, -1);
 		vertices.push_back(v);
 
 		while (!queue.empty())
@@ -620,20 +618,10 @@ namespace RogueLike { namespace Model {
 			}
 		}
 
-		//this->ShortestPathRec(this->GetCurrentPlayerRoom(), vertices);
 		//create string
+		return "";
 	}
 
-	void Game::ShortestPathRec(Room::Room* room, std::vector<tempVertex> vertices)
-	{
-		if (dynamic_cast<Room::StairsRoom*> (room) != nullptr) {
-			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (room);
-			if (sr->IsDirectionDown()) {
-				return;
-			}
-		}
-		int dir;
-	}
 
 	// Prim's method
 	/*int Game::SpanningTree()

@@ -24,6 +24,7 @@ namespace RogueLike { namespace Model {
 		std::vector<Room::IRoom*> _locations;
 		Room::IRoom* _startPoint;
 		Room::IRoom* _endPoint;
+		std::vector<Enemy*> _enemies;
 	public:
 
 	private:

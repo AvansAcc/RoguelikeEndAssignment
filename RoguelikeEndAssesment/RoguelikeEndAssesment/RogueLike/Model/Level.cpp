@@ -123,6 +123,7 @@ namespace RogueLike { namespace Model {
 
 	void Level::GenerateMap(std::vector<Enemy*> enemies)
 	{
+		this->_enemies = enemies;
 		//int maxLength = _width + _height;
 		int maxLength = (_width * _height) - ((_width * _height) / 2);
 		int randomDungeonLength = Random::GetRandom((int)(maxLength * 0.8), maxLength);
@@ -148,7 +149,7 @@ namespace RogueLike { namespace Model {
 		this->createLevelPath(nullptr, _startPoint, randomDungeonLength, _tempList);
 		this->createExtraPath(2, 0, _tempList);
 
-		if (Globals::PRERENDERFOES) {
+		/*if (Globals::PRERENDERFOES) {
 			for each (Room::IRoom* iRoom in _locations) if (dynamic_cast<Room::Room*> (iRoom) != nullptr)
 			{
 				// Chance to spawn enemies in the room.
@@ -157,8 +158,7 @@ namespace RogueLike { namespace Model {
 				else
 					((Room::Room*)iRoom)->ChanceSpawnRandomEnemies(enemies, this->_level, 10);
 			}
-		}
-
+		}*/
 		delete _tempList;
 	}
 
@@ -272,6 +272,9 @@ namespace RogueLike { namespace Model {
 			newRoom = _locations[(y * _width) + x];
 		} else {
 			newRoom = new Room::Room('N', x, y);
+			if (Globals::PRERENDERFOES) {
+				((Room::Room*)newRoom)->ChanceSpawnRandomEnemies(this->_enemies, this->_level, 4);
+			}
 			if(_locations[y * _width + x])
 				delete _locations[y * _width + x]; // delete room.
 			_locations[y * _width + x] = newRoom;
@@ -284,6 +287,9 @@ namespace RogueLike { namespace Model {
 			Room::IRoom* end; 
 			if (_level == _maxDepth) {
 				end = new Room::BossRoom('E', newRoom->GetX(), newRoom->GetY());
+				if (Globals::PRERENDERFOES) {
+					((Room::BossRoom*)end)->ChanceSpawnRandomEnemies(this->_enemies, this->_level, 0);
+				}
 			}
 			else {
 				end = new Room::StairsRoom('v', newRoom->GetX(), newRoom->GetY(), true);
@@ -414,7 +420,9 @@ namespace RogueLike { namespace Model {
 
 				if (_locations[y * _width + x]->GetRealIcon() == '.' ) {
 					newRoom = new Room::Room('N', x, y);
-
+					if (Globals::PRERENDERFOES) {
+						((Room::Room*)newRoom)->ChanceSpawnRandomEnemies(this->_enemies, this->_level, 4);
+					}
 					if (_locations[y * _width + x])
 						delete _locations[y * _width + x]; // delete room.
 					_locations[y * _width + x] = newRoom;
