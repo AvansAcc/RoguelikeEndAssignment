@@ -614,6 +614,34 @@ namespace RogueLike { namespace Model {
 
 	}
 
+	// Prim's method
+	int Game::SpanningTree()
+	{
+		std::vector<Room::Room*> visited;
+		std::vector<Room::Room*> queue;
+		queue.push_back(this->GetCurrentPlayerRoom());
+
+		while (!queue.empty())
+		{
+			Room::Room* current = queue.front();
+			queue.erase(queue.begin());
+			visited.push_back(current);
+
+			for each (Room::IRoom* room in current->GetAdjacentRooms()) if (room != nullptr && dynamic_cast<Room::Room*>(room) != nullptr)
+			{
+				Room::Room* r = dynamic_cast<Room::Room*>(room);
+				
+				if (std::find(visited.begin(), visited.end(), r) == visited.end() && // If room is not in visited
+					std::find(queue.begin(), queue.end(), r) == queue.end()) // If room is not in queue
+				{
+					queue.push_back(r);
+				}
+			}
+		}
+
+		return (int)visited.size();
+	}
+
 	Game::Game(const Game& other)
 		: _levelManager { other._levelManager }
 		, _player { other._player }
