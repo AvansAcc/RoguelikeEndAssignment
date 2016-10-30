@@ -201,7 +201,7 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
-		int e = 0;
+		int e = 10;
 		for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
 			e += foe->MaxLifePoints;
 		}
