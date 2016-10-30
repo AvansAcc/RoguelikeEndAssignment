@@ -7,6 +7,8 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_adjacentRooms.clear();
 		for (int i = 0; i < 4; i++)
 			this->_adjacentRooms.push_back(nullptr);
+		for (int i = 0; i < 4; i++)
+			this->_destroyedCorridors.push_back(false);
 		this->_enemies.clear();
 		this->_item = nullptr;
 		this->_isDiscovered = false;
@@ -63,6 +65,11 @@ namespace RogueLike { namespace Model { namespace Room {
 	const std::vector<IRoom*> Room::GetAdjacentRooms()
 	{
 		return _adjacentRooms;
+	}
+
+	const std::vector<bool> Room::GetDestroyedCorridors()
+	{
+		return _destroyedCorridors;
 	}
 
 	Enemy* Room::GetEnemy() const

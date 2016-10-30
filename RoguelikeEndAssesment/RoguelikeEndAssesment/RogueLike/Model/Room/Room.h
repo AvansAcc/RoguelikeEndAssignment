@@ -18,6 +18,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		std::string _description;
 		std::string _directionDescription;
 		std::vector<IRoom*> _adjacentRooms;
+		std::vector<bool> _destroyedCorridors;
 		std::vector<Enemy*> _enemies;
 		Item* _item;
 	public:
@@ -32,6 +33,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const int GetX() const override;
 		virtual const int GetY() const override;
 		virtual const std::vector<IRoom*> GetAdjacentRooms();
+		virtual const std::vector<bool> GetDestroyedCorridors();
 		virtual Enemy* GetEnemy() const;
 		virtual std::vector<Enemy*> GetEnemies() const { return _enemies; };
 		virtual const unsigned int GetAmountOfEnemies() const;
