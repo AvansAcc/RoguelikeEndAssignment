@@ -307,7 +307,7 @@ namespace RogueLike { namespace Model {
 	}
 	const int Game::GetPlayerItemAmount() 
 	{ 
-		return this->_player->GetItems().size();
+		return (int)this->_player->GetItems().size();
 	}
 	const std::string Game::UseInventory(int choice) {
 		std::vector<Item*> items = this->_player->GetItems();
@@ -573,47 +573,164 @@ namespace RogueLike { namespace Model {
 			}
 			if (group == 0) {
 				depth++;
-				group = queue.size();
+				group = (int)queue.size();
 			}
 		}
 		return "De kerstman komt uit de lucht vallen en geeft je een kaart met het nummer " + std::to_string(depth) + " erop. \nZodra je de kaart hebt ontvangen smelt de kerstman de grond in, je hebt geen idee wat er zojuist gebeurd is.";
 	}
-	//void Game::MinSpanningTree() // Prim's algorithm
-	//{
-	//	std::vector<Room::Room*> Tree;
-	//	Tree.push_back(this->GetCurrentPlayerRoom());
 
-	//	for (int i = 0; i < 4; i++) if ()
-	//	{
 
-	//	}
-	//}
-	std::string Game::ShortestPath()
+	void Game::ShortestPathV1()
 	{
-		std::vector<Room::Room*> visited;
-		std::vector<Room::Vertex> vertices;
+		std::vector<Room::IRoom*> Visited;
+		std::vector<Room::Room*> Queue;
+		Room::Room* Current = nullptr;
 
-		Room::Vertex v;
-		v.weight = 0;
-		v.shortestDir = -1;
-		//v.currRoom = 
+		Queue.push_back(this->GetCurrentPlayerRoom()); // Add Start
+		
+		while (!Queue.empty())
+		{
+			Room::Room* RoomLowestDistance = nullptr;
+			int lowestDistanceindex = 0;
+			Current = Queue.front();
+			Queue.erase(Queue.begin());
+			Visited.push_back(Current); // Voeg huidige aan visited
+			
+			// Kijk om je heen, vanuit je huidige kamer
+			if (Current->HasAdjacentRooms())
+			{
+				Room::Room* LowestAdjacentRoom = nullptr;
+				for (int i = 0; i < Current->GetAdjacentRooms().size(); i++)
+				{
+					if (Current->GetAdjacentRooms()[i] != nullptr)
+					{
+						if (dynamic_cast<Room::Room*>(Current->GetAdjacentRooms()[i]) != nullptr)
+						{
+							Room::Room* room = dynamic_cast<Room::Room*>(Current->GetAdjacentRooms()[i]);
 
-		//this->ShortestPathRec(this->GetCurrentPlayerRoom());
-		//create string
-		return "";
-	}
+							// Ga pas dingen doen als je deze Kamer nog niet hebt bezocht.
+							/*if (std::find(Visited.begin(), Visited.end(), room) == Visited.end())
+							{
+								if(std::find(Queue.begin(), Queue.end(), room) == Queue.end())
+								{ 
+									Queue.push_back(room);
+								}
+							}*/
+							
+								unsigned int dir = ((i > 1) ? (i - 2) : (i + 2)); // Bereken de richting waar ik naartoe kijk
 
-	/*Room::Vertex Game::ShortestPathRec(Room::Room* room)
-	{
-		if (dynamic_cast<Room::StairsRoom*> (room) != nullptr) {
-			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (room);
-			if (sr->IsDirectionDown()) {
-				return;
+								if (room->GetAdjacentVertices()[dir] == nullptr)
+								{
+									Queue.push_back(room);
+									Room::Vertex* v = new Room::Vertex;
+									v->Room = Current;
+									int weight = 10;
+									for each(Enemy* foe in room->GetEnemies()) if (!foe->IsDead())
+										weight += foe->MaxLifePoints;
+									v->Weight = weight;
+									v->TotalWeight = weight;
+									v->ShortestDir = dir;
+
+									if (Current->HasAdjacentVertices())
+									{
+										int index = 0;
+										for (int j = 0; j < Current->GetAdjacentVertices().size(); j++)
+										{
+											if (Current->GetAdjacentVertices()[j] != nullptr)
+												index = j;
+										}
+										v->TotalWeight = (v->Weight + Current->GetAdjacentVertices().at(index)->TotalWeight);
+									}
+
+									// Zet de vertex vanwaar ik naartoe kijk
+									room->SetVertex(dir, v);
+								}
+
+								
+							
+						}
+					}
+				}
+
+			}
+			
+		} // End While-loop
+
+
+		// De weg terug naar Start/Stairs!
+		std::vector<Room::Room*> Path;
+		int TotalWeight = 0;
+		Room::Vertex* LowestVertex = nullptr;
+
+		while (Current != nullptr)
+		{
+			if ((dynamic_cast<Room::StairsRoom*>(Current) != nullptr && !(dynamic_cast<Room::StairsRoom*>(Current))->IsDirectionDown()) 
+				|| dynamic_cast<Room::StartRoom*>(Current) != nullptr)
+			{
+				Path.push_back(Current);
+				std::cout << "Start!" << std::endl;
+				Current = nullptr;
+				break;
+			}
+
+			if (Current->HasAdjacentVertices())
+			{
+				for each(Room::Vertex* vertex in Current->GetAdjacentVertices())
+				{
+					if (vertex != nullptr && std::find(Path.begin(), Path.end(), vertex->Room) == Path.end())
+					{
+						if (LowestVertex == nullptr) {
+							LowestVertex = vertex;
+							std::cout << "Finish?" << std::endl;
+							std::cout << "Point: " << LowestVertex->Room->GetX() << "/" << LowestVertex->Room->GetY() << " - (" << LowestVertex->Weight << "/" << LowestVertex->TotalWeight << "), enemies: " << std::to_string(LowestVertex->Room->GetEnemies().size()) << ", dir: " << LowestVertex->ShortestDir;
+							std::cout << " choise (";
+							for (int i=0; i < LowestVertex->Room->GetAdjacentVertices().size(); i++)
+							{
+								if(LowestVertex->Room->GetAdjacentVertices()[i] != nullptr)
+									std::cout << " i:" << std::to_string(i) <<  "(" << LowestVertex->Weight << " / " << LowestVertex->TotalWeight << ") - enemies: " << std::to_string(LowestVertex->Room->GetEnemies().size()) << ", ";
+							}
+							std::cout << ")" << std::endl;
+
+						}
+						else if (vertex->TotalWeight < LowestVertex->TotalWeight)
+						{
+							LowestVertex = vertex;
+							std::cout << "Point: " << LowestVertex->Room->GetX() << "/" << LowestVertex->Room->GetY() << " - (" << LowestVertex->Weight << "/" << LowestVertex->TotalWeight << "), enemies: " << std::to_string(LowestVertex->Room->GetEnemies().size()) << ", dir: " << LowestVertex->ShortestDir;
+							std::cout << " choise (";
+							for (int i = 0; i < LowestVertex->Room->GetAdjacentVertices().size(); i++)
+							{
+								if (LowestVertex->Room->GetAdjacentVertices()[i] != nullptr)
+									std::cout << " i:" << std::to_string(i) << " (" << LowestVertex->Weight << " / " << LowestVertex->TotalWeight << ") - enemies: " << std::to_string(LowestVertex->Room->GetEnemies().size()) << ", ";
+							}
+							std::cout << ")" << std::endl;
+						}
+					}
+				}
+				TotalWeight += LowestVertex->Weight;
+				Path.push_back(Current);
+				Current = LowestVertex->Room;
+			} else {
+				Path.push_back(Current);
+				break;
 			}
 		}
 
 
-	}*/
+
+		// Empty all vertices in all rooms
+		for each(Room::IRoom* room in this->_levelManager->GetCurrentLevel()->GetLocations()) {
+			if (room != nullptr && dynamic_cast<Room::Room*>(room) != nullptr)
+			{
+				Room::Room* r = dynamic_cast<Room::Room*>(room);
+				if (r->HasAdjacentVertices())
+				{
+					r->DeleteAllVertices();
+				}
+			}
+		}
+		
+	}
+
 
 	// Prim's method
 	/*int Game::SpanningTree()

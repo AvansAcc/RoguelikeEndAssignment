@@ -32,7 +32,7 @@ namespace RogueLike { namespace Controller {
 		this->Say("Kerkers en draken\n\n");
 		std::vector<std::string> menuItems{ "Nieuw spel", "Spel laden", "Spel opslaan", "Credits", "Afsluiten" };
 		_outputView->ShowMenu(menuItems);
-		return this->AskInt("\nMaak uw keuze uit de menu items (geef het nummer mee)", menuItems.size());
+		return this->AskInt("\nMaak uw keuze uit de menu items (geef het nummer mee)", (unsigned int)menuItems.size());
 	}
 
 	void ViewController::ShowCreditScreen()
@@ -52,7 +52,7 @@ namespace RogueLike { namespace Controller {
 	const int ViewController::ShowOptions(std::vector<std::string> options)
 	{
 		this->_outputView->ShowOptions(options);
-		return this->AskInt("\n", options.size());
+		return this->AskInt("\n", (unsigned int)options.size());
 	}
 
 	void ViewController::ShowMap(const char* const map, unsigned int width, unsigned int height)

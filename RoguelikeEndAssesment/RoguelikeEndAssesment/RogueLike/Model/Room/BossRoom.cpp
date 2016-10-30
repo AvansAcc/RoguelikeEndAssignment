@@ -39,7 +39,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 		if (!availableEnemies.empty())
 		{
-			int chanceEnemy = Random::GetRandom(0, availableEnemies.size());
+			int chanceEnemy = Random::GetRandom(0, (int)availableEnemies.size());
 			Enemy* enemy = nullptr;
 			double level_percentage = ((currentlevel+1) * 0.1);
 			

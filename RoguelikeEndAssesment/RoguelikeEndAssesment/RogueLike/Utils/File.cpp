@@ -8,8 +8,8 @@ namespace RogueLike { namespace Utils {
 		this->_content = "";
 		this->_size = -1;
 		
-		int index_name = path.find_last_of("/\\") + 1;
-		int dot = path.find_last_of(".");
+		int index_name = (int)path.find_last_of("/\\") + 1;
+		int dot = (int)path.find_last_of(".");
 		this->_name = (!path.empty()) ? (path.substr(index_name, (((path.size()-1) - index_name) - ((path.size() - 1) - dot)))) : "";
 		this->_extension = (!path.empty() && dot >= 0) ? (path.substr(dot + 1)) : "";
 		this->_path = (!path.empty() && index_name >= 0) ? (path.substr(0, index_name)) : "";

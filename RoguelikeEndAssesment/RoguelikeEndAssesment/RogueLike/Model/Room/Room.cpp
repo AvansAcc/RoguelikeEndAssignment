@@ -87,7 +87,7 @@ namespace RogueLike { namespace Model { namespace Room {
 
 	const unsigned int Room::GetAmountOfEnemies() const
 	{
-		return _enemies.size();
+		return (unsigned int)_enemies.size();
 	}
 	
 	const unsigned int Room::GetAmountOfEnemiesAlive() const
@@ -124,6 +124,58 @@ namespace RogueLike { namespace Model { namespace Room {
 			delete this->_item;
 		
 		this->_item = item;
+	}
+	void Room::SetVertex(unsigned int index, Vertex* v)
+	{
+		if (index < 0 || index > 4)
+			return;
+		if (_adjacentVertices.at(index))
+			delete _adjacentVertices.at(index);
+
+		_adjacentVertices.at(index) = v;
+	}
+
+	const bool Room::HasAdjacentVertices() const
+	{
+		bool hasVertex = false;
+		for each(Vertex* v in this->_adjacentVertices)
+		{
+			if (v != nullptr)
+				hasVertex = true;
+
+		}
+		return hasVertex;
+	}
+
+	void Room::DeleteAllVertices()
+	{
+		for (int i=0; i < this->_adjacentVertices.size(); i++)
+		{
+			if (this->_adjacentVertices[i] != nullptr)
+			{
+				delete this->_adjacentVertices[i];
+				this->_adjacentVertices[i] = nullptr;
+			}
+		}
+	}
+
+	void Room::DeleteVertex(unsigned int index)
+	{
+		if (index < 0 || index > 4)
+			return;
+		delete this->_adjacentVertices.at(index);
+		this->_adjacentVertices.at(index) = nullptr;
+	}
+
+	const bool Room::HasAdjacentRooms() const
+	{
+		bool hasRooms = false;
+		for each(IRoom* r in this->_adjacentRooms)
+		{
+			if (r != nullptr && dynamic_cast<Room*>(r) != nullptr)
+				hasRooms = true;
+		}
+		return hasRooms;
 	}
 
 	const std::string Room::GetRoomDescription()
@@ -201,16 +253,16 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
-		int e = 10;
-		for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
-			e += foe->MaxLifePoints;
-		}
-		Vertex* n = new Vertex;
-		n->Room = ((Room*)room);
-		n->weight = e;
-		n->shortestDir = direction;
+		//int e = 10;
+		//for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
+		//	e += foe->MaxLifePoints;
+		//}
+		//Vertex* n = new Vertex;
+		//n->Room = ((Room*)room);
+		//n->weight = e;
+		//n->shortestDir = direction;
 
-		_adjacentVertices.at(direction) = n;
+		//_adjacentVertices.at(direction) = n;
 	}
 	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel, int chance)
 	{
@@ -231,7 +283,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		int chanceSpawn = Random::GetRandom(1, 11);
 		if (chanceSpawn <= chance && !availableEnemies.empty())
 		{
-			int chanceEnemy = Random::GetRandom(0, availableEnemies.size());
+			int chanceEnemy = Random::GetRandom(0, (int)availableEnemies.size());
 			int changeAmount = Random::GetRandom(1, 4); // 3
 			Enemy* enemy = nullptr;
 
@@ -252,7 +304,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		if (chanceSpawn <= chance && !items.empty())
 		{
 			Item* item = nullptr;
-			int chanceItem = Random::GetRandom(0, items.size());
+			int chanceItem = Random::GetRandom(0, (int)items.size());
 
 			item = new Item(*items[chanceItem]); // use the copy constructor
 			item->Amount = 1;
