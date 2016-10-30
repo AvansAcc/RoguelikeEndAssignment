@@ -39,7 +39,7 @@ namespace RogueLike { namespace Model {
 		std::string BreadthFirstSearch();
 		void MinSpanningTree();
 		std::string ShortestPath();
-		Room::Vertex ShortestPathRec(Room::Room* room);
+		void ShortestPathRec(Room::Room* room, std::vector<tempVertex> vertices);
 
 		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 

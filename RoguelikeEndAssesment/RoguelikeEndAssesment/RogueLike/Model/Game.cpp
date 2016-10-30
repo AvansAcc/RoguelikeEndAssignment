@@ -545,7 +545,7 @@ namespace RogueLike { namespace Model {
 		std::vector<Room::Room*> visited;
 		int depth = 0;
 		int group = 1;
-		visited.push_back(this->GetCurrentPlayerRoom());
+		//visited.push_back(this->GetCurrentPlayerRoom());
 		queue.push_back(this->GetCurrentPlayerRoom());
 		while (!queue.empty())
 		{
@@ -590,19 +590,41 @@ namespace RogueLike { namespace Model {
 	//}
 	std::string Game::ShortestPath()
 	{
+
+		std::vector<Room::Room*> queue;
 		std::vector<Room::Room*> visited;
-		std::vector<Vertex> vertices;
+		std::vector<tempVertex> vertices;
+		
+		queue.push_back(this->GetCurrentPlayerRoom());
 
-		Vertex v;
-		v.weight = 0;
-		v.shortestDir = -1;
-		v.currRoom = 
+		tempVertex v;
+		v.distance = 0;
+		v.shortestdir = -1;
+		vertices.push_back(v);
 
-		this->ShortestPathRec(this->GetCurrentPlayerRoom());
+		while (!queue.empty())
+		{
+			Room::Room* currRoom = queue.front();
+			queue.erase(queue.begin());
+			visited.push_back(currRoom);
+
+			for each (Room::IRoom* room in currRoom->GetAdjacentRooms()) if (room != nullptr)
+			{
+				if (std::find(visited.begin(), visited.end(), room) == visited.end() && // If room is not in visited
+					std::find(queue.begin(), queue.end(), room) == queue.end()) // If room is not in queue
+				{
+					if (dynamic_cast<Room::Room*> (room) != nullptr) {
+						queue.push_back(((Room::Room*)room));
+					}
+				}
+			}
+		}
+
+		//this->ShortestPathRec(this->GetCurrentPlayerRoom(), vertices);
 		//create string
 	}
 
-	Vertex Game::ShortestPathRec(Room::Room* room)
+	void Game::ShortestPathRec(Room::Room* room, std::vector<tempVertex> vertices)
 	{
 		if (dynamic_cast<Room::StairsRoom*> (room) != nullptr) {
 			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (room);
@@ -610,12 +632,11 @@ namespace RogueLike { namespace Model {
 				return;
 			}
 		}
-
-
+		int dir;
 	}
 
 	// Prim's method
-	int Game::SpanningTree()
+	/*int Game::SpanningTree()
 	{
 		std::vector<Room::Room*> visited;
 		std::vector<Room::Room*> queue;
@@ -640,7 +661,7 @@ namespace RogueLike { namespace Model {
 		}
 
 		return (int)visited.size();
-	}
+	}*/
 
 	Game::Game(const Game& other)
 		: _levelManager { other._levelManager }

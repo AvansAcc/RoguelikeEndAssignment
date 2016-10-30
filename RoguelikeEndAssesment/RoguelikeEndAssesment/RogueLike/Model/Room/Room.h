@@ -11,12 +11,12 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 	
-	struct Vertex
+	/*struct Vertex
 	{
 		int weight;
 		int shortestDir;
 		Room* Room;
-	};
+	};*/
 
 	class Room : public IRoom {
 	private:
