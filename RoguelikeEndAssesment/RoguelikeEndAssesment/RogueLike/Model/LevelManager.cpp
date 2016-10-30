@@ -33,7 +33,7 @@ namespace RogueLike { namespace Model {
 			for (unsigned int i = 0; i < this->_level; i++)
 			{
 				Level* level = new Level(_width, _height, i, _maxLevels);
-				level->GenerateMap();
+				level->GenerateMap(this->_enemies);
 				this->_levels.push_back(std::move(level)); // use the move constructor
 			}
 		}
@@ -62,7 +62,7 @@ namespace RogueLike { namespace Model {
 		} else {
 			this->_level = level;
 			this->_currentLevel = new Level(_width, _height, level, _maxLevels);
-			this->_currentLevel->GenerateMap();
+			this->_currentLevel->GenerateMap(this->_enemies);
 			this->_levels.push_back(std::move(_currentLevel)); // use the move constructor
 		}
 	}

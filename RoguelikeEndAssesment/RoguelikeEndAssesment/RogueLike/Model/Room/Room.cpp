@@ -7,6 +7,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_adjacentRooms.clear();
 		for (int i = 0; i < 4; i++)
 			this->_adjacentRooms.push_back(nullptr);
+		this->_adjacentVertices.clear();
+		for (int i = 0; i < 4; i++)
+			this->_adjacentVertices.push_back(nullptr);
 		this->_enemies.clear();
 		this->_item = nullptr;
 		this->_isDiscovered = false;
@@ -191,6 +194,16 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
+		int e = 0;
+		for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
+			e += foe->MaxLifePoints;
+		}
+		Vertex* n = new Vertex;
+		n->Room = ((Room*)room);
+		n->weight = e;
+		n->shortestDir = direction;
+
+		_adjacentVertices.at(direction) = n;
 	}
 	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel, int chance)
 	{

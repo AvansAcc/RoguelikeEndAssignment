@@ -6,7 +6,7 @@
 #include "Player.h"
 
 namespace RogueLike { namespace Model {
-	
+
 	class Game {
 	private:
 		Player* _player;
@@ -35,7 +35,12 @@ namespace RogueLike { namespace Model {
 		const bool Update();
 		void LoadEnemiesFile();
 		void LoadItemsFile();
-		int BreadthFirstSearch();
+		std::string BreadthFirstSearch();
+		void MinSpanningTree();
+		std::string ShortestPath();
+		Vertex ShortestPathRec(Room::Room* room);
+
+		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 
 		const std::vector<std::string> GetAvailableActions();
 		const std::vector<std::string> GetGameInfo();

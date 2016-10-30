@@ -11,6 +11,13 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 	
+	struct Vertex
+	{
+		int weight;
+		int shortestDir;
+		Room* Room;
+	};
+
 	class Room : public IRoom {
 	private:
 		
@@ -18,6 +25,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		std::string _description;
 		std::string _directionDescription;
 		std::vector<IRoom*> _adjacentRooms;
+		std::vector<Vertex*> _adjacentVertices; // 
 		std::vector<Enemy*> _enemies;
 		Item* _item;
 	public:

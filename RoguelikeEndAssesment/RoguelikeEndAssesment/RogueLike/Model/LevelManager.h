@@ -8,6 +8,7 @@ namespace RogueLike { namespace Model {
 	private:
 		uint _level;
 		std::vector<Level*> _levels;
+		std::vector<Enemy*> _enemies;
 		Level* _currentLevel;
 		uint _width;
 		uint _height;
@@ -20,6 +21,7 @@ namespace RogueLike { namespace Model {
 	public:
 		LevelManager(uint width, uint height, uint max_levels);
 		virtual ~LevelManager();
+		void LevelManager::setEnemies(std::vector<Enemy*>& enemies) { this->_enemies = enemies; }
 		LevelManager(const LevelManager& other);
 		LevelManager(LevelManager&& other);
 		LevelManager& operator=(const LevelManager& other);

@@ -121,7 +121,7 @@ namespace RogueLike { namespace Model {
 		return map;
 	}
 
-	void Level::GenerateMap()
+	void Level::GenerateMap(std::vector<Enemy*> enemies)
 	{
 		//int maxLength = _width + _height;
 		int maxLength = (_width * _height) - ((_width * _height) / 2);
@@ -147,6 +147,18 @@ namespace RogueLike { namespace Model {
 
 		this->createLevelPath(nullptr, _startPoint, randomDungeonLength, _tempList);
 		this->createExtraPath(2, 0, _tempList);
+
+		if (Globals::PRERENDERFOES) {
+			for each (Room::IRoom* iRoom in _locations) if (dynamic_cast<Room::Room*> (iRoom) != nullptr)
+			{
+				// Chance to spawn enemies in the room.
+				if (dynamic_cast<Room::BossRoom*> (iRoom) != NULL)
+					((Room::BossRoom*)iRoom)->ChanceSpawnRandomEnemies(enemies, this->_level, 0);
+				else
+					((Room::Room*)iRoom)->ChanceSpawnRandomEnemies(enemies, this->_level, 10);
+			}
+		}
+
 		delete _tempList;
 	}
 

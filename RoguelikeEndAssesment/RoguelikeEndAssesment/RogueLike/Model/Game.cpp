@@ -32,11 +32,12 @@ namespace RogueLike { namespace Model {
 
 	void Game::Start(uint width, uint height, uint max_levels, std::string name)
 	{
+		this->LoadEnemiesFile();
 		_levelManager = new LevelManager(width, height, max_levels);
+		_levelManager->setEnemies(this->_enemies);
 		_levelManager->Start();
 		_player = new Player(name, _levelManager->GetCurrentLevel()->GetStartPoint()->GetX(), _levelManager->GetCurrentLevel()->GetStartPoint()->GetY());
 		this->GetCurrentPlayerRoom()->Discover();
-		this->LoadEnemiesFile();
 		this->LoadItemsFile();
 	}
 
@@ -57,6 +58,7 @@ namespace RogueLike { namespace Model {
 
 		this->LoadEnemiesFile();
 		this->LoadItemsFile();
+		_levelManager->setEnemies(this->_enemies);
 	}
 	const bool Game::Update()
 	{
@@ -234,8 +236,9 @@ namespace RogueLike { namespace Model {
 		if (r->GetAdjacentRooms()[dir] == nullptr) {
 			return false;
 		}
-		this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
-
+		if (!Globals::PRERENDERFOES) {
+			this->GetCurrentPlayerRoom()->DeleteEnemies(); // Delete enemies before moving.
+		}
 		int x = ((dir == 1 || dir == 3) ? ((dir == 1) ? 1 : -1) : 0);
 		int y = ((dir == 0 || dir == 2) ? ((dir == 2) ? 1 : -1) : 0);
 
@@ -246,12 +249,13 @@ namespace RogueLike { namespace Model {
 		}
 		this->GetCurrentPlayerRoom()->Discover();
 
-		// Chance to spawn enemies in the room.
-		if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
-			((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 0);
-		else
-			((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 4);
-
+		if (!Globals::PRERENDERFOES) {
+			// Chance to spawn enemies in the room.
+			if (dynamic_cast<Room::BossRoom*> (this->GetCurrentPlayerRoom()) != NULL)
+				((Room::BossRoom*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 0);
+			else
+				((Room::Room*)this->GetCurrentPlayerRoom())->ChanceSpawnRandomEnemies(_enemies, _levelManager->GetLevel(), 4);
+		}
 		return true;
 	}
 	const std::string Game::FleePlayer()
@@ -535,7 +539,7 @@ namespace RogueLike { namespace Model {
 		return this->_levelManager->GetLevel();
 	}
 
-	int Game::BreadthFirstSearch()
+	std::string Game::BreadthFirstSearch()
 	{
 		std::vector<Room::Room*> queue;
 		std::vector<Room::Room*> visited;
@@ -572,7 +576,42 @@ namespace RogueLike { namespace Model {
 				group = queue.size();
 			}
 		}
-		return depth;
+		return "De kerstman komt uit de lucht vallen en geeft je een kaart met het nummer " + std::to_string(depth) + " erop. \nZodra je de kaart hebt ontvangen smelt de kerstman de grond in, je hebt geen idee wat er zojuist gebeurd is.";
+	}
+	//void Game::MinSpanningTree() // Prim's algorithm
+	//{
+	//	std::vector<Room::Room*> Tree;
+	//	Tree.push_back(this->GetCurrentPlayerRoom());
+
+	//	for (int i = 0; i < 4; i++) if ()
+	//	{
+
+	//	}
+	//}
+	std::string Game::ShortestPath()
+	{
+		std::vector<Room::Room*> visited;
+		std::vector<Vertex> vertices;
+
+		Vertex v;
+		v.weight = 0;
+		v.shortestDir = -1;
+		v.currRoom = 
+
+		this->ShortestPathRec(this->GetCurrentPlayerRoom());
+		//create string
+	}
+
+	Vertex Game::ShortestPathRec(Room::Room* room)
+	{
+		if (dynamic_cast<Room::StairsRoom*> (room) != nullptr) {
+			Room::StairsRoom* sr = dynamic_cast<Room::StairsRoom*> (room);
+			if (sr->IsDirectionDown()) {
+				return;
+			}
+		}
+
+
 	}
 
 	Game::Game(const Game& other)
