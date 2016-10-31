@@ -242,7 +242,7 @@ namespace RogueLike { namespace Model {
 		this->_player->SetNewPlayerLocation(x, y);
 		// Chance to spawn item in the room.
 		if (!this->GetCurrentPlayerRoom()->IsDiscovered() || Globals::DEBUG) {
-			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel(), 1);
+			this->GetCurrentPlayerRoom()->ChanceSpawnRandomItem(_items, _levelManager->GetLevel(), 10);
 		}
 		this->GetCurrentPlayerRoom()->Discover();
 
