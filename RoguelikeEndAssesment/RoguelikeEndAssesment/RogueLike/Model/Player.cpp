@@ -99,8 +99,11 @@ namespace RogueLike { namespace Model {
 
 		_items[index]->Amount--;
 
-		if (_items[index]->Amount <= 0)
+		if (_items[index]->Amount <= 0) {
+			delete _items.at(index);
 			_items.erase(_items.begin() + index);
+
+		}
 
 		return answer;
 	}
