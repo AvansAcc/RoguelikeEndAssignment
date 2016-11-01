@@ -11,17 +11,6 @@
 
 namespace RogueLike { namespace Model { namespace Room {
 	
-	class Room;
-
-	struct Vertex
-	{
-		int Weight;
-		int ShortestDir;
-		int TotalWeight;
-		Room* Room;
-	};
-
-
 	class Room : public IRoom {
 	private:
 		
@@ -29,7 +18,6 @@ namespace RogueLike { namespace Model { namespace Room {
 		std::string _description;
 		std::string _directionDescription;
 		std::vector<IRoom*> _adjacentRooms;
-		std::vector<Vertex*> _adjacentVertices;
 		std::vector<bool> _destroyedCorridors;
 		std::vector<Enemy*> _enemies;
 		Item* _item;
@@ -45,15 +33,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const int GetX() const override;
 		virtual const int GetY() const override;
 		virtual const std::vector<IRoom*> GetAdjacentRooms();
-
-		virtual const std::vector<Vertex*> GetAdjacentVertices() { return this->_adjacentVertices; }
-		virtual const bool HasAdjacentVertices() const;
 		virtual const bool HasAdjacentRooms() const;
-		virtual void DeleteVertex(unsigned int index);
-		virtual void DeleteAllVertices();
-		virtual void SetVertex(unsigned int index, Vertex* v);
-
-		//virtual const std::vector<Vertex*> GetAdjacentVertices() { return this->_adjacentVertices; }
 
 		virtual const std::vector<bool> GetDestroyedCorridors();
 		virtual Enemy* GetEnemy() const;
