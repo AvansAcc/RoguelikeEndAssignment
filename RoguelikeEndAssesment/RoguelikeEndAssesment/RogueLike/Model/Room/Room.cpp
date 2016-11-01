@@ -79,9 +79,14 @@ namespace RogueLike { namespace Model { namespace Room {
 		return std::to_string(totHp);
 	}
 
-	const std::vector<bool> Room::GetDestroyedCorridors()
+	std::vector<bool> Room::GetDestroyedCorridors()
 	{
-		return _destroyedCorridors;
+		return this->_destroyedCorridors;
+	}
+
+	void Room::SetDestroyed(int dir, bool val)
+	{
+		this->_destroyedCorridors[dir] = val;
 	}
 
 	Enemy* Room::GetEnemy() const

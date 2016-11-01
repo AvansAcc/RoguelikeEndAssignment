@@ -11,6 +11,9 @@ namespace RogueLike {
 			this->direction = direction;
 			this->id = id;
 			this->room = room;
+			for (int i = 0; i < 4; i++) {
+				this->adjacentVertices.push_back(nullptr);
+			}
 		}
 
 		Vertex::~Vertex()

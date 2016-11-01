@@ -219,9 +219,9 @@ namespace RogueLike { namespace Controller {
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
-
+					this->_game->SpanningTree();
 					// Generate the spanningstree & get all the double passages 
-					auto doubleVertices = this->_game->SpanningTree();
+					/*auto doubleVertices = this->_game->SpanningTree();
 					this->_viewController->Say("Aantal dubbele gangen: " + std::to_string(doubleVertices.size()));
 					
 					for (unsigned int i = 0; i < doubleVertices.size(); i++) {
@@ -230,7 +230,7 @@ namespace RogueLike { namespace Controller {
 							delete doubleVertices[i];
 						}
 					}
-					doubleVertices.clear();
+					doubleVertices.clear();*/
 					this->_viewController->PressAnyKeyToContinue();
 				}
 			}

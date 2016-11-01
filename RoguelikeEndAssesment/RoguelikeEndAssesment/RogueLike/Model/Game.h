@@ -11,6 +11,12 @@
 
 namespace RogueLike { namespace Model {
 
+	struct vertexHolder {
+		Vertex* vertex;
+		int originalId;
+		int originalDirection;
+	};
+
 	class Game {
 	private:
 		Player* _player;
@@ -45,7 +51,7 @@ namespace RogueLike { namespace Model {
 		void LoadItemsFile();
 
 		std::string BreadthFirstSearch();
-		std::vector<Vertex*> SpanningTree();
+		void SpanningTree();
 
 		//void ShortestPathV1();
 		std::string ShortestPathV2();

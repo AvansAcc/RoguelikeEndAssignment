@@ -883,10 +883,16 @@ namespace RogueLike { namespace Model {
 		}
 		return finalstring;
 	}
+	
 	// Prim's method
-	std::vector<Vertex*> Game::SpanningTree()
+	void Game::SpanningTree()
 	{
 		// Als eerst: Bereken alle vertices, dmv kamer + enemy HP
+
+		roomItems.clear();
+		vertices.clear();
+
+		roomItems.push_back(this->GetCurrentPlayerRoom());
 
 		std::vector<Room::Room*> visited;
 		std::vector<Vertex*> vertices{ new Vertex(nullptr, 0, -1, 0, this->GetCurrentPlayerRoom()) };
@@ -900,9 +906,9 @@ namespace RogueLike { namespace Model {
 		int exit = 0;
 		int currItem = 0;
 
-		while (currItem < (int)visited.size())
+		while (currItem < (int)roomItems.size())
 		{
-			Room::Room* currRoom = visited[currItem];
+			Room::Room* currRoom = roomItems[currItem];
 			Vertex* currVertex = vertices[currItem];
 
 			if (dynamic_cast<Room::StairsRoom*> (currRoom) != nullptr) {
@@ -920,10 +926,10 @@ namespace RogueLike { namespace Model {
 			{
 				int roomAlreadyExists = -1;
 				// is de kamer al in roomItems?
-				for (unsigned int j = 0; j < visited.size(); j++)
+				for (unsigned int j = 0; j < roomItems.size(); j++)
 				{
-					if (visited[j]->GetX() == adjRooms[i]->GetX() && 
-						visited[j]->GetY() == adjRooms[i]->GetY()) 
+					if (roomItems[j]->GetX() == adjRooms[i]->GetX() &&
+						roomItems[j]->GetY() == adjRooms[i]->GetY())
 					{
 						roomAlreadyExists = j;
 						break;
@@ -940,9 +946,10 @@ namespace RogueLike { namespace Model {
 					}
 				}
 				typedef std::multimap<int, int> MapType;
-				weightsDirection.insert(MapType::value_type(distance, i)); //[distance] = i;
+				weightsDirection.insert(MapType::value_type(distance, i));
 			}
 
+			//typedef std::multimap<int, Vertex*> MapType;
 			int weightSize = weightsDirection.size();
 			for (int i = 0; i < weightSize; i++)
 			{
@@ -951,24 +958,24 @@ namespace RogueLike { namespace Model {
 				int currItemIndex = hasPassed.find(weightsDirection.begin()->second)->second; // de index van de kamer die al in de lijst staat, als ie erin staat
 				if (currItemIndex == -1) {
 					int dir = weightsDirection.begin()->second;
-					//int reverseDir = (dir > 1) ? dir - 2 : dir + 2;
 
-					visited.push_back((Room::Room*)adjRooms[dir]);
+					roomItems.push_back((Room::Room*)adjRooms[dir]);
 
 					Vertex* nv = new Vertex(currVertex, weightsDirection.begin()->first, dir, indexer, (Room::Room*)adjRooms[dir]);
 					nv->totalDistance += currVertex->totalDistance;
 					vertices.push_back(nv);
+					// random tryits
+					//currVertex->adjacentVertices.insert(MapType::value_type(weightsDirection.begin()->first, nv));
+					currVertex->adjacentVertices.at(weightsDirection.begin()->second);
+					// end random tryits
 					indexer++;
 				}
 				// als kamer al wel in roomItems is vergelijk dan de distances
 				else {
-					if (vertices[currItemIndex]->totalDistance > (weightsDirection.begin()->first + currVertex->totalDistance)) {
-						int reverseDir = (weightsDirection.begin()->second > 1) ? weightsDirection.begin()->second - 2 : weightsDirection.begin()->second + 2;
-						Vertex* nv = vertices[currItemIndex]; // ga naar de vertex van de room die al in de room lijst stond
-						nv->distance = weightsDirection.begin()->first; // zet de afstand op de korte afstand
-						nv->totalDistance = weightsDirection.begin()->first + currVertex->totalDistance;
-						nv->shortestVertex = currVertex; // zet richting van kortere pad naar huidige vertex
-					}
+					// random tryits
+					//currVertex->adjacentVertices.insert(MapType::value_type(weightsDirection.begin()->first, vertices[currItemIndex]));
+					currVertex->adjacentVertices.at(weightsDirection.begin()->second);
+					// end random tryits
 				}
 				hasPassed.erase(hasPassed.find(weightsDirection.begin()->second));
 				weightsDirection.erase(weightsDirection.begin());
@@ -976,31 +983,96 @@ namespace RogueLike { namespace Model {
 			currItem++;
 		}
 
+		for each (Room::Room* r in roomItems)
+		{
+			for (int i = 0; i < 4; i++) {
+				r->SetDestroyed(i, true);
+			}
+		}
 
 		// Voer Prim's Algoritme uit:
 		std::vector<Room::Room*> visitedRooms;
 		std::vector<Vertex*> queue;
 		std::vector<Vertex*> doubleVertices;
 		
+		// random tryits
 		Vertex* currentVertex = vertices[(Random::GetRandom(0, vertices.size()))];
-		visitedRooms.push_back(currentVertex->room);
+		//Vertex* prevVertex = nullptr;
+		//std::vector<Vertex*> tree;
+		std::vector<vertexHolder> treeQueue;
+		//typedef std::multimap<int, Vertex*> MapType;
+		//std::multimap<int, Vertex*> allVertexMap;
+
+		for (int i = 0; i < currentVertex->adjacentVertices.size(); i++)
+		{
+			if (currentVertex->adjacentVertices[i] != nullptr) {
+				vertexHolder v;
+				v.originalId = currentVertex->id;
+				v.originalDirection = i;
+				v.vertex = currentVertex->adjacentVertices[i];
+				treeQueue.push_back(v);
+			}
+		}
+
+		while (!treeQueue.empty())
+		{
+			//tree.push_back(currentVertex);
+			
+			// look around
+			for (int i = 0; i < currentVertex->adjacentVertices.size(); i++)
+			{
+				if (currentVertex->adjacentVertices[i] != nullptr) {
+					vertexHolder v;
+					v.originalId = currentVertex->id;
+					v.originalDirection = i;
+					v.vertex = currentVertex->adjacentVertices[i];
+					treeQueue.push_back(v);
+				}
+			}
+			//roomItems[currentVertex->id]->GetDestroyedCorridors()[0] = false; // Set corridor destroyed on false
+			//prevVertex = currentVertex;
+			
+			// get lowest vertex
+			vertexHolder lowVertex = treeQueue[0];
+			int lowWhere = 0;
+			for (size_t i = 1; i < treeQueue.size(); i++)
+			{
+				if (treeQueue[1].vertex->distance < lowVertex.vertex->distance) {
+					lowVertex = treeQueue[1];
+					lowWhere = i;
+				}
+			}
+
+			roomItems[currentVertex->id]->SetDestroyed(lowVertex.originalDirection, false);
+			roomItems[lowVertex.vertex->id]->SetDestroyed(((lowVertex.originalDirection > 1) ? (lowVertex.originalDirection - 2) : (lowVertex.originalDirection + 2)), false);
+
+			currentVertex = lowVertex.vertex;
+			treeQueue.erase(treeQueue.begin() + lowWhere);
+		}
+		// end random tryits
 		
+		/*visitedRooms.push_back(currentVertex->room);
+
 		while (currentVertex != nullptr)
 		{
+			visitedRooms.push_back(currentVertex->room);
+
 			// Kijk om je heen vanuit je huidige kamer.
-			for (Room::IRoom* r : currentVertex->room->GetAdjacentRooms())
+			for (unsigned int i = 0; i < currentVertex->room->GetAdjacentRooms().size(); i++)
 			{
-				if (r != nullptr && dynamic_cast<Room::Room*>(r) != nullptr)
+				if (currentVertex->room->GetAdjacentRooms()[i] != nullptr &&
+					dynamic_cast<Room::Room*>(currentVertex->room->GetAdjacentRooms()[i]) != nullptr)
 				{
 					// Kijk wel eerst of de kamer waar je naartoe kijkt, niet al eerder hebt bezocht.
-					Room::Room* room = dynamic_cast<Room::Room*>(r);
+					Room::Room* room = dynamic_cast<Room::Room*>(currentVertex->room->GetAdjacentRooms()[i]);
+
 					if (std::find(visitedRooms.begin(), visitedRooms.end(), room) == visitedRooms.end())
 					{
 						// Welke vertex hangt aan deze kamer?
 						for (Vertex* v : vertices)
 						{
 							// Voeg elke vertex toe die aan deze kamer hangt.
-							if (v != nullptr && v->room != nullptr && 
+							if (v != nullptr &&
 								v->room->GetX() == room->GetX() &&
 								v->room->GetY() == room->GetY())
 							{
@@ -1026,14 +1098,17 @@ namespace RogueLike { namespace Model {
 
 				// Voeg die toe aan Visisted
 				currentVertex = lowestVertex;
-				visitedRooms.push_back(currentVertex->room);
+				//visitedRooms.push_back(currentVertex->room);
 				queue.erase(queue.begin() + qIndex); // Haal deze uit queue
 
-				// Kijk of je vertexes hebt van de Room die nog in de queue zitten.
+													 // Kijk of je vertexes hebt van de Room die nog in de queue zitten.
 				for (unsigned int i = 0; i < queue.size(); i++)
 				{
+					int reversedDir = (queue[i]->direction > 1) ? (queue[i]->direction - 2) : (queue[i]->direction + 2);
 					if (std::find(visitedRooms.begin(), visitedRooms.end(), queue[i]->room) != visitedRooms.end() &&
-						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end() )
+						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end() &&
+						(queue[i]->room->GetDestroyedCorridors()[queue[i]->direction] == false &&
+						((Room::Room*)queue[i]->room->GetAdjacentRooms()[reversedDir])->GetDestroyedCorridors()[queue[i]->direction] == false))
 					{
 						doubleVertices.push_back(queue[i]); // Voeg deze toe aan de DoubleVertices
 						queue.erase(queue.begin() + i); // Haal de dubbele weg uit de queue
@@ -1043,7 +1118,7 @@ namespace RogueLike { namespace Model {
 			else {
 				currentVertex = nullptr;
 			}
-			
+
 		}
 		for each (Vertex* ver in vertices) {
 			if (ver != nullptr && std::find(doubleVertices.begin(), doubleVertices.end(), ver) == doubleVertices.end()) {
@@ -1058,7 +1133,7 @@ namespace RogueLike { namespace Model {
 		visitedRooms.clear();
 		queue.clear();
 
-		return doubleVertices;
+		return doubleVertices;*/
 	}
 
 	Game::Game(const Game& other)
