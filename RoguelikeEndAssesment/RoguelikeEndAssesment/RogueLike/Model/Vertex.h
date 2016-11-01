@@ -7,7 +7,7 @@ namespace RogueLike {
 		class Vertex
 		{
 		public:
-			Vertex(Vertex* shortestVertex, int distance, int direction, int id, Room::Room* room);
+			Vertex(Vertex* shortestVertex, int distance, int direction, int id, Room::Room* room = nullptr);
 			~Vertex();
 			Vertex* shortestVertex;
 			int distance;

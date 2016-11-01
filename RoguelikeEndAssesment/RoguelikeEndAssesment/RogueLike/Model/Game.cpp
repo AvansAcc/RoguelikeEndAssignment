@@ -724,7 +724,6 @@ namespace RogueLike { namespace Model {
 		return finalstring;
 	}
 
-<<<<<<< HEAD
 	std::string Game::ShortestPathV2WithSpawn()
 	{
 		std::vector<Room::Room*> roomItems;
@@ -868,10 +867,7 @@ namespace RogueLike { namespace Model {
 		return finalstring;
 	}
 	// Prim's method
-	/*int Game::SpanningTree()
-=======
 	std::vector<Vertex*> Game::SpanningTree()
->>>>>>> origin/AlgaRoguelikeBranch
 	{
 		// Als eerst: Bereken alle vertices, dmv kamer + enemy HP
 

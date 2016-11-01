@@ -3,7 +3,7 @@
 namespace RogueLike {
 	namespace Model {
 
-		Vertex::Vertex(Vertex* shortestVertex, int distance, int direction, int id, Room::Room* room)
+		Vertex::Vertex(Vertex* shortestVertex, int distance, int direction, int id, Room::Room* room = nullptr)
 		{
 			this->shortestVertex = shortestVertex;
 			this->distance = distance;
