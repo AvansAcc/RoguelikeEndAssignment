@@ -121,6 +121,97 @@ namespace RogueLike { namespace Model {
 		return map;
 	}
 
+	const std::vector<std::string> const Level::GetMonsterHpMap(const int player_x, const int player_y)
+	{
+		if (_locations.empty()) {
+			return{};
+		}
+
+		int w_dim = (_width * 4 - 3);
+		int h_dim = (_height * 2 - 1);
+
+		int dimension = w_dim * h_dim;
+		//int* map = new int[dimension];
+		std::vector<std::string> map(dimension);
+
+		bool isEven = false;
+		for (int i = 0; i < dimension; i++)
+		{
+			if (i % w_dim == 0) {
+				isEven = !isEven;
+			}
+
+			int x = ((i % w_dim) / 4);
+			int y = (int)(i / w_dim) / 2;
+
+			if (isEven) // If Even
+			{
+				int index = (i - (i / w_dim));
+
+				if (index % 4 == 0) {
+					if (x == player_x && y == player_y)
+						map[i] = "PP";
+					else
+						map[i] = this->_locations[y * _width + x]->GetMonsterIcon();
+				}
+				else if (i > 0 && (index - 1) % 4 == 0) {
+					map[i] = " ";
+				}
+				else if (i > 0 && (index - 2) % 4 == 0) {
+					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
+					{
+						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[1] != nullptr) {
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (x < _width && ((Room::Room*)this->_locations[y * _width + (x + 1)])->IsDiscovered()))
+								map[i] = "=";
+							else
+								map[i] = " ";
+						}
+						else {
+							map[i] = " ";
+						}
+					}
+					else {
+						map[i] = " ";
+					}
+				}
+				else if (i > 0 && (index - 3) % 4 == 0) {
+					map[i] = " ";
+				}
+			}
+			else // If Uneven
+			{
+				int index = (i - ((i / w_dim) * w_dim));
+				if (index % 4 == 0)
+				{
+					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
+					{
+						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[2] != nullptr)
+						{
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (y < _height && ((Room::Room*)this->_locations[(y + 1) * _width + x])->IsDiscovered()))
+								map[i] = "||";
+							else
+								map[i] = "  ";
+						}
+						else
+						{
+							map[i] = "  ";
+						}
+					}
+					else
+					{
+						map[i] = "  ";
+					}
+				}
+				else
+				{
+					map[i] = " ";
+				}
+			}
+		}
+
+		return map;
+	}
+
 	void Level::GenerateMap(std::vector<Enemy*> enemies)
 	{
 		this->_enemies = enemies;

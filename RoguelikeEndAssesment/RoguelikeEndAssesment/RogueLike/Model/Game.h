@@ -46,6 +46,7 @@ namespace RogueLike { namespace Model {
 		//void ShortestPathV1();
 		//Room::Vertex ShortestPathRec(Room::Room* room);
 		std::string ShortestPathV2();
+		std::string ShortestPathV2WithSpawn();
 
 		std::vector<Enemy*> GetEnemies() { return this->_enemies; }
 
@@ -58,6 +59,7 @@ namespace RogueLike { namespace Model {
 		const unsigned int GetLevelHeight() const { return this->_levelManager->GetLevelHeight(); }
 		const unsigned int GetMaxDepth() const { return this->_levelManager->GetMaxDepth(); }
 		const char* const GetMap();
+		const std::vector<std::string> const GetMonsterHpMap();
 
 		const bool MovePlayer(int dir);
 		const std::string UseStairs();

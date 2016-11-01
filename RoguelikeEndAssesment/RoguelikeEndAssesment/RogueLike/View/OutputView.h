@@ -18,6 +18,7 @@ namespace RogueLike { namespace View {
 		void ShowMenu(std::vector<std::string> menuItems);
 		void ShowGame(std::vector<std::string> gameInfo);
 		void ShowMap(const char* const map, unsigned int width, unsigned int height);
+		void ShowHpMap(const std::vector<std::string> const map, unsigned int width, unsigned int height);
 		void ShowOptions(std::vector<std::string> options);
 		void ShowQuit();
 		void Say(const std::string message);

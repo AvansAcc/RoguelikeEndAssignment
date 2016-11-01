@@ -1,4 +1,5 @@
 #include "OutputView.h"
+#include <iomanip>
 
 namespace RogueLike { namespace View {
 
@@ -25,6 +26,20 @@ namespace RogueLike { namespace View {
 		std::cout << std::endl;
 		int dimension = (width * 4 - 3) * (height * 2 - 1);
 		if (map != nullptr)
+		{
+			for (int i = 0; i < dimension; i++)
+			{
+				std::cout << ((i % (width * 4 - 3) == 0) ? "\n" : "") << map[i];
+			}
+			std::cout << std::endl;
+		}
+	}
+
+	void OutputView::ShowHpMap(const std::vector<std::string> const map, unsigned int width, unsigned int height)
+	{
+		std::cout << std::endl;
+		int dimension = (width * 4 - 3) * (height * 2 - 1);
+		if (!map.empty())
 		{
 			for (int i = 0; i < dimension; i++)
 			{

@@ -62,6 +62,12 @@ namespace RogueLike { namespace Controller {
 		this->PressAnyKeyToContinue();
 	}
 
+	void ViewController::ShowHpMap(const std::vector<std::string> const map, unsigned int width, unsigned int height)
+	{
+		this->_outputView->ShowHpMap(map, width, height);
+		this->PressAnyKeyToContinue();
+	}
+
 	void ViewController::ShowGame(std::vector<std::string> gameInfo)
 	{
 		this->ClearScreen();

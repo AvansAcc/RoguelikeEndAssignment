@@ -74,6 +74,14 @@ namespace RogueLike { namespace Model {
 		return nullptr;
 	}
 
+	const std::vector<std::string> const LevelManager::GetMonsterHpMap(const int player_x, const int player_y) const
+	{
+		if (_currentLevel != nullptr) {
+			return this->_currentLevel->GetMonsterHpMap(player_x, player_y);
+		}
+		return{};
+	}
+
 	void LevelManager::NextLevel(bool up)
 	{
 		if (up) {

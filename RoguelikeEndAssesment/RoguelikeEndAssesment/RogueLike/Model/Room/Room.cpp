@@ -70,6 +70,18 @@ namespace RogueLike { namespace Model { namespace Room {
 		return _adjacentRooms;
 	}
 
+	const std::string Room::GetMonsterIcon() const
+	{
+		int totHp = 10;
+		for each (Enemy* foe in this->_enemies)
+		{
+			if (!foe->IsDead()) {
+				totHp += foe->MaxLifePoints;
+			}
+		}
+		return std::to_string(totHp);
+	}
+
 	const std::vector<bool> Room::GetDestroyedCorridors()
 	{
 		return _destroyedCorridors;
@@ -133,6 +145,16 @@ namespace RogueLike { namespace Model { namespace Room {
 			delete _adjacentVertices.at(index);
 
 		_adjacentVertices.at(index) = v;
+	}
+
+	void Room::SetEnemy(std::vector<Enemy*> enemies)
+	{
+		this->DeleteEnemies();
+		/*for each (Enemy* foe in enemies)
+		{
+			this->_enemies.push_back();
+		}*/
+		this->_enemies = enemies;
 	}
 
 	const bool Room::HasAdjacentVertices() const

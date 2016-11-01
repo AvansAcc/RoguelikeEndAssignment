@@ -33,6 +33,7 @@ namespace RogueLike { namespace Model {
 		const Level* GetCurrentLevel() const { return this->_currentLevel; };
 		const unsigned int GetLevel() const { return this->_level; }
 		const char* const GetMap(const int player_x, const int player_y) const;
+		const std::vector<std::string> const GetMonsterHpMap(const int player_x, const int player_y) const;
 		const unsigned int GetLevelWidth() const;
 		const unsigned int GetLevelHeight() const;
 		const unsigned int GetMaxDepth() const;

@@ -45,6 +45,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const int GetX() const override;
 		virtual const int GetY() const override;
 		virtual const std::vector<IRoom*> GetAdjacentRooms();
+		const std::string GetMonsterIcon() const override;
 
 		virtual const std::vector<Vertex*> GetAdjacentVertices() { return this->_adjacentVertices; }
 		virtual const bool HasAdjacentVertices() const;
@@ -52,7 +53,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual void DeleteVertex(unsigned int index);
 		virtual void DeleteAllVertices();
 		virtual void SetVertex(unsigned int index, Vertex* v);
-
+		virtual void SetEnemy(std::vector<Enemy*> enemies);
 		//virtual const std::vector<Vertex*> GetAdjacentVertices() { return this->_adjacentVertices; }
 
 		virtual const std::vector<bool> GetDestroyedCorridors();

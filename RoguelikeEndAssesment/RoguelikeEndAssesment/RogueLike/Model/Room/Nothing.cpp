@@ -37,4 +37,9 @@ namespace RogueLike { namespace Model { namespace Room {
 			return this->_isDiscovered;
 	}
 
+	const std::string Nothing::GetMonsterIcon() const
+	{
+		return "..";
+	}
+
 } } }

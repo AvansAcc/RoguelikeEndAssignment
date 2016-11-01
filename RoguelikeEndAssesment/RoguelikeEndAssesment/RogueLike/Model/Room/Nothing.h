@@ -16,6 +16,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		const int GetX() const override;
 		const int GetY() const override;
 		const bool IsDiscovered() const override;
+		const std::string GetMonsterIcon() const override;
 	};
 
 } } }

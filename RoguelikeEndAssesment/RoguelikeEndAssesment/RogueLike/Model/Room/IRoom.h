@@ -19,6 +19,7 @@ namespace RogueLike { namespace Model { namespace Room {
 		virtual const int GetX() const = 0;
 		virtual const int GetY() const = 0;
 		virtual const bool IsDiscovered() const = 0;
+		virtual const std::string GetMonsterIcon() const = 0;
 	};
 
 } } }
