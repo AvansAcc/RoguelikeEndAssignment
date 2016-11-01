@@ -997,6 +997,7 @@ namespace RogueLike { namespace Model {
 		
 		// random tryits
 		Vertex* currentVertex = vertices[(Random::GetRandom(0, vertices.size()))];
+
 		//Vertex* prevVertex = nullptr;
 		//std::vector<Vertex*> tree;
 		std::vector<vertexHolder> treeQueue;
@@ -1053,19 +1054,31 @@ namespace RogueLike { namespace Model {
 		
 		/*visitedRooms.push_back(currentVertex->room);
 
+		//std::cout << "StartPoint of Vertex: " << std::to_string(currentVertex->room->GetX()) << " / " << std::to_string(currentVertex->room->GetY()) << std::endl;
+		//std::cout << "Vertices: " << std::to_string(vertices.size()) << std::endl;
 		while (currentVertex != nullptr)
 		{
 			visitedRooms.push_back(currentVertex->room);
 
 			// Kijk om je heen vanuit je huidige kamer.
+<<<<<<< HEAD
 			for (unsigned int i = 0; i < currentVertex->room->GetAdjacentRooms().size(); i++)
 			{
 				if (currentVertex->room->GetAdjacentRooms()[i] != nullptr &&
+=======
+			for (unsigned int i=0; i < currentVertex->room->GetAdjacentRooms().size(); i++)
+			{
+				if (currentVertex->room->GetAdjacentRooms()[i] != nullptr && 
+>>>>>>> origin/AlgaRoguelikeBranch
 					dynamic_cast<Room::Room*>(currentVertex->room->GetAdjacentRooms()[i]) != nullptr)
 				{
 					// Kijk wel eerst of de kamer waar je naartoe kijkt, niet al eerder hebt bezocht.
 					Room::Room* room = dynamic_cast<Room::Room*>(currentVertex->room->GetAdjacentRooms()[i]);
+<<<<<<< HEAD
 
+=======
+					
+>>>>>>> origin/AlgaRoguelikeBranch
 					if (std::find(visitedRooms.begin(), visitedRooms.end(), room) == visitedRooms.end())
 					{
 						// Welke vertex hangt aan deze kamer?
@@ -1090,7 +1103,7 @@ namespace RogueLike { namespace Model {
 				int qIndex = 0;
 				for (unsigned int i = 0; i < queue.size(); i++)
 				{
-					if (lowestVertex->distance > queue[i]->distance) {
+					if (lowestVertex->distance >= queue[i]->distance) {
 						lowestVertex = queue[i];
 						qIndex = i;
 					}
@@ -1106,8 +1119,14 @@ namespace RogueLike { namespace Model {
 				{
 					int reversedDir = (queue[i]->direction > 1) ? (queue[i]->direction - 2) : (queue[i]->direction + 2);
 					if (std::find(visitedRooms.begin(), visitedRooms.end(), queue[i]->room) != visitedRooms.end() &&
+<<<<<<< HEAD
 						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end() &&
 						(queue[i]->room->GetDestroyedCorridors()[queue[i]->direction] == false &&
+=======
+						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end() && 
+						
+						(queue[i]->room->GetDestroyedCorridors()[reversedDir] == false &&
+>>>>>>> origin/AlgaRoguelikeBranch
 						((Room::Room*)queue[i]->room->GetAdjacentRooms()[reversedDir])->GetDestroyedCorridors()[queue[i]->direction] == false))
 					{
 						doubleVertices.push_back(queue[i]); // Voeg deze toe aan de DoubleVertices
@@ -1128,12 +1147,47 @@ namespace RogueLike { namespace Model {
 				ver->shortestVertex = nullptr;
 			}
 		}
+
+		//std::cout << "VisitedRooms: " << std::to_string(visitedRooms.size()) << std::endl;
+		//std::cout << "queue: " << std::to_string(queue.size()) << std::endl;
+		//std::cout << "Visited: " << std::to_string(visited.size()) << std::endl;
 		vertices.clear();
 		visited.clear();
 		visitedRooms.clear();
 		queue.clear();
 
-		return doubleVertices;*/
+		return doubleVertices;
+
+		if (!doubleVertices.empty())
+		{
+			int size = (doubleVertices.size() > 10) ? 10 : doubleVertices.size();
+			for (int i = 0; i < size; i++)
+			{
+				int reverseDir = (doubleVertices[i]->direction > 1) ? (doubleVertices[i]->direction - 2) : (doubleVertices[i]->direction + 2);
+				
+				doubleVertices[i]->room->SetDestroyedCorridor(reverseDir, true);
+				((Room::Room*)doubleVertices[i]->room->GetAdjacentRooms()[reverseDir])->SetDestroyedCorridor(doubleVertices[i]->direction, true);
+				
+				//std::cout << std::to_string(doubleVertices[i]->room->GetX()) + " / " + std::to_string(doubleVertices[i]->room->GetY()) << "  -  " 
+				//	<< std::to_string(((Room::Room*)doubleVertices[i]->room->GetAdjacentRooms()[reverseDir])->GetX()) << " / " << std::to_string(((Room::Room*)doubleVertices[i]->room->GetAdjacentRooms()[reverseDir])->GetY()) << std::endl;
+			}
+
+			std::cout << std::to_string(doubleVertices.size()) << std::endl;
+
+			for (unsigned int i = 0; i < doubleVertices.size(); i++) {
+				if (doubleVertices[i]) {
+					doubleVertices[i]->room = nullptr;
+					delete doubleVertices[i];
+				}
+			}
+			doubleVertices.clear();
+			return true;
+		}
+		else {
+			std::cout << "0" << std::endl;
+			return false;
+		}*/
+
 	}
 
 	Game::Game(const Game& other)

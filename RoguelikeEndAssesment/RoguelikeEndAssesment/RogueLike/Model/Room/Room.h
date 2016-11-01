@@ -39,6 +39,8 @@ namespace RogueLike { namespace Model { namespace Room {
 
 		virtual std::vector<bool> GetDestroyedCorridors();
 		virtual void SetDestroyed(int dir, bool val);
+		virtual void SetDestroyedCorridor(const unsigned int index, const bool destroyed);
+
 		virtual Enemy* GetEnemy() const;
 		virtual std::vector<Enemy*> GetEnemies() const { return _enemies; };
 		virtual const unsigned int GetAmountOfEnemies() const;

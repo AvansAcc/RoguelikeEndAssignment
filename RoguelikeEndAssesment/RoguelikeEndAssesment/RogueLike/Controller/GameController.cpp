@@ -215,10 +215,18 @@ namespace RogueLike { namespace Controller {
 			case 13:
 			{
 				if (!this->_game->IsInCombat()) {
+					// Generate the spanningstree & get all the double passages 
+					const bool corridorsDestroyed = this->_game->SpanningTree();
+					if (corridorsDestroyed)
+						this->_viewController->Say("De kerker schudt op zijn grondvesten, alle tegenstanders in de kamer zijn verslagen! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
+					else
+						this->_viewController->Say("Je vreest dat een extra handgranaat een cruciale passage zal blokkeren. Het is beter om deze niet meer te gebruiken op deze verdieping.");
+
 					// Draw map (Debug purposes)
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
+
 					this->_game->SpanningTree();
 					// Generate the spanningstree & get all the double passages 
 					/*auto doubleVertices = this->_game->SpanningTree();

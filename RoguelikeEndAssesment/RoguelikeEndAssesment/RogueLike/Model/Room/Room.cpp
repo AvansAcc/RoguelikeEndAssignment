@@ -88,6 +88,12 @@ namespace RogueLike { namespace Model { namespace Room {
 	{
 		this->_destroyedCorridors[dir] = val;
 	}
+	void Room::SetDestroyedCorridor(const unsigned int index, const bool destroyed)
+	{
+		if (index < 0 || index > 3)
+			return;
+		this->_destroyedCorridors.at(index) = destroyed;
+	}
 
 	Enemy* Room::GetEnemy() const
 	{
@@ -143,10 +149,6 @@ namespace RogueLike { namespace Model { namespace Room {
 	void Room::SetEnemy(std::vector<Enemy*> enemies)
 	{
 		this->DeleteEnemies();
-		/*for each (Enemy* foe in enemies)
-		{
-		this->_enemies.push_back();
-		}*/
 		this->_enemies = enemies;
 	}
 
