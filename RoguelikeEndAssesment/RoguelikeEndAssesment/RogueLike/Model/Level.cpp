@@ -70,8 +70,17 @@ namespace RogueLike { namespace Model {
 					if (this->_locations[y * _width + x]->GetRealIcon() != '.')
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[1] != nullptr) {
-							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (x < _width && ((Room::Room*)this->_locations[y * _width + (x+1)])->IsDiscovered()))
-								map[i] = '-';
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (x < _width && ((Room::Room*)this->_locations[y * _width + (x + 1)])->IsDiscovered()))
+							{
+								if (((Room::Room*)this->_locations[y * _width + x])->GetDestroyedCorridors()[1] == true &&
+									((Room::Room*)this->_locations[y * _width + (x + 1)])->GetDestroyedCorridors()[3] == true)
+								{
+									map[i] = '~';
+								}
+								else {
+									map[i] = '-';
+								}
+							}
 							else
 								map[i] = ' ';
 						}
@@ -96,8 +105,17 @@ namespace RogueLike { namespace Model {
 					{
 						if (((Room::Room*)this->_locations[y * _width + x])->GetAdjacentRooms()[2] != nullptr)
 						{
-							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (y < _height && ((Room::Room*)this->_locations[(y+1) * _width + x])->IsDiscovered()))
-								map[i] = '|';
+							if (((Room::Room*)this->_locations[y * _width + x])->IsDiscovered() || (y < _height && ((Room::Room*)this->_locations[(y + 1) * _width + x])->IsDiscovered())) 
+							{
+								if (((Room::Room*)this->_locations[y * _width + x])->GetDestroyedCorridors()[2] == true && 
+									((Room::Room*)this->_locations[(y + 1) * _width + x])->GetDestroyedCorridors()[0] == true)
+								{
+									map[i] = '{';
+								}
+								else {
+									map[i] = '|';
+								}
+							}
 							else
 								map[i] = ' ';
 						}

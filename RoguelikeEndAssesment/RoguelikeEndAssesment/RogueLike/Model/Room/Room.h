@@ -36,8 +36,9 @@ namespace RogueLike { namespace Model { namespace Room {
 		const std::string GetMonsterIcon() const override;
 		void SetEnemy(std::vector<Enemy*> enemies);
 		virtual const bool HasAdjacentRooms() const;
-
+		
 		virtual const std::vector<bool> GetDestroyedCorridors();
+		virtual void SetDestroyedCorridor(const unsigned int index, const bool destroyed);
 		virtual Enemy* GetEnemy() const;
 		virtual std::vector<Enemy*> GetEnemies() const { return _enemies; };
 		virtual const unsigned int GetAmountOfEnemies() const;
