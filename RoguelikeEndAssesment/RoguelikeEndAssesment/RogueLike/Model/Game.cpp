@@ -724,15 +724,16 @@ namespace RogueLike { namespace Model {
 		return finalstring;
 	}
 
-	std::string Game::ShortestPathV2WithSpawn()
+	void Game::calcShortestPath()
 	{
-		std::vector<Room::Room*> roomItems;
-		std::vector<Vertex*> vertices{ new Vertex(nullptr, 0, -1, 0) };
+		roomItems.clear();
+		vertices.clear();
+
+		vertices.push_back(new Vertex(nullptr, 0, -1, 0) );
+		roomItems.push_back(this->GetCurrentPlayerRoom());
 
 		std::multimap<int, int> weightsDirection; // weight, direction
 		std::map<int, int> hasPassed; // which direction and has room passed
-
-		roomItems.push_back(this->GetCurrentPlayerRoom());
 
 		int indexer = 1;
 		int exit = 0;
@@ -811,14 +812,31 @@ namespace RogueLike { namespace Model {
 			}
 			currItem++;
 		}
+		exitInt = exit;
+	}
 
-		
+	std::string Game::ShortestPathV2WithSpawn()
+	{
+		this->calcShortestPath();
+		Vertex* currVertex = this->vertices[exitInt];
+		while (currVertex->shortestVertex != nullptr)
+		{
+			if (Random::GetRandom(0, 10) <= 3) {
+				Enemy* en = new Enemy(*this->_enemies[8]);
+				roomItems[currVertex->id]->SetEnemy({ en });
+			}
+			currVertex = currVertex->shortestVertex;
+		}
+		for each (Vertex* ver in this->vertices) {
+			delete ver;
+		}
+
+		this->calcShortestPath();
 
 		std::vector<std::string> directionsBack;
 		std::vector<int> foesHp;
-		Vertex* currVertex = vertices[exit];
+		currVertex = vertices[exitInt];
 
-		currVertex = vertices[exit];
 		while (currVertex->shortestVertex != nullptr)
 		{
 			switch (currVertex->direction)
@@ -838,12 +856,11 @@ namespace RogueLike { namespace Model {
 			default:
 				break;
 			}
-			if (roomItems[currVertex->id]->GetEnemy() != nullptr)
+			if (this->roomItems[currVertex->id]->GetEnemy() != nullptr)
 			{
-				for each (Enemy* foe in roomItems[currVertex->id]->GetEnemies())
+				for each (Enemy* foe in this->roomItems[currVertex->id]->GetEnemies())
 				{
 					foesHp.push_back(foe->MaxLifePoints);
-
 				}
 			}
 			currVertex = currVertex->shortestVertex;
@@ -861,7 +878,7 @@ namespace RogueLike { namespace Model {
 		}
 		finalstring.append("}");
 
-		for each (Vertex* ver in vertices) {
+		for each (Vertex* ver in this->vertices) {
 			delete ver;
 		}
 		return finalstring;

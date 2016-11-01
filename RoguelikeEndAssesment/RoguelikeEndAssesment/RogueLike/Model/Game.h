@@ -21,11 +21,15 @@ namespace RogueLike { namespace Model {
 		std::vector<Enemy*> _enemies;
 		std::vector<Item*> _items;
 		bool _hasThreat;
+		std::vector<Room::Room*> roomItems;
+		std::vector<Vertex*> vertices;
+		int exitInt;
 	public:
 
 	private:
 		Room::Room* GetCurrentPlayerRoom();
 		const bool  XpPlayerUp(Player* player, std::vector<Enemy*> enemies);
+		void calcShortestPath();
 	public:
 		Game();
 		virtual ~Game();

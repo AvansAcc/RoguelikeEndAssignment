@@ -140,7 +140,7 @@ namespace RogueLike { namespace Controller {
 					delete[] map;
 					this->_viewController->Say("\n\n1. Talisman gebruiken?"); 
 					this->_viewController->Say("\n2. Zilveren kompas gebruiken? (zonder spawn)");
-					this->_viewController->Say("\n2. Zilveren kompas gebruiken? (met spawn)");
+					this->_viewController->Say("\n3. Zilveren kompas gebruiken? (met spawn)");
 					int ans = this->_viewController->AskInt("\n\nGeef het getal op wat je wilt gebruiken", 3);
 					if (ans == 1) {
 						this->_viewController->Say(this->_game->BreadthFirstSearch());
@@ -153,6 +153,11 @@ namespace RogueLike { namespace Controller {
 					}
 					else if (ans == 3) {
 						this->_viewController->Say(this->_game->ShortestPathV2());
+						this->_viewController->Say("\n");
+						const std::vector<std::string> const hpMap1 = this->_game->GetMonsterHpMap();
+						this->_viewController->ShowHpMap(hpMap1, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+
+						this->_viewController->Say(this->_game->ShortestPathV2WithSpawn());
 						this->_viewController->Say("\n");
 						const std::vector<std::string> const hpMap = this->_game->GetMonsterHpMap();
 						this->_viewController->ShowHpMap(hpMap, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());

@@ -135,6 +135,16 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_item = item;
 	}
 
+	void Room::SetEnemy(std::vector<Enemy*> enemies)
+	{
+		this->DeleteEnemies();
+		/*for each (Enemy* foe in enemies)
+		{
+		this->_enemies.push_back();
+		}*/
+		this->_enemies = enemies;
+	}
+
 	const bool Room::HasAdjacentRooms() const
 	{
 		bool hasRooms = false;
