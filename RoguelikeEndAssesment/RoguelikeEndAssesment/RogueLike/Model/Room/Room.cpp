@@ -7,9 +7,6 @@ namespace RogueLike { namespace Model { namespace Room {
 		this->_adjacentRooms.clear();
 		for (int i = 0; i < 4; i++)
 			this->_adjacentRooms.push_back(nullptr);
-		/*this->_adjacentVertices.clear();
-		for (int i = 0; i < 4; i++)
-			this->_adjacentVertices.push_back(nullptr);*/
 		for (int i = 0; i < 4; i++)
 			this->_destroyedCorridors.push_back(false);
 		this->_enemies.clear();
@@ -137,57 +134,6 @@ namespace RogueLike { namespace Model { namespace Room {
 		
 		this->_item = item;
 	}
-	void Room::SetVertex(unsigned int index, Vertex* v)
-	{
-		if (index < 0 || index > 4)
-			return;
-		if (_adjacentVertices.at(index))
-			delete _adjacentVertices.at(index);
-
-		_adjacentVertices.at(index) = v;
-	}
-
-	void Room::SetEnemy(std::vector<Enemy*> enemies)
-	{
-		this->DeleteEnemies();
-		/*for each (Enemy* foe in enemies)
-		{
-			this->_enemies.push_back();
-		}*/
-		this->_enemies = enemies;
-	}
-
-	const bool Room::HasAdjacentVertices() const
-	{
-		bool hasVertex = false;
-		for each(Vertex* v in this->_adjacentVertices)
-		{
-			if (v != nullptr)
-				hasVertex = true;
-
-		}
-		return hasVertex;
-	}
-
-	void Room::DeleteAllVertices()
-	{
-		for (unsigned int i=0; i < this->_adjacentVertices.size(); i++)
-		{
-			if (this->_adjacentVertices[i] != nullptr)
-			{
-				delete this->_adjacentVertices[i];
-				this->_adjacentVertices[i] = nullptr;
-			}
-		}
-	}
-
-	void Room::DeleteVertex(unsigned int index)
-	{
-		if (index < 0 || index > 4)
-			return;
-		delete this->_adjacentVertices.at(index);
-		this->_adjacentVertices.at(index) = nullptr;
-	}
 
 	const bool Room::HasAdjacentRooms() const
 	{
@@ -275,17 +221,6 @@ namespace RogueLike { namespace Model { namespace Room {
 			return;
 
 		_adjacentRooms.at(direction) = room;
-
-		//int e = 10;
-		//for each (Enemy* foe in ((Room*)room)->GetEnemies()) {
-		//	e += foe->MaxLifePoints;
-		//}
-		//Vertex* n = new Vertex;
-		//n->Room = ((Room*)room);
-		//n->weight = e;
-		//n->shortestDir = direction;
-
-		//_adjacentVertices.at(direction) = n;
 	}
 	void Room::ChanceSpawnRandomEnemies(std::vector<Enemy*>& enemies, unsigned int currentlevel, int chance)
 	{

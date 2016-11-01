@@ -29,4 +29,12 @@ namespace RogueLike {
 		std::transform(str.begin(), str.end(), str.begin(), ::tolower);
 	}*/
 
+	/*template<typename T, typename T2 = std::vector<T>>
+	const bool Find(T2 haystack, T2 needle)
+	{
+		if (haystack.empty())
+			return false;
+		return (std::find(haystack.begin(), haystack.end(), needle) != haystack.end());
+	}*/
+
 }

@@ -41,10 +41,9 @@ namespace RogueLike { namespace Model {
 		void LoadItemsFile();
 
 		std::string BreadthFirstSearch();
-		//void MinSpanningTree();
+		std::vector<Vertex*> SpanningTree();
 
 		//void ShortestPathV1();
-		//Room::Vertex ShortestPathRec(Room::Room* room);
 		std::string ShortestPathV2();
 		std::string ShortestPathV2WithSpawn();
 

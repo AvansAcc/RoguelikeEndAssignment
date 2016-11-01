@@ -146,13 +146,13 @@ namespace RogueLike { namespace Controller {
 						this->_viewController->Say(this->_game->BreadthFirstSearch());
 					}
 					else if (ans == 2) {
-						this->_viewController->Say(this->_game->ShortestPathV2(false));
+						this->_viewController->Say(this->_game->ShortestPathV2());
 						this->_viewController->Say("\n");
 						const std::vector<std::string> const hpMap = this->_game->GetMonsterHpMap();
 						this->_viewController->ShowHpMap(hpMap, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					}
 					else if (ans == 3) {
-						this->_viewController->Say(this->_game->ShortestPathV2(true));
+						this->_viewController->Say(this->_game->ShortestPathV2());
 						this->_viewController->Say("\n");
 						const std::vector<std::string> const hpMap = this->_game->GetMonsterHpMap();
 						this->_viewController->ShowHpMap(hpMap, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
@@ -202,10 +202,32 @@ namespace RogueLike { namespace Controller {
 			case 12: // Zilveren kompass (dijkstra's algorithm)
 			{
 				if (!this->_game->IsInCombat()) {
-					this->_viewController->Say(this->_game->ShortestPathV2(false));
+					this->_viewController->Say(this->_game->ShortestPathV2());
 					this->_viewController->PressAnyKeyToContinue();
 				}
 				break;
+			}
+			case 13:
+			{
+				if (!this->_game->IsInCombat()) {
+					// Draw map (Debug purposes)
+					const char* const map = this->_game->GetMap();
+					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+					delete[] map;
+
+					// Generate the spanningstree & get all the double passages 
+					auto doubleVertices = this->_game->SpanningTree();
+					this->_viewController->Say("Aantal dubbele gangen: " + std::to_string(doubleVertices.size()));
+					
+					for (unsigned int i = 0; i < doubleVertices.size(); i++) {
+						if (doubleVertices[i]) {
+							doubleVertices[i]->room = nullptr;
+							delete doubleVertices[i];
+						}
+					}
+					doubleVertices.clear();
+					this->_viewController->PressAnyKeyToContinue();
+				}
 			}
 			default:
 				break;
