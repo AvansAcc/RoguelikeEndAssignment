@@ -820,8 +820,6 @@ namespace RogueLike { namespace Model {
 		
 		while (currentVertex != nullptr)
 		{
-			//bool roomFound = false;
-
 			// Kijk om je heen vanuit je huidige kamer.
 			for (Room::IRoom* r : currentVertex->room->GetAdjacentRooms())
 			{
@@ -837,11 +835,9 @@ namespace RogueLike { namespace Model {
 							// Voeg elke vertex toe die aan deze kamer hangt.
 							if (v != nullptr && v->room != nullptr && 
 								v->room->GetX() == room->GetX() &&
-								v->room->GetY() == room->GetY() && 
-								std::find(queue.begin(), queue.end(), v) == queue.end())
+								v->room->GetY() == room->GetY())
 							{
 								queue.push_back(v);
-								//roomFound = true;
 							}
 						}
 					}
@@ -869,8 +865,8 @@ namespace RogueLike { namespace Model {
 				// Kijk of je vertexes hebt van de Room die nog in de queue zitten.
 				for (unsigned int i = 0; i < queue.size(); i++)
 				{
-					if (std::find(visitedRooms.begin(), visitedRooms.end(), queue[i]->room) != visitedRooms.end() /*&&
-						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end()*/ )
+					if (std::find(visitedRooms.begin(), visitedRooms.end(), queue[i]->room) != visitedRooms.end() &&
+						std::find(doubleVertices.begin(), doubleVertices.end(), queue[i]) == doubleVertices.end() )
 					{
 						doubleVertices.push_back(queue[i]); // Voeg deze toe aan de DoubleVertices
 						queue.erase(queue.begin() + i); // Haal de dubbele weg uit de queue
