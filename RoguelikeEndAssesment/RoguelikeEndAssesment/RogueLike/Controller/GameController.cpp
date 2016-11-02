@@ -118,6 +118,16 @@ namespace RogueLike { namespace Controller {
 			}
 			case 4: // Uitrusten
 			{
+				if (this->_game->IsInCombat())
+				{
+					this->_game->SpanningTree();
+					if (/*corridorsDestroyed*/ true) {
+						this->_viewController->Say("De kerker schudt op zijn grondvesten, alle tegenstanders in de kamer zijn verslagen! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
+					}
+					else {
+						this->_viewController->Say("Je vreest dat een extra handgranaat een cruciale passage zal blokkeren. Het is beter om deze niet meer te gebruiken op deze verdieping.");
+					}
+				}
 				if ((!this->_game->IsInCombat() && !this->_game->HasThreat()) || Globals::DEBUG) {
 					this->_viewController->Say(this->_game->RestPlayer());
 					this->_viewController->PressAnyKeyToContinue();
@@ -212,39 +222,21 @@ namespace RogueLike { namespace Controller {
 				}
 				break;
 			}
-			case 13:
+			/*case 13:
 			{
 				if (!this->_game->IsInCombat()) {
-					// Generate the spanningstree & get all the double passages 
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
 					this->_game->SpanningTree();
 					this->_viewController->PressAnyKeyToContinue();
-					/*const bool corridorsDestroyed = this->_game->SpanningTree();*/
-					if (/*corridorsDestroyed*/ true)
-						this->_viewController->Say("De kerker schudt op zijn grondvesten, alle tegenstanders in de kamer zijn verslagen! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
-					else
-						this->_viewController->Say("Je vreest dat een extra handgranaat een cruciale passage zal blokkeren. Het is beter om deze niet meer te gebruiken op deze verdieping.");
 
 					// Draw map (Debug purposes)
 					const char* const map1 = this->_game->GetMap();
 					this->_viewController->ShowMap(map1, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map1;
-
-					// Generate the spanningstree & get all the double passages 
-					/*auto doubleVertices = this->_game->SpanningTree();
-					this->_viewController->Say("Aantal dubbele gangen: " + std::to_string(doubleVertices.size()));
-					
-					for (unsigned int i = 0; i < doubleVertices.size(); i++) {
-						if (doubleVertices[i]) {
-							doubleVertices[i]->room = nullptr;
-							delete doubleVertices[i];
-						}
-					}
-					doubleVertices.clear();*/
 				}
-			}
+			}*/
 			default:
 				break;
 		}

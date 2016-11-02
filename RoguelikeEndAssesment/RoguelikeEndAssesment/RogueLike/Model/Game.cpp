@@ -885,10 +885,10 @@ namespace RogueLike { namespace Model {
 	}
 	
 	// Prim's method
-	void Game::SpanningTree()
+	const bool Game::SpanningTree()
 	{
+		bool returnbool = true;
 		// Als eerst: Bereken alle vertices, dmv kamer + enemy HP
-
 		roomItems.clear();
 		vertices.clear();
 
@@ -1028,8 +1028,11 @@ namespace RogueLike { namespace Model {
 			for (size_t i = 1; i < treeQueue.size(); i++)
 			{
 				if (treeQueue[i].vertex->distance < lowVertex.vertex->distance) {
-					lowVertex = treeQueue[i];
-					lowWhere = i;
+					if (std::find(tree.begin(), tree.end(), treeQueue[i].vertex) == tree.end())
+					{
+						lowVertex = treeQueue[i];
+						lowWhere = i;
+					}
 				}
 			}
 
@@ -1040,6 +1043,7 @@ namespace RogueLike { namespace Model {
 			currentVertex = lowVertex.vertex;
 			treeQueue.erase(treeQueue.begin() + lowWhere);
 		}
+		return returnbool;
 	}
 
 	Game::Game(const Game& other)
