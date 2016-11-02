@@ -216,18 +216,22 @@ namespace RogueLike { namespace Controller {
 			{
 				if (!this->_game->IsInCombat()) {
 					// Generate the spanningstree & get all the double passages 
-					const bool corridorsDestroyed = this->_game->SpanningTree();
-					if (corridorsDestroyed)
+					const char* const map = this->_game->GetMap();
+					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+					delete[] map;
+					this->_game->SpanningTree();
+					this->_viewController->PressAnyKeyToContinue();
+					/*const bool corridorsDestroyed = this->_game->SpanningTree();*/
+					if (/*corridorsDestroyed*/ true)
 						this->_viewController->Say("De kerker schudt op zijn grondvesten, alle tegenstanders in de kamer zijn verslagen! Een donderend geluid maakt duidelijk dat gedeeltes van de kerker zijn ingestort...");
 					else
 						this->_viewController->Say("Je vreest dat een extra handgranaat een cruciale passage zal blokkeren. Het is beter om deze niet meer te gebruiken op deze verdieping.");
 
 					// Draw map (Debug purposes)
-					const char* const map = this->_game->GetMap();
-					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
-					delete[] map;
+					const char* const map1 = this->_game->GetMap();
+					this->_viewController->ShowMap(map1, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
+					delete[] map1;
 
-					this->_game->SpanningTree();
 					// Generate the spanningstree & get all the double passages 
 					/*auto doubleVertices = this->_game->SpanningTree();
 					this->_viewController->Say("Aantal dubbele gangen: " + std::to_string(doubleVertices.size()));
@@ -239,7 +243,6 @@ namespace RogueLike { namespace Controller {
 						}
 					}
 					doubleVertices.clear();*/
-					this->_viewController->PressAnyKeyToContinue();
 				}
 			}
 			default:

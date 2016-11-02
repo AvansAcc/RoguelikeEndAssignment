@@ -5,7 +5,7 @@ namespace RogueLike {
 
 		const bool DEBUG = true;
 		const bool PRERENDERFOES = true;
-		std::vector<std::string>* ROOM_OPTIONS = new std::vector<std::string>({ "Vechten", "Vluchten", "Bezittingen bekijken", "Uitrusten", "Eigenschappen bekijken", "Kaart bekijken", "Item oppakken", "Richting kiezen", "Trap gebruiken", "Terug naar Menu", "Magische Talisman", "Zilveren Kompas", "ALUHA AKBAR!" });
+		std::vector<std::string>* ROOM_OPTIONS = new std::vector<std::string>({ "Vechten", "Vluchten", "Bezittingen bekijken", "Uitrusten", "Eigenschappen bekijken", "Kaart bekijken", "Item oppakken", "Richting kiezen", "Trap gebruiken", "Terug naar Menu", "Magische Talisman", "Zilveren Kompas", "Gebruik bom" });
 		std::vector<std::string>* COMBAT_OPTIONS = new std::vector<std::string>({ "Aanvallen", "Vluchten", "Bezittingen gebruiken" });
 	
 	}
