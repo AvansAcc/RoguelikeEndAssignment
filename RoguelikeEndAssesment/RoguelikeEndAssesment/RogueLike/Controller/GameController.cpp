@@ -222,21 +222,24 @@ namespace RogueLike { namespace Controller {
 				}
 				break;
 			}
-			/*case 13:
+			if (!Globals::DEBUG) {
+			case 13:
 			{
 				if (!this->_game->IsInCombat()) {
+
 					const char* const map = this->_game->GetMap();
 					this->_viewController->ShowMap(map, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map;
+
 					this->_game->SpanningTree();
 					this->_viewController->PressAnyKeyToContinue();
 
-					// Draw map (Debug purposes)
 					const char* const map1 = this->_game->GetMap();
 					this->_viewController->ShowMap(map1, this->_game->GetLevelWidth(), this->_game->GetLevelHeight());
 					delete[] map1;
 				}
-			}*/
+			}
+			}
 			default:
 				break;
 		}

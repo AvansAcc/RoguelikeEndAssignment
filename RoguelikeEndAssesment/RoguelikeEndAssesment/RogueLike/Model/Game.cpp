@@ -92,6 +92,9 @@ namespace RogueLike { namespace Model {
 			if (dynamic_cast<Room::StairsRoom*> (this->GetCurrentPlayerRoom()) == nullptr) {
 				options[8] = "";
 			}
+			if (!Globals::DEBUG) {
+				options[12] = "";
+			}
 		}		
 		return options;
 	}
