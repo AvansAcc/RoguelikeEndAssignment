@@ -1003,25 +1003,25 @@ namespace RogueLike { namespace Model {
 				v.originalDirection = i;
 				v.vertex = currentVertex->adjacentVertices[i];
 				treeQueue.push_back(v);
-				//queuedUpIds.push_back(currentVertex->adjacentVertices[i]->id);
+				queuedUpIds.push_back(currentVertex->adjacentVertices[i]->id);
 			}
 		}
-		//while (queuedUpIds.size() < roomItems.size() || !treeQueue.empty())
-		while (tree.size() < roomItems.size())
+		while (queuedUpIds.size() < roomItems.size() || !treeQueue.empty())
+		//while (tree.size() < roomItems.size())
 		{
 			tree.push_back(currentVertex);
 			// look around
 			for (int i = 0; i < currentVertex->adjacentVertices.size(); i++)
 			{
-				//if (currentVertex->adjacentVertices[i] != nullptr && std::find(queuedUpIds.begin(), queuedUpIds.end(), currentVertex->adjacentVertices[i]->id) == queuedUpIds.end()) {
-				if (currentVertex->adjacentVertices[i] != nullptr && std::find(tree.begin(), tree.end(), currentVertex->adjacentVertices[i]) == tree.end()) {
+				if (currentVertex->adjacentVertices[i] != nullptr && std::find(queuedUpIds.begin(), queuedUpIds.end(), currentVertex->adjacentVertices[i]->id) == queuedUpIds.end()) {
+				//if (currentVertex->adjacentVertices[i] != nullptr && std::find(tree.begin(), tree.end(), currentVertex->adjacentVertices[i]) == tree.end()) {
 					vertexHolder v;
 					v.originalId = currentVertex->id;
 					v.originalDirection = i;
 					v.vertex = currentVertex->adjacentVertices[i];
 					treeQueue.push_back(v);
 					std::cout << std::to_string(currentVertex->adjacentVertices[i]->id) << std::endl;
-					//queuedUpIds.push_back(currentVertex->adjacentVertices[i]->id);
+					queuedUpIds.push_back(currentVertex->adjacentVertices[i]->id);
 				}
 			}
 			
